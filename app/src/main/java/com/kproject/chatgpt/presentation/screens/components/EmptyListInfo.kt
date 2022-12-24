@@ -61,8 +61,8 @@ private fun Preview() {
     PreviewTheme {
         EmptyListInfo(
             iconResId = R.drawable.ic_chat,
-            title = stringResource(id = R.string.info_title_recent_chats_list_empty),
-            description = stringResource(id = R.string.info_description_recent_chats_list_empty)
+            title = stringResource(id = R.string.info_title_empty_recent_chats_list),
+            description = stringResource(id = R.string.info_description_empty_recent_chats_list)
         )
     }
 }
