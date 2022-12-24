@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">ChatGPT</string>
+
+    <string name="info_title_recent_chats_list_empty">Nenhuma conversa ainda</string>
+    <string name="info_description_recent_chats_list_empty">Você ainda não iniciou nenhuma conversa.
+        Novas conversas aparecerão aqui.</string>
+
 </resources>

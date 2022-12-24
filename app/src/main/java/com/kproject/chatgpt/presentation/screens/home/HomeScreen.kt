@@ -8,3 +8,10 @@ fun HomeScreen(
 ) {
 
 }
+
+@Composable
+private fun HomeScreenContent(
+    homeUiState: HomeUiState
+) {
+
+}
