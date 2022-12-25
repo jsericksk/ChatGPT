@@ -1,8 +1,15 @@
 <resources>
     <string name="app_name">ChatGPT</string>
 
+    <string name="button_ok">OK</string>
+    <string name="button_save">Salvar</string>
+    <string name="button_cancel">Cancelar</string>
+
     <string name="info_title_empty_recent_chats_list">Nenhuma conversa ainda</string>
     <string name="info_description_empty_recent_chats_list">Você ainda não iniciou nenhuma conversa.
         Novas conversas aparecerão aqui.</string>
+
+    <string name="api_key">Chave da API</string>
+    <string name="insert_api_key">Insira sua chave da API</string>
 
 </resources>
