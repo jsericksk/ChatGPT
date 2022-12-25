@@ -38,7 +38,7 @@ import com.kproject.chatgpt.presentation.theme.PreviewTheme
 
 @Composable
 fun HomeScreen(
-
+    onNavigateToChatScreen: (chatId: Long) -> Unit
 ) {
     var showApiKeyAlertDialog by remember { mutableStateOf(false) }
 
