@@ -11,11 +11,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,17 +40,41 @@ import com.kproject.chatgpt.presentation.theme.PreviewTheme
 fun HomeScreen(
 
 ) {
+    var showApiKeyAlertDialog by remember { mutableStateOf(false) }
+
     val uiState = HomeUiState(
         isLoading = false,
         recentChatsList = fakeRecentChatsList
     )
-    HomeScreenContent(homeUiState = uiState)
+
+    HomeScreenContent(
+        homeUiState = uiState,
+        onApiKeyOptionClick = {
+            showApiKeyAlertDialog = true
+        },
+        onAppThemeOptionClick = {
+
+        }
+    )
+
+    ApiKeyAlertDialog(
+        showDialog = showApiKeyAlertDialog,
+        onDismiss = { showApiKeyAlertDialog = false },
+        apiKey = "skskfjjifwojewpi3jjdjd3we",
+        onApiKeyChange = { newApiKey ->
+
+        }
+    )
 }
 
 @Composable
 private fun HomeScreenContent(
-    homeUiState: HomeUiState
+    homeUiState: HomeUiState,
+    onApiKeyOptionClick: () -> Unit,
+    onAppThemeOptionClick: () -> Unit
 ) {
+    var showOptionsMenu by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             TopBar(
@@ -61,7 +82,7 @@ private fun HomeScreenContent(
                 actions = {
                     IconButton(
                         onClick = {
-
+                            showOptionsMenu = true
                         }
                     ) {
                         Icon(
@@ -70,6 +91,13 @@ private fun HomeScreenContent(
                             tint = MaterialTheme.colors.onSurface
                         )
                     }
+
+                    OptionsDropdownMenu(
+                        showOptionsMenu = showOptionsMenu,
+                        onDismiss = { showOptionsMenu = false },
+                        onApiKeyOptionClick = onApiKeyOptionClick,
+                        onAppThemeOptionClick = onAppThemeOptionClick
+                    )
                 }
             )
         },
@@ -89,6 +117,43 @@ private fun HomeScreenContent(
             modifier = Modifier.padding(paddingValues),
             homeUiState = homeUiState
         )
+    }
+}
+
+@Composable
+private fun OptionsDropdownMenu(
+    showOptionsMenu: Boolean,
+    onDismiss: () -> Unit,
+    onApiKeyOptionClick: () -> Unit,
+    onAppThemeOptionClick: () -> Unit
+) {
+    DropdownMenu(
+        expanded = showOptionsMenu,
+        onDismissRequest = onDismiss
+    ) {
+        DropdownMenuItem(
+            onClick = {
+                onDismiss.invoke()
+                onApiKeyOptionClick.invoke()
+            }
+        ) {
+            Text(
+                text = stringResource(id = R.string.api_key),
+                color = MaterialTheme.colors.onSurface
+            )
+        }
+
+        DropdownMenuItem(
+            onClick = {
+                onDismiss.invoke()
+                onAppThemeOptionClick.invoke()
+            }
+        ) {
+            Text(
+                text = stringResource(id = R.string.app_theme),
+                color = MaterialTheme.colors.onSurface
+            )
+        }
     }
 }
 
@@ -235,7 +300,7 @@ private fun ApiKeyAlertDialog(
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )
 
-                    Spacer(Modifier.height(12.dp))
+                    Spacer(Modifier.height(16.dp))
 
                     // Content
                     TextField(
@@ -250,29 +315,27 @@ private fun ApiKeyAlertDialog(
                         placeholder = {
                             Text(
                                 text = stringResource(id = R.string.insert_api_key),
-                                color = MaterialTheme.colors.secondary
+                                color = MaterialTheme.colors.onPrimary.copy(alpha = 0.4f)
                             )
                         },
-                        maxLines = 3,
-                        // shape = CircleShape,
+                        maxLines = 1,
+                        shape = RoundedCornerShape(12.dp),
                         colors = TextFieldDefaults.textFieldColors(
                             cursorColor = MaterialTheme.colors.onPrimary,
                             backgroundColor = MaterialTheme.colors.onSecondary,
-                            leadingIconColor = Color.White,
-                            trailingIconColor = Color.White,
+                            leadingIconColor = MaterialTheme.colors.onSurface,
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent,
-                            focusedLabelColor = MaterialTheme.colors.secondary,
-                            unfocusedLabelColor = MaterialTheme.colors.onSecondary,
+                            disabledIndicatorColor = Color.Transparent
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
                     )
 
-                    Spacer(Modifier.height(12.dp))
+                    Spacer(Modifier.height(16.dp))
 
                     // Action buttons
+                    val saveButtonIsEnabled = currentApiKey.isNotBlank()
                     Row(
                         modifier = Modifier.align(Alignment.End)
                     ) {
@@ -284,12 +347,19 @@ private fun ApiKeyAlertDialog(
                         }
                         Spacer(Modifier.width(6.dp))
                         TextButton(
-                            onClick = { onApiKeyChange.invoke(currentApiKey) },
-                            enabled = currentApiKey.isNotBlank()
+                            onClick = {
+                                onDismiss.invoke()
+                                onApiKeyChange.invoke(currentApiKey)
+                            },
+                            enabled = saveButtonIsEnabled
                         ) {
                             Text(
                                 text = stringResource(id = R.string.button_save).uppercase(),
-                                color = MaterialTheme.colors.secondary
+                                color = if (saveButtonIsEnabled) {
+                                    MaterialTheme.colors.secondary
+                                } else {
+                                    MaterialTheme.colors.secondary.copy(alpha = 0.5f)
+                                }
                             )
                         }
                     }
@@ -308,7 +378,9 @@ private fun Preview() {
             recentChatsList = fakeRecentChatsList
         )
         HomeScreenContent(
-            homeUiState = uiState
+            homeUiState = uiState,
+            onApiKeyOptionClick = {},
+            onAppThemeOptionClick = {}
         )
     }
 }
