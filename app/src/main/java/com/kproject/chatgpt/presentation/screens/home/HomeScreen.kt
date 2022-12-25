@@ -224,12 +224,12 @@ private fun RecentChatsListItem(
                 imageVector = ImageVector.vectorResource(id = chatIcon),
                 contentDescription = null,
                 contentScale = ContentScale.Inside,
-                colorFilter = ColorFilter.tint(MaterialTheme.colors.onPrimary),
+                colorFilter = ColorFilter.tint(MaterialTheme.colors.onSecondary),
                 modifier = Modifier
                     .size(60.dp)
                     .clip(CircleShape)
                     .fillMaxSize()
-                    .background(MaterialTheme.colors.onSecondary),
+                    .background(MaterialTheme.colors.onSurface.copy(alpha = 0.6f)),
             )
 
             Spacer(Modifier.width(8.dp))
