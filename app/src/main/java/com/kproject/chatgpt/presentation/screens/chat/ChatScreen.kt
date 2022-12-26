@@ -11,11 +11,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -31,8 +31,16 @@ import com.kproject.chatgpt.presentation.model.Chat
 import com.kproject.chatgpt.presentation.model.RecentChat
 import com.kproject.chatgpt.presentation.model.fakeChatList
 import com.kproject.chatgpt.presentation.screens.components.EmptyListInfo
+import com.kproject.chatgpt.presentation.screens.components.TopBar
+import com.kproject.chatgpt.presentation.theme.CompletePreview
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
 import com.kproject.chatgpt.presentation.theme.SimplePreview
+
+private val recentChat = RecentChat(
+    chatName = "Android Questions",
+    chatMode = false,
+    usedTokens = 450
+)
 
 @Composable
 fun ChatScreen(
@@ -41,11 +49,7 @@ fun ChatScreen(
 ) {
     val uiState = ChatUiState(
         chatList = fakeChatList,
-        recentChat = RecentChat(
-            chatName = "Android Questions",
-            chatMode = false,
-            usedTokens = 450
-        )
+        recentChat = recentChat
     )
     Content(
         uiState = uiState,
@@ -64,7 +68,7 @@ private fun Content(
     onNavigateBack: () -> Unit
 ) {
     Column {
-        TopBar(
+        CustomTopBar(
             recentChat = uiState.recentChat,
             onNavigateBack = onNavigateBack
         )
@@ -90,58 +94,73 @@ private fun Content(
 }
 
 @Composable
-private fun TopBar(
+private fun CustomTopBar(
     modifier: Modifier = Modifier,
     recentChat: RecentChat,
     onNavigateBack: () -> Unit
 ) {
     val chatIcon = if (recentChat.chatMode) R.drawable.ic_chat else R.drawable.ic_manage_search
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colors.primary)
-            .padding(10.dp)
-    ) {
-        IconButton(onClick = onNavigateBack) {
-            Icon(
-                imageVector = Icons.Filled.ArrowBack,
-                contentDescription = null,
-                tint = Color.White
-            )
-        }
-        Spacer(Modifier.width(8.dp))
-        Image(
-            imageVector = ImageVector.vectorResource(id = chatIcon),
-            contentDescription = null,
-            contentScale = ContentScale.Inside,
-            colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface),
-            modifier = Modifier
-                .size(45.dp)
-                .clip(CircleShape)
-        )
-        Spacer(Modifier.width(8.dp))
-        Column {
-            Text(
-                text = recentChat.chatName,
-                color = Color.White,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                maxLines = 1,
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
+    TopBar(
+        title = {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Image(
+                    imageVector = ImageVector.vectorResource(id = chatIcon),
+                    contentDescription = null,
+                    contentScale = ContentScale.Inside,
+                    colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface),
+                    modifier = Modifier.size(40.dp)
+                )
+                Spacer(Modifier.width(6.dp))
+                Column {
+                    Text(
+                        text = recentChat.chatName,
+                        color = MaterialTheme.colors.onSurface,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    )
 
-            Text(
-                text = stringResource(id = R.string.used_tokens, recentChat.usedTokens.toString()),
-                color = Color.White,
-                fontSize = 16.sp,
-                maxLines = 1,
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-        }
-    }
+                    Text(
+                        text = stringResource(
+                            id = R.string.used_tokens,
+                            recentChat.usedTokens.toString()
+                        ),
+                        color = MaterialTheme.colors.onSurface,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Normal,
+                        maxLines = 1,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    )
+                }
+            }
+        },
+        navigationIcon = {
+            IconButton(onClick = onNavigateBack) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = null,
+                    tint = MaterialTheme.colors.onSurface
+                )
+            }
+        },
+        actions = {
+            IconButton(
+                onClick = {
+
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = null,
+                    tint = MaterialTheme.colors.onSurface
+                )
+            }
+        },
+        modifier = modifier
+    )
 }
 
 @Composable
@@ -295,11 +314,7 @@ private fun Preview() {
     PreviewTheme {
         val uiState = ChatUiState(
             chatList = fakeChatList,
-            recentChat = RecentChat(
-                chatName = "Android Questions",
-                chatMode = false,
-                usedTokens = 450
-            )
+            recentChat = recentChat
         )
        Content(
            uiState = uiState,
@@ -307,5 +322,13 @@ private fun Preview() {
            onSendMessage = {},
            onNavigateBack = {}
        )
+    }
+}
+
+@CompletePreview
+@Composable
+private fun CustomTopBarPreview() {
+    PreviewTheme {
+        CustomTopBar(recentChat = recentChat, onNavigateBack = {})
     }
 }

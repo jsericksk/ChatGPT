@@ -11,7 +11,9 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.kproject.chatgpt.R
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
 import com.kproject.chatgpt.presentation.theme.SimplePreview
@@ -25,8 +27,30 @@ fun TopBar(
 ) {
     TopAppBar(
         title = {
-            Text(text = title, color = MaterialTheme.colors.onSurface)
+            Text(
+                text = title,
+                color = MaterialTheme.colors.onSurface,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
         },
+        backgroundColor = MaterialTheme.colors.primary,
+        navigationIcon = navigationIcon,
+        actions = actions,
+        elevation = 0.dp,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun TopBar(
+    modifier: Modifier = Modifier,
+    title: @Composable () -> Unit,
+    navigationIcon: @Composable (() -> Unit)? = null,
+    actions: @Composable RowScope.() -> Unit = {}
+) {
+    TopAppBar(
+        title = title,
         backgroundColor = MaterialTheme.colors.primary,
         navigationIcon = navigationIcon,
         actions = actions,
