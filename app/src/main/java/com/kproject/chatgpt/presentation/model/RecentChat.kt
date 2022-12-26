@@ -1,13 +1,13 @@
 package com.kproject.chatgpt.presentation.model
 
 data class RecentChat(
-    val chatId: Long,
-    val chatName: String,
-    val usedTokens: Int,
-    val lastMessage: String,
-    val lastMessageDate: String,
-    val lastMessageSentByUser: Boolean,
-    val chatMode: Boolean
+    val chatId: Long = 0,
+    val chatName: String = "",
+    val usedTokens: Int = 0,
+    val lastMessage: String = "",
+    val lastMessageDate: String = "",
+    val lastMessageSentByUser: Boolean = true,
+    val chatMode: Boolean = true
 )
 
 val fakeRecentChatsList = (0..20).map { index ->
