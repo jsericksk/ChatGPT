@@ -27,8 +27,8 @@
         obter o contexto da conversa e responder como se fosse um chat, assim como o ChatGPT.
         \n• Mais tokens serão usados, consequentemente aumentando o consumo na sua conta.
         \n• Ao chegar em uma certa quantidade de uso de tokens, é recomendável limpar a conversa ou
-        iniciar outra, pois os modelos da IA têm um limite de 4000 tokens. Você terá um erro se
-        a conversa exceder 4000 tokens.
+        iniciar outra, pois os modelos da IA têm um limite de 2048/4000 tokens. Você terá um erro se
+        a conversa exceder o limite de tokens.
     </string>
     <string name="search_mode_description">
         • Recomendável se você quiser usar a IA para fazer perguntas isoladas. Com isso você
@@ -44,6 +44,47 @@
     <!-- ChatScreen -->
     <string name="message">Digite sua mensagem</string>
     <string name="used_tokens">Tokens Usados: %s</string>
+
+    <!-- IA Model Options -->
+    <string name="ia_model_option_model">Modelo</string>
+    <string name="ia_model_option_text_davinci_003_title">text_davinci_003</string>
+    <string name="ia_model_option_text_davinci_003_description">
+        • Modelo GPT-3 mais capaz. Pode fazer qualquer tarefa que os outros modelos podem fazer,
+        muitas vezes com maior qualidade, saída mais longa e melhor seguimento de instruções.
+        \n• Recomendado se quiser ter respostas mais precisas e atualizadas.
+        \n• Dados de treinamento: até junho de 2021.
+        \n• Suporte máximo de 4000 tokens.
+        \n• Custo de $0.0200 / 1K tokens
+    </string>
+    <string name="ia_model_option_text_curie_001_title">text_curie_001</string>
+    <string name="ia_model_option_text_curie_001_description">
+        • Muito capaz, mais rápido e com custo menor que o text_davinci_003. No entando, ele pode
+        apresentar respostas menos farováveis do que o modelo text_davinci_003, principalmente
+        se tratando de códigos de programação.
+        \n• Recomendado se quiser ter menos custo na conta.
+        \n• Dados de treinamento: até outubro de 2019.
+        \n• Suporte máximo de 2048 tokens.
+        \n• Custo de $0.0020 / 1K tokens.
+    </string>
+
+    <string name="ia_model_option_max_tokens">Número Máximo de Tokens</string>
+    <string name="ia_model_option_max_tokens_description">
+        • O número máximo de tokens que podem ser gerados na resposta da IA.
+        \n• Um número alto diminui as chances de respostas cortadas, enquanto um número mais baixo
+        limita as respostas da IA a uma certa quantidade de caracteres (consequentemente, os tokens)
+        e gera mais respostas cortadas.
+        \n• A contagem de tokens da sua mensagem junto do número máximo de tokens não deve exceder
+        o limite de tokens do modelo da IA.
+        \n•
+    </string>
+
+    <string name="ia_model_option_temperature">Temperatura</string>
+    <string name="ia_model_option_temperature_description">
+        • Qual temperatura de amostragem usar.
+        \n• Valores mais altos significam que o modelo assumirá mais riscos.
+        \n• Tente 0,9 para respostas mais criativas e 0 (amostragem argmax) para aqueles com
+        uma resposta bem definida.
+    </string>
 
 
 </resources>
