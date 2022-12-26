@@ -7,35 +7,31 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import com.kproject.chatgpt.R
 import com.kproject.chatgpt.presentation.model.RecentChat
 import com.kproject.chatgpt.presentation.model.fakeRecentChatsList
 import com.kproject.chatgpt.presentation.screens.components.EmptyListInfo
 import com.kproject.chatgpt.presentation.screens.components.TopBar
+import com.kproject.chatgpt.presentation.screens.home.components.ApiKeyAlertDialog
 import com.kproject.chatgpt.presentation.screens.home.components.ModeSelectionAlertDialog
 import com.kproject.chatgpt.presentation.theme.CompletePreview
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
+import com.kproject.chatgpt.presentation.utils.ConversationMode
 
 @Composable
 fun HomeScreen(
@@ -55,6 +51,9 @@ fun HomeScreen(
         },
         onAppThemeOptionClick = {
 
+        },
+        onConversationModeSelected = {
+            onNavigateToChatScreen.invoke(12345)
         }
     )
 
@@ -72,7 +71,8 @@ fun HomeScreen(
 private fun HomeScreenContent(
     homeUiState: HomeUiState,
     onApiKeyOptionClick: () -> Unit,
-    onAppThemeOptionClick: () -> Unit
+    onAppThemeOptionClick: () -> Unit,
+    onConversationModeSelected: (ConversationMode) -> Unit
 ) {
     var showOptionsMenu by remember { mutableStateOf(false) }
     var showModeSelectionDialog by remember { mutableStateOf(false) }
@@ -124,7 +124,7 @@ private fun HomeScreenContent(
             showDialog = showModeSelectionDialog, 
             onDismiss = { showModeSelectionDialog = false }, 
             onModeSelected = { conversationMode ->  
-                
+                onConversationModeSelected.invoke(conversationMode)
             }
         )
     }
@@ -280,106 +280,6 @@ private fun RecentChatsListItem(
     }
 }
 
-@Composable
-private fun ApiKeyAlertDialog(
-    showDialog: Boolean,
-    onDismiss: () -> Unit,
-    shape: Shape = RoundedCornerShape(14.dp),
-    apiKey: String,
-    onApiKeyChange: (String) -> Unit
-) {
-    if (showDialog) {
-        var currentApiKey by rememberSaveable { mutableStateOf(apiKey) }
-
-        Dialog(
-            onDismissRequest = onDismiss,
-            content = {
-                Column(
-                    modifier = Modifier
-                        .background(
-                            color = MaterialTheme.colors.background,
-                            shape = shape
-                        )
-                        .padding(18.dp)
-                ) {
-                    // Title
-                    Text(
-                        text = stringResource(id = R.string.api_key),
-                        fontSize = 18.sp,
-                        color = MaterialTheme.colors.onPrimary,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    )
-
-                    Spacer(Modifier.height(16.dp))
-
-                    // Content
-                    TextField(
-                        value = currentApiKey,
-                        onValueChange = { value ->
-                            currentApiKey = value
-                        },
-                        textStyle = TextStyle(
-                            color = MaterialTheme.colors.onPrimary,
-                            fontSize = 18.sp
-                        ),
-                        placeholder = {
-                            Text(
-                                text = stringResource(id = R.string.insert_api_key),
-                                color = MaterialTheme.colors.onPrimary.copy(alpha = 0.4f)
-                            )
-                        },
-                        maxLines = 1,
-                        shape = RoundedCornerShape(12.dp),
-                        colors = TextFieldDefaults.textFieldColors(
-                            cursorColor = MaterialTheme.colors.onPrimary,
-                            backgroundColor = MaterialTheme.colors.onSecondary,
-                            leadingIconColor = MaterialTheme.colors.onSurface,
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    )
-
-                    Spacer(Modifier.height(16.dp))
-
-                    // Action buttons
-                    val saveButtonIsEnabled = currentApiKey.isNotBlank()
-                    Row(
-                        modifier = Modifier.align(Alignment.End)
-                    ) {
-                        TextButton(onClick = onDismiss) {
-                            Text(
-                                text = stringResource(id = R.string.button_cancel).uppercase(),
-                                color = MaterialTheme.colors.secondary
-                            )
-                        }
-                        Spacer(Modifier.width(6.dp))
-                        TextButton(
-                            onClick = {
-                                onDismiss.invoke()
-                                onApiKeyChange.invoke(currentApiKey)
-                            },
-                            enabled = saveButtonIsEnabled
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.button_save).uppercase(),
-                                color = if (saveButtonIsEnabled) {
-                                    MaterialTheme.colors.secondary
-                                } else {
-                                    MaterialTheme.colors.secondary.copy(alpha = 0.5f)
-                                }
-                            )
-                        }
-                    }
-                }
-            }
-        )
-    }
-}
-
 @CompletePreview
 @Composable
 private fun Preview() {
@@ -391,7 +291,8 @@ private fun Preview() {
         HomeScreenContent(
             homeUiState = uiState,
             onApiKeyOptionClick = {},
-            onAppThemeOptionClick = {}
+            onAppThemeOptionClick = {},
+            onConversationModeSelected = {}
         )
     }
 }

@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.kproject.chatgpt.presentation.screens.chat.ChatScreen
 import com.kproject.chatgpt.presentation.screens.home.HomeScreen
 
 private const val ArgChatId = "chatId"
@@ -21,8 +22,8 @@ fun NavigationGraph() {
     AnimatedNavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
         composable(route = Screen.HomeScreen.route) {
             HomeScreen(
-                onNavigateToChatScreen = {
-
+                onNavigateToChatScreen = { chatId ->
+                    navController.navigate(Screen.ChatScreen.route + "/$chatId")
                 }
             )
         }
@@ -48,12 +49,12 @@ fun NavigationGraph() {
                 )
             }
         ) { navBackStackEntry ->
-            /**ChatScreen(
+            ChatScreen(
                 chatId = navBackStackEntry.arguments!!.getLong(ArgChatId),
                 onNavigateBack = {
                     navController.popBackStack()
                 }
-            )*/
+            )
         }
     }
 }

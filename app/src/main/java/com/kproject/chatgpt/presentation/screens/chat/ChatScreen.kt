@@ -31,7 +31,6 @@ import com.kproject.chatgpt.presentation.model.Chat
 import com.kproject.chatgpt.presentation.model.RecentChat
 import com.kproject.chatgpt.presentation.model.fakeChatList
 import com.kproject.chatgpt.presentation.screens.components.EmptyListInfo
-import com.kproject.chatgpt.presentation.theme.CompletePreview
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
 import com.kproject.chatgpt.presentation.theme.SimplePreview
 
@@ -52,10 +51,9 @@ fun ChatScreen(
         uiState = uiState,
         onMessageValueChange = {},
         onSendMessage = {},
-        onNavigateBack = {}
+        onNavigateBack = onNavigateBack
     )
 }
-
 
 @Composable
 private fun Content(
