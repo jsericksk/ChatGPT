@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -218,18 +219,20 @@ private fun ChatListItem(
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 12.dp)
     ) {
-        Text(
-            text = chat.message,
-            color = Color.White,
-            fontSize = 16.sp,
-            modifier = Modifier
-                .background(
-                    color = backgroundColor,
-                    shape = shape
-                )
-                .align(alignment)
-                .padding(8.dp)
-        )
+        SelectionContainer {
+            Text(
+                text = chat.message,
+                color = Color.White,
+                fontSize = 16.sp,
+                modifier = Modifier
+                    .background(
+                        color = backgroundColor,
+                        shape = shape
+                    )
+                    .align(alignment)
+                    .padding(8.dp)
+            )
+        }
 
         Text(
             text = chat.sendDate.toString(),
