@@ -139,7 +139,8 @@ private fun OptionsDropdownMenu(
 ) {
     DropdownMenu(
         expanded = showOptionsMenu,
-        onDismissRequest = onDismiss
+        onDismissRequest = onDismiss,
+        modifier = Modifier.background(MaterialTheme.colors.surface)
     ) {
         DropdownMenuItem(
             onClick = {
@@ -234,12 +235,12 @@ private fun RecentChatsListItem(
                 imageVector = ImageVector.vectorResource(id = chatIcon),
                 contentDescription = null,
                 contentScale = ContentScale.Inside,
-                colorFilter = ColorFilter.tint(MaterialTheme.colors.onSecondary),
+                colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface),
                 modifier = Modifier
                     .size(60.dp)
                     .clip(CircleShape)
                     .fillMaxSize()
-                    .background(MaterialTheme.colors.onSurface.copy(alpha = 0.6f)),
+                    .background(MaterialTheme.colors.surface),
             )
 
             Spacer(Modifier.width(8.dp))
