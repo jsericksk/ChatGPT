@@ -32,12 +32,13 @@
     </string>
     <string name="search_mode_description">
         • Recomendável se você quiser usar a IA para fazer perguntas isoladas. Com isso você
-        não terá um "chat de verdade", mas ainda terá todo o poder da IA para pesquisas, correção
+        não terá um \"chat de verdade\", mas ainda terá todo o poder da IA para pesquisas, correção
         de texto, tradução ou coisas do tipo.
         \n• Menos tokens serão usados do que o Modo Chat, pois a cada requisição, apenas a última
         mensagem da conversa é enviada, causando menos consumo na sua conta.
-        \n• Recomendável aumentar um pouco o número máximo de tokens da conversa para evitar que a
-        IA responda de forma incompleta, caso você enfrente muito esse problema.
+        \n• Se você enfrentar muito o problema da IA responder de forma incompleta, é recomendável
+        aumentar um pouco o número máximo de tokens da conversa, pois nesse modo não é possível pedir
+        para que a IA continue sua resposta, caso a resposta dela venha cortada.
     </string>
 
     <!-- ChatScreen -->
