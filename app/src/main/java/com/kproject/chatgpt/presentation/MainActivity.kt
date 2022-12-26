@@ -25,10 +25,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    // NavigationGraph()
-                    ChatScreen(chatId = 1234) {
-
-                    }
+                    NavigationGraph()
+                    // ChatScreen(chatId = 1234) {}
                 }
             }
         }

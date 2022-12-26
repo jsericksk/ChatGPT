@@ -33,6 +33,7 @@ import com.kproject.chatgpt.presentation.model.RecentChat
 import com.kproject.chatgpt.presentation.model.fakeRecentChatsList
 import com.kproject.chatgpt.presentation.screens.components.EmptyListInfo
 import com.kproject.chatgpt.presentation.screens.components.TopBar
+import com.kproject.chatgpt.presentation.screens.home.components.ModeSelectionAlertDialog
 import com.kproject.chatgpt.presentation.theme.CompletePreview
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
 
@@ -74,6 +75,7 @@ private fun HomeScreenContent(
     onAppThemeOptionClick: () -> Unit
 ) {
     var showOptionsMenu by remember { mutableStateOf(false) }
+    var showModeSelectionDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -103,7 +105,7 @@ private fun HomeScreenContent(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { }
+                onClick = { showModeSelectionDialog = true }
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_chat),
@@ -116,6 +118,14 @@ private fun HomeScreenContent(
         Content(
             modifier = Modifier.padding(paddingValues),
             homeUiState = homeUiState
+        )
+        
+        ModeSelectionAlertDialog(
+            showDialog = showModeSelectionDialog, 
+            onDismiss = { showModeSelectionDialog = false }, 
+            onModeSelected = { conversationMode ->  
+                
+            }
         )
     }
 }

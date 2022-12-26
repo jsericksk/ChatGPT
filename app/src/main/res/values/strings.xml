@@ -4,6 +4,7 @@
     <string name="button_ok">OK</string>
     <string name="button_save">Salvar</string>
     <string name="button_cancel">Cancelar</string>
+    <string name="button_continue">Continuar</string>
 
     <string name="app_theme">Tema do Aplicatio</string>
 
@@ -17,6 +18,27 @@
     <string name="api_key">Chave da API</string>
     <string name="insert_api_key">Insira sua chave da API</string>
 
+
+    <string name="chat_mode">Modo Chat</string>
+    <string name="search_mode">Modo de Pesquisa</string>
+    <string name="chat_mode_description">
+        • Com esse modo, todas as mensagens anteriores da conversa, incluindo as respostas da IA,
+        sempre serão enviados na requisição ao enviar uma nova mensagem. Dessa forma, a IA conseguirá
+        obter o contexto da conversa e responder como se fosse um chat, assim como o ChatGPT.
+        \n• Mais tokens serão usados, consequentemente aumentando o consumo na sua conta.
+        \n• Ao chegar em uma certa quantidade de uso de tokens, é recomendável limpar a conversa ou
+        iniciar outra, pois os modelos da IA têm um limite de 4000 tokens. Você terá um erro se
+        a conversa exceder 4000 tokens.
+    </string>
+    <string name="search_mode_description">
+        • Recomendável se você quiser usar a IA para fazer perguntas isoladas. Com isso você
+        não terá um "chat de verdade", mas ainda terá todo o poder da IA para pesquisas, correção
+        de texto, tradução ou coisas do tipo.
+        \n• Menos tokens serão usados do que o Modo Chat, pois a cada requisição, apenas a última
+        mensagem da conversa é enviada, causando menos consumo na sua conta.
+        \n• Recomendável aumentar um pouco o número máximo de tokens da conversa para evitar que a
+        IA responda de forma incompleta, caso você enfrente muito esse problema.
+    </string>
 
     <!-- ChatScreen -->
     <string name="message">Digite sua mensagem</string>
