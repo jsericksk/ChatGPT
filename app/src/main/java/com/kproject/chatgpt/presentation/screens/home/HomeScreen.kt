@@ -54,6 +54,9 @@ fun HomeScreen(
         },
         onConversationModeSelected = {
             onNavigateToChatScreen.invoke(12345)
+        },
+        onNavigateToChatScreen = { chatId ->
+            onNavigateToChatScreen.invoke(chatId)
         }
     )
 
@@ -72,7 +75,8 @@ private fun HomeScreenContent(
     homeUiState: HomeUiState,
     onApiKeyOptionClick: () -> Unit,
     onAppThemeOptionClick: () -> Unit,
-    onConversationModeSelected: (ConversationMode) -> Unit
+    onConversationModeSelected: (ConversationMode) -> Unit,
+    onNavigateToChatScreen: (chatId: Long) -> Unit
 ) {
     var showOptionsMenu by remember { mutableStateOf(false) }
     var showModeSelectionDialog by remember { mutableStateOf(false) }
@@ -117,7 +121,10 @@ private fun HomeScreenContent(
     ) { paddingValues ->
         Content(
             modifier = Modifier.padding(paddingValues),
-            homeUiState = homeUiState
+            homeUiState = homeUiState,
+            onNavigateToChatScreen = { chatId ->
+                onNavigateToChatScreen.invoke(chatId)
+            }
         )
         
         ModeSelectionAlertDialog(
@@ -171,14 +178,17 @@ private fun OptionsDropdownMenu(
 @Composable
 private fun Content(
     modifier: Modifier = Modifier,
-    homeUiState: HomeUiState
+    homeUiState: HomeUiState,
+    onNavigateToChatScreen: (chatId: Long) -> Unit
 ) {
     Column(
         modifier = modifier
     ) {
         RecentChatsList(
             recentChatsList = homeUiState.recentChatsList,
-            onClick = {}
+            onClick = { chatId ->
+                onNavigateToChatScreen.invoke(chatId.toLong())
+            }
         )
     }
 }
@@ -292,7 +302,8 @@ private fun Preview() {
             homeUiState = uiState,
             onApiKeyOptionClick = {},
             onAppThemeOptionClick = {},
-            onConversationModeSelected = {}
+            onConversationModeSelected = {},
+            onNavigateToChatScreen = {}
         )
     }
 }
