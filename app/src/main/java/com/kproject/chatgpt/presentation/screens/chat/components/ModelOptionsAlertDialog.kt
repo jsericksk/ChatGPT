@@ -128,7 +128,7 @@ private fun IAModelOption(
         ImageVector.vectorResource(id = R.drawable.ic_arrow_drop_down)
     }
 
-    Column {
+    CardOptionItem {
         OptionTitle(
             textResId = R.string.ia_model_option_model,
             descriptionResId = modelDescriptionResId
@@ -217,7 +217,7 @@ private fun MaxTokensOption(
     maxTokens: Float,
     onMaxTokensValueChange: (Float) -> Unit
 ) {
-    Column {
+    CardOptionItem {
         OptionTitle(
             textResId = R.string.ia_model_option_max_tokens,
             descriptionResId = R.string.ia_model_option_max_tokens_description
@@ -249,7 +249,7 @@ private fun TemperatureOption(
     temperature: Float,
     onTemperatureValueChange: (Float) -> Unit
 ) {
-    Column {
+    CardOptionItem {
         OptionTitle(
             textResId = R.string.ia_model_option_temperature,
             descriptionResId = R.string.ia_model_option_temperature_description
@@ -272,6 +272,20 @@ private fun TemperatureOption(
             color = MaterialTheme.colors.onSurface,
             fontSize = 14.sp,
             modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
+    }
+}
+
+@Composable
+private fun CardOptionItem(content: @Composable (ColumnScope.() -> Unit)) {
+    Card(
+        backgroundColor = MaterialTheme.colors.surface,
+        shape = RoundedCornerShape(16.dp),
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Column(
+            modifier = Modifier.padding(12.dp),
+            content = content
         )
     }
 }
@@ -318,7 +332,6 @@ private fun OptionTitle(
         }
     }
 }
-
 
 @SimplePreview
 @Composable
