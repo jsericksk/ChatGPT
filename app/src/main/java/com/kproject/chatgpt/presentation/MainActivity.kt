@@ -11,8 +11,10 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.kproject.chatgpt.presentation.model.ModelOptions
 import com.kproject.chatgpt.presentation.navigation.NavigationGraph
 import com.kproject.chatgpt.presentation.screens.chat.ChatScreen
+import com.kproject.chatgpt.presentation.screens.chat.components.ModelOptionsAlertDialog
 import com.kproject.chatgpt.presentation.screens.home.HomeScreen
 import com.kproject.chatgpt.presentation.theme.ChatGPTTheme
 
@@ -25,8 +27,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    NavigationGraph()
+                    // NavigationGraph()
                     // ChatScreen(chatId = 1234) {}
+                    ModelOptionsAlertDialog(
+                        showDialog = true,
+                        modelOptions = ModelOptions(),
+                        onDismiss = {}
+                    )
                 }
             }
         }

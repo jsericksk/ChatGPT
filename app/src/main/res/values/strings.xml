@@ -46,6 +46,7 @@
     <string name="used_tokens">Tokens Usados: %s</string>
 
     <!-- IA Model Options -->
+    <string name="ia_model_options">Opções do Modelo da IA</string>
     <string name="ia_model_option_model">Modelo</string>
     <string name="ia_model_option_text_davinci_003_title">text_davinci_003</string>
     <string name="ia_model_option_text_davinci_003_description">
@@ -75,15 +76,15 @@
         e gera mais respostas cortadas.
         \n• A contagem de tokens da sua mensagem junto do número máximo de tokens não deve exceder
         o limite de tokens do modelo da IA.
-        \n•
     </string>
 
     <string name="ia_model_option_temperature">Temperatura</string>
     <string name="ia_model_option_temperature_description">
         • Qual temperatura de amostragem usar.
-        \n• Valores mais altos significam que o modelo assumirá mais riscos.
-        \n• Tente 0,9 para respostas mais criativas e 0 (amostragem argmax) para aqueles com
-        uma resposta bem definida.
+        \n• Tente 1 para respostas mais criativas e 0 para obter respostas
+        mais bem definidas e precisas.
+        \n• Se definido em 1, mais chances há da IA responder diferente, caso esteja
+        querendo obter respostas diferentes para uma mesma questão.
     </string>
 
 
