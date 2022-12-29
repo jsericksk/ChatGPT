@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.kproject.chatgpt.R
-import com.kproject.chatgpt.presentation.model.AIModel
-import com.kproject.chatgpt.presentation.model.AIModelOptions
+import com.kproject.chatgpt.commom.model.AIModel
+import com.kproject.chatgpt.commom.model.AIModelOptions
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
 import com.kproject.chatgpt.presentation.theme.SimplePreview
 

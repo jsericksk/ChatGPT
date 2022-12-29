@@ -1,4 +1,4 @@
-package com.kproject.chatgpt.presentation.model
+package com.kproject.chatgpt.commom.model
 
 data class AIModelOptions(
     val aiModel: AIModel = AIModel.TextDavinci003,

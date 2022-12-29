@@ -8,6 +8,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import com.kproject.chatgpt.presentation.model.AIModelOptions
+import com.kproject.chatgpt.presentation.navigation.NavigationGraph
 import com.kproject.chatgpt.presentation.screens.chat.components.AIModelOptionsAlertDialog
 import com.kproject.chatgpt.presentation.theme.ChatGPTTheme
 
@@ -20,13 +21,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    // NavigationGraph()
+                    NavigationGraph()
                     // ChatScreen(chatId = 1234) {}
-                    AIModelOptionsAlertDialog(
+                    /**AIModelOptionsAlertDialog(
                         showDialog = true,
                         aiModelOptions = AIModelOptions(),
                         onDismiss = {}
-                    )
+                    )*/
                 }
             }
         }
