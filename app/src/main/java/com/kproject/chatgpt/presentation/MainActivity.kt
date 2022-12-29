@@ -7,9 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
-import com.kproject.chatgpt.presentation.model.AIModelOptions
 import com.kproject.chatgpt.presentation.navigation.NavigationGraph
-import com.kproject.chatgpt.presentation.screens.chat.components.AIModelOptionsAlertDialog
 import com.kproject.chatgpt.presentation.theme.ChatGPTTheme
 
 class MainActivity : ComponentActivity() {

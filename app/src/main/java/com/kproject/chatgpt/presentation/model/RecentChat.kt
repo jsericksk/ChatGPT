@@ -1,5 +1,7 @@
 package com.kproject.chatgpt.presentation.model
 
+import com.kproject.chatgpt.commom.model.AIModelOptions
+
 data class RecentChat(
     val chatId: Long = 0,
     val chatName: String = "",
