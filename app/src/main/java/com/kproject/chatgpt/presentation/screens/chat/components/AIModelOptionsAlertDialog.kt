@@ -30,7 +30,7 @@ fun AIModelOptionsAlertDialog(
     aiModelOptions: AIModelOptions
 ) {
     if (showDialog) {
-        var iaModel by rememberSaveable { mutableStateOf(aiModelOptions.iaModel) }
+        var aiModel by rememberSaveable { mutableStateOf(aiModelOptions.aiModel) }
         var maxTokens by rememberSaveable { mutableStateOf(aiModelOptions.maxTokens.toFloat()) }
         var temperature by rememberSaveable { mutableStateOf(aiModelOptions.temperature) }
 
@@ -58,10 +58,10 @@ fun AIModelOptionsAlertDialog(
 
                     // Content
                     Column {
-                        IAModelOption(
-                            iaModel = iaModel,
-                            onIAModelOptionChanged = {
-                                iaModel = it
+                        AIModelOption(
+                            aiModel = aiModel,
+                            onAIModelOptionsChanged = {
+                                aiModel = it
                             }
                         )
                         Spacer(Modifier.height(10.dp))
@@ -111,12 +111,12 @@ fun AIModelOptionsAlertDialog(
 }
 
 @Composable
-private fun IAModelOption(
-    iaModel: AIModel,
-    onIAModelOptionChanged: (AIModel) -> Unit
+private fun AIModelOption(
+    aiModel: AIModel,
+    onAIModelOptionsChanged: (AIModel) -> Unit
 ) {
     var showOptionsMenu by remember { mutableStateOf(false) }
-    val modelDescriptionResId = if (iaModel == AIModel.TextDavinci003) {
+    val modelDescriptionResId = if (aiModel == AIModel.TextDavinci003) {
         R.string.ia_model_option_text_davinci_003_description
     } else {
         R.string.ia_model_option_text_curie_001_description
@@ -146,7 +146,7 @@ private fun IAModelOption(
                     .padding(12.dp)
             ) {
                 Text(
-                    text = iaModel.name,
+                    text = aiModel.name,
                     color = MaterialTheme.colors.onSurface,
                     fontSize = 16.sp
                 )
@@ -163,7 +163,7 @@ private fun IAModelOption(
             showDropdownMenu = showOptionsMenu,
             onDismiss = { showOptionsMenu = false },
             onOptionSelected = { option ->
-                onIAModelOptionChanged.invoke(option)
+                onAIModelOptionsChanged.invoke(option)
             }
         )
     }
