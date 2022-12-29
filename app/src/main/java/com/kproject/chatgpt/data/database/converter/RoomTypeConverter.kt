@@ -7,7 +7,7 @@ import java.util.*
 import androidx.room.TypeConverter
 
 @ProvidedTypeConverter
-class TypeConverters(private val gson: Gson) {
+class RoomTypeConverter(private val gson: Gson) {
 
     @TypeConverter
     fun fromTimestamp(value: Long?): Date? {
