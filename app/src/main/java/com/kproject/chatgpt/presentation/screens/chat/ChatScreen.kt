@@ -90,7 +90,6 @@ private fun Content(
             },
             modifier = Modifier.padding(12.dp)
         )
-
     }
 }
 

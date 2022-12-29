@@ -6,16 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.kproject.chatgpt.presentation.model.ModelOptions
-import com.kproject.chatgpt.presentation.navigation.NavigationGraph
-import com.kproject.chatgpt.presentation.screens.chat.ChatScreen
-import com.kproject.chatgpt.presentation.screens.chat.components.ModelOptionsAlertDialog
-import com.kproject.chatgpt.presentation.screens.home.HomeScreen
+import com.kproject.chatgpt.presentation.model.AIModelOptions
+import com.kproject.chatgpt.presentation.screens.chat.components.AIModelOptionsAlertDialog
 import com.kproject.chatgpt.presentation.theme.ChatGPTTheme
 
 class MainActivity : ComponentActivity() {
@@ -29,9 +22,9 @@ class MainActivity : ComponentActivity() {
                 ) {
                     // NavigationGraph()
                     // ChatScreen(chatId = 1234) {}
-                    ModelOptionsAlertDialog(
+                    AIModelOptionsAlertDialog(
                         showDialog = true,
-                        modelOptions = ModelOptions(),
+                        aiModelOptions = AIModelOptions(),
                         onDismiss = {}
                     )
                 }

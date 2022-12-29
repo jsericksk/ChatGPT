@@ -7,7 +7,8 @@ data class RecentChat(
     val lastMessage: String = "",
     val lastMessageDate: String = "",
     val lastMessageSentByUser: Boolean = true,
-    val chatMode: Boolean = true
+    val chatMode: Boolean = true,
+    val aiModelOptions: AIModelOptions = AIModelOptions()
 )
 
 val fakeRecentChatsList = (0..20).map { index ->

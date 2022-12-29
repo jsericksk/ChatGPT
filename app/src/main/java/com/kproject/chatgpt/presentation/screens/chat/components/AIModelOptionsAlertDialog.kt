@@ -18,21 +18,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.kproject.chatgpt.R
-import com.kproject.chatgpt.presentation.model.IAModelOption
-import com.kproject.chatgpt.presentation.model.ModelOptions
+import com.kproject.chatgpt.presentation.model.AIModel
+import com.kproject.chatgpt.presentation.model.AIModelOptions
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
 import com.kproject.chatgpt.presentation.theme.SimplePreview
 
 @Composable
-fun ModelOptionsAlertDialog(
+fun AIModelOptionsAlertDialog(
     showDialog: Boolean,
     onDismiss: () -> Unit,
-    modelOptions: ModelOptions
+    aiModelOptions: AIModelOptions
 ) {
     if (showDialog) {
-        var iaModel by rememberSaveable { mutableStateOf(modelOptions.iaModel) }
-        var maxTokens by rememberSaveable { mutableStateOf(modelOptions.maxTokens.toFloat()) }
-        var temperature by rememberSaveable { mutableStateOf(modelOptions.temperature) }
+        var iaModel by rememberSaveable { mutableStateOf(aiModelOptions.iaModel) }
+        var maxTokens by rememberSaveable { mutableStateOf(aiModelOptions.maxTokens.toFloat()) }
+        var temperature by rememberSaveable { mutableStateOf(aiModelOptions.temperature) }
 
         Dialog(
             onDismissRequest = onDismiss,
@@ -112,11 +112,11 @@ fun ModelOptionsAlertDialog(
 
 @Composable
 private fun IAModelOption(
-    iaModel: IAModelOption,
-    onIAModelOptionChanged: (IAModelOption) -> Unit
+    iaModel: AIModel,
+    onIAModelOptionChanged: (AIModel) -> Unit
 ) {
     var showOptionsMenu by remember { mutableStateOf(false) }
-    val modelDescriptionResId = if (iaModel == IAModelOption.TextDavinci003) {
+    val modelDescriptionResId = if (iaModel == AIModel.TextDavinci003) {
         R.string.ia_model_option_text_davinci_003_description
     } else {
         R.string.ia_model_option_text_curie_001_description
@@ -174,9 +174,9 @@ private fun IAModelOptionCustomDropdownMenu(
     modifier: Modifier = Modifier,
     showDropdownMenu: Boolean,
     onDismiss: () -> Unit,
-    onOptionSelected: (IAModelOption) -> Unit
+    onOptionSelected: (AIModel) -> Unit
 ) {
-    val options = listOf(IAModelOption.TextDavinci003.name, IAModelOption.TextCurie001.name)
+    val options = listOf(AIModel.TextDavinci003.name, AIModel.TextCurie001.name)
 
     DropdownMenu(
         expanded = showDropdownMenu,
@@ -189,9 +189,9 @@ private fun IAModelOptionCustomDropdownMenu(
                 onClick = {
                     onDismiss.invoke()
                     val selectedIAModel = if (index == 0) {
-                        IAModelOption.TextDavinci003
+                        AIModel.TextDavinci003
                     } else {
-                        IAModelOption.TextCurie001
+                        AIModel.TextCurie001
                     }
                     onOptionSelected.invoke(selectedIAModel)
                 },
@@ -337,9 +337,9 @@ private fun OptionTitle(
 @Composable
 private fun Preview() {
     PreviewTheme {
-        ModelOptionsAlertDialog(
+        AIModelOptionsAlertDialog(
             showDialog = true,
-            modelOptions = ModelOptions(),
+            aiModelOptions = AIModelOptions(),
             onDismiss = {}
         )
     }
