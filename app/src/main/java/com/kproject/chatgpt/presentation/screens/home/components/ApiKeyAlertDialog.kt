@@ -8,6 +8,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import com.kproject.chatgpt.R
 import com.kproject.chatgpt.presentation.screens.components.AlertDialogWithTextField
+import com.kproject.chatgpt.presentation.theme.CompletePreview
+import com.kproject.chatgpt.presentation.theme.PreviewTheme
 
 @Composable
 fun ApiKeyAlertDialog(
@@ -36,4 +38,17 @@ fun ApiKeyAlertDialog(
             onSaveApiKey.invoke(currentApiKey)
         }
     )
+}
+
+@CompletePreview
+@Composable
+private fun Preview() {
+    PreviewTheme {
+       ApiKeyAlertDialog(
+           showDialog = true,
+           onDismiss = {},
+           apiKey = "sdjfjfewow",
+           onSaveApiKey = {}
+       )
+    }
 }
