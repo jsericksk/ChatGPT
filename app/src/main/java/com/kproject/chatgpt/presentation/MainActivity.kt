@@ -9,8 +9,11 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import com.kproject.chatgpt.presentation.navigation.NavigationGraph
 import com.kproject.chatgpt.presentation.theme.ChatGPTTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

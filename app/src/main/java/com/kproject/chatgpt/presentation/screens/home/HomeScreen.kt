@@ -22,6 +22,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.kproject.chatgpt.R
 import com.kproject.chatgpt.presentation.model.RecentChat
 import com.kproject.chatgpt.presentation.model.fakeRecentChatsList
@@ -35,8 +36,9 @@ import com.kproject.chatgpt.presentation.utils.ConversationMode
 
 @Composable
 fun HomeScreen(
-    onNavigateToChatScreen: (chatId: Long) -> Unit
+    onNavigateToChatScreen: (chatId: Long) -> Unit,
 ) {
+    val homeViewModel: HomeViewModel = hiltViewModel()
     var showApiKeyAlertDialog by remember { mutableStateOf(false) }
 
     val uiState = HomeUiState(
@@ -63,9 +65,9 @@ fun HomeScreen(
     ApiKeyAlertDialog(
         showDialog = showApiKeyAlertDialog,
         onDismiss = { showApiKeyAlertDialog = false },
-        apiKey = "skskfjjifwojewpi3jjdjd3we",
-        onSaveApiKey = { newApiKey ->
-
+        apiKey = uiState.apiKey,
+        onSaveApiKey = { apiKey ->
+            homeViewModel.saveApiKey(apiKey)
         }
     )
 }

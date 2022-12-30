@@ -4,5 +4,6 @@ import com.kproject.chatgpt.presentation.model.RecentChat
 
 data class HomeUiState(
     val isLoading: Boolean = false,
-    val recentChatsList: List<RecentChat> = emptyList()
+    val recentChatsList: List<RecentChat> = emptyList(),
+    val apiKey: String = ""
 )
