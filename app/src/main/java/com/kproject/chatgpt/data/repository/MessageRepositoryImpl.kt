@@ -30,6 +30,7 @@ class MessageRepositoryImpl(
         messageDao.addMessage(message.fromModel())
     }
 
+    // TODO: Get apiKey from preferences and better handle errors
     override suspend fun sendMessage(
         message: String,
         recentChat: RecentChatModel
@@ -44,15 +45,15 @@ class MessageRepositoryImpl(
         val apiKey = ""
         val apiResponse = apiService.sendMessage(apiKey = apiKey, messageBody = messageBody)
         if (apiResponse.code() == 200) {
-            apiResponse.body()?.let { messageResponse ->
+            return apiResponse.body()?.let { messageResponse ->
                 val messageModel = MessageModel(
                     chatId = recentChat.chatId,
                     message = messageResponse.choices.first().text,
                     sentByUser = false,
                     sendDate = Date()
                 )
-                return DataState.Success(messageModel)
-            }
+                DataState.Success(messageModel)
+            } ?: DataState.Error()
         }
         return DataState.Error()
     }
