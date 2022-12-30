@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.kproject.chatgpt.R
+import com.kproject.chatgpt.presentation.theme.CompletePreview
+import com.kproject.chatgpt.presentation.theme.PreviewTheme
 
 private val defaultShapeSize = 16.dp
 
@@ -202,5 +204,21 @@ private fun ColumnScope.ActionButtons(
                 }
             )
         }
+    }
+}
+
+@CompletePreview
+@Composable
+private fun AlertDialogWithTextFieldPreview() {
+    PreviewTheme {
+        AlertDialogWithTextField(
+            showDialog = true,
+            onDismiss = {},
+            title = "Insert your name",
+            textFieldValue = "John",
+            textFieldPlaceholder = "",
+            onTextValueChange = {},
+            onClickButtonOk = {}
+        )
     }
 }
