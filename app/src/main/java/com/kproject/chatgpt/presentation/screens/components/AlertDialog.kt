@@ -1,5 +1,6 @@
 package com.kproject.chatgpt.presentation.screens.components
 
+import android.icu.text.CaseMap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -91,7 +92,8 @@ fun AlertDialogWithTextField(
 fun CustomAlertDialog(
     showDialog: Boolean,
     onDismiss: () -> Unit,
-    title: String,
+    showTitle: Boolean = true,
+    title: String = "",
     cancelable: Boolean = true,
     okButtonEnabled: Boolean = true,
     showButtonCancel: Boolean = true,
@@ -115,9 +117,10 @@ fun CustomAlertDialog(
                         .padding(18.dp)
                 ) {
                     // Title
-                    Title(title = title)
-
-                    Spacer(Modifier.height(16.dp))
+                    if (showTitle) {
+                        Title(title = title)
+                        Spacer(Modifier.height(18.dp))
+                    }
 
                     // Content
                     Box(
