@@ -64,7 +64,7 @@ fun HomeScreen(
         showDialog = showApiKeyAlertDialog,
         onDismiss = { showApiKeyAlertDialog = false },
         apiKey = "skskfjjifwojewpi3jjdjd3we",
-        onApiKeyChange = { newApiKey ->
+        onSaveApiKey = { newApiKey ->
 
         }
     )
@@ -316,7 +316,7 @@ private fun ApiKeyAlertDialogPreview() {
             showDialog = true,
             onDismiss = {},
             apiKey = "skskfjjifwojewpi3jjdjd3we",
-            onApiKeyChange = {}
+            onSaveApiKey = {}
         )
     }
 }
