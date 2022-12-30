@@ -7,6 +7,7 @@ import com.kproject.chatgpt.presentation.screens.components.AlertDialogWithTextF
 import com.kproject.chatgpt.presentation.theme.CompletePreview
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
 
+// TODO: Corrigir bug da apiKey não aparecendo na primeira exibição da HomeScreen
 @Composable
 fun ApiKeyAlertDialog(
     showDialog: Boolean,

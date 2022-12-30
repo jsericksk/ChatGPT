@@ -1,5 +1,6 @@
 package com.kproject.chatgpt.presentation.screens.home
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -39,12 +40,8 @@ fun HomeScreen(
     onNavigateToChatScreen: (chatId: Long) -> Unit,
 ) {
     val homeViewModel: HomeViewModel = hiltViewModel()
+    val uiState = homeViewModel.homeUiState
     var showApiKeyAlertDialog by remember { mutableStateOf(false) }
-
-    val uiState = HomeUiState(
-        isLoading = false,
-        recentChatsList = fakeRecentChatsList
-    )
 
     HomeScreenContent(
         homeUiState = uiState,
