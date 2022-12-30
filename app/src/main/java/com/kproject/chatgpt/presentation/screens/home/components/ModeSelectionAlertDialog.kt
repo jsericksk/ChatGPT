@@ -106,7 +106,8 @@ private fun CardItem(
                 Icon(
                     imageVector = ImageVector.vectorResource(id = icon),
                     contentDescription = null,
-                    modifier = Modifier.size(30.dp)
+                    modifier = Modifier.size(30.dp),
+                    tint = MaterialTheme.colors.onPrimary
                 )
                 Spacer(Modifier.width(8.dp))
                 Text(
