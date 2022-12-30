@@ -6,7 +6,7 @@ data class AIModelOptions(
     val temperature: Float = 0F
 )
 
-enum class AIModel {
-    TextDavinci003,
-    TextCurie001
+enum class AIModel(val value: String) {
+    TextDavinci003("text-davinci-003"),
+    TextCurie001("text-curi-001")
 }

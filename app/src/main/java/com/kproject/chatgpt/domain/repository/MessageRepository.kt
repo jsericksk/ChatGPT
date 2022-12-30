@@ -1,7 +1,9 @@
 package com.kproject.chatgpt.domain.repository
 
+import com.kproject.chatgpt.commom.DataState
 import com.kproject.chatgpt.commom.model.AIModelOptions
 import com.kproject.chatgpt.domain.model.MessageModel
+import com.kproject.chatgpt.domain.model.RecentChatModel
 import kotlinx.coroutines.flow.Flow
 
 interface MessageRepository {
@@ -10,5 +12,8 @@ interface MessageRepository {
 
     suspend fun addMessage(message: MessageModel)
 
-    suspend fun sendMessage(message: MessageModel, aiModelOptions: AIModelOptions)
+    suspend fun sendMessage(
+        message: String,
+        recentChat: RecentChatModel
+    ): DataState<MessageModel>
 }

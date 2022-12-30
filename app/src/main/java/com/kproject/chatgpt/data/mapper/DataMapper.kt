@@ -28,7 +28,6 @@ fun RecentChatEntity.toModel() = RecentChatModel(
 )
 
 fun MessageModel.fromModel() = MessageEntity(
-    id = id,
     chatId = chatId,
     message = message,
     sentByUser = sentByUser,
@@ -36,7 +35,6 @@ fun MessageModel.fromModel() = MessageEntity(
 )
 
 fun MessageEntity.toModel() = MessageModel(
-    id = id,
     chatId = chatId,
     message = message,
     sentByUser = sentByUser,
