@@ -1,5 +1,6 @@
 package com.kproject.chatgpt.data.repository
 
+import com.kproject.chatgpt.commom.model.AIModelOptions
 import com.kproject.chatgpt.data.database.dao.MessageDao
 import com.kproject.chatgpt.data.mapper.fromModel
 import com.kproject.chatgpt.data.mapper.toModel
@@ -24,4 +25,7 @@ class MessageRepositoryImpl(
         messageDao.addMessage(message.fromModel())
     }
 
+    override suspend fun sendMessage(message: MessageModel, aiModelOptions: AIModelOptions) {
+        TODO("Not yet implemented")
+    }
 }
