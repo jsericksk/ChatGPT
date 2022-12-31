@@ -49,7 +49,7 @@ fun ChatScreen(
     onNavigateBack: () -> Unit
 ) {
     val uiState = ChatUiState(
-        chatList = fakeChatList,
+        messageList = fakeChatList,
         recentChat = recentChat
     )
     Content(
@@ -75,7 +75,7 @@ private fun Content(
         )
 
         ChatList(
-            chatList = uiState.chatList,
+            chatList = uiState.messageList,
             modifier = Modifier
                 .weight(1f)
         )
@@ -315,7 +315,7 @@ private fun ChatTextField(
 private fun Preview() {
     PreviewTheme {
         val uiState = ChatUiState(
-            chatList = fakeChatList,
+            messageList = fakeChatList,
             recentChat = recentChat
         )
        Content(

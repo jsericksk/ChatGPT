@@ -14,6 +14,7 @@ interface MessageRepository {
 
     suspend fun sendMessage(
         message: String,
-        recentChat: RecentChatModel
+        recentChat: RecentChatModel,
+        apiKey: String
     ): DataState<MessageModel>
 }

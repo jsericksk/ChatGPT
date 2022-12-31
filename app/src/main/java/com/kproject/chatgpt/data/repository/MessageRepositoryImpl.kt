@@ -16,7 +16,6 @@ import java.util.*
 
 class MessageRepositoryImpl(
     private val messageDao: MessageDao,
-    private val recentChatDao: RecentChatDao,
     private val apiService: ApiService
 ) : MessageRepository {
 
@@ -35,7 +34,8 @@ class MessageRepositoryImpl(
     // TODO: Get apiKey from preferences and better handle errors
     override suspend fun sendMessage(
         message: String,
-        recentChat: RecentChatModel
+        recentChat: RecentChatModel,
+        apiKey: String
     ): DataState<MessageModel> {
         addMessageToDatabase(
             chatId = recentChat.chatId,
@@ -49,7 +49,6 @@ class MessageRepositoryImpl(
             maxTokens = aiModelOptions.maxTokens,
             temperature = aiModelOptions.temperature
         )
-        val apiKey = ""
         val apiResponse = apiService.sendMessage(apiKey = apiKey, messageBody = messageBody)
         if (apiResponse.code() == 200) {
             return apiResponse.body()?.let { messageResponse ->

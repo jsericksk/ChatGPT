@@ -8,6 +8,7 @@ fun interface SendMessageUseCase {
 
     suspend operator fun invoke(
         message: String,
-        recentChat: RecentChatModel
+        recentChat: RecentChatModel,
+        apiKey: String
     ): DataState<MessageModel>
 }
