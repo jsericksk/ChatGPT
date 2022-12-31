@@ -26,6 +26,17 @@ fun RecentChatModel.fromModel() = RecentChat(
     aiModelOptions = aiModelOptions
 )
 
+fun RecentChat.toModel() = RecentChatModel(
+    chatId = chatId,
+    chatName = chatName,
+    usedTokens = usedTokens,
+    lastMessage = lastMessage,
+    lastMessageDate = lastMessageDate,
+    lastMessageSentByUser = lastMessageSentByUser,
+    chatMode = chatMode,
+    aiModelOptions = aiModelOptions
+)
+
 val fakeRecentChatsList = (0..20).map { index ->
     val chatName = if (index % 2 == 0) "Programming questions" else "Stupid questions"
     val lastMessage =

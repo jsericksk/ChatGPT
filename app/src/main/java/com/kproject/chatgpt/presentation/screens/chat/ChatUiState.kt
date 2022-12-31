@@ -4,6 +4,7 @@ import com.kproject.chatgpt.presentation.model.Message
 import com.kproject.chatgpt.presentation.model.RecentChat
 
 data class ChatUiState(
+    val isLoading: Boolean = false,
     val messageList: List<Message> = emptyList(),
     val recentChat: RecentChat = RecentChat(),
     val message: String = ""

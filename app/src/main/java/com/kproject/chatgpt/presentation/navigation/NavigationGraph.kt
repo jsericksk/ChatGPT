@@ -16,7 +16,7 @@ const val NullChatId = -1L
 
 const val ArgChatId = "chatId"
 const val ArgApiKey = "apiKey"
-const val ArgConversationModeKey = "apiKey"
+const val ArgConversationModeKey = "conversationMode"
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -27,14 +27,14 @@ fun NavigationGraph() {
         composable(route = Screen.HomeScreen.route) {
             HomeScreen(
                 onNavigateToChatScreen = { chatId, apiKey, conversationMode ->
-                    navController.navigate(Screen.ChatScreen.route + "/$chatId/$apiKey")
+                    navController.navigate(Screen.ChatScreen.route + "/$chatId/$apiKey/$conversationMode")
                 }
             )
         }
 
         // ChatScreen
         composable(
-            route = Screen.ChatScreen.route + "/{$ArgChatId}/{$ArgApiKey}",
+            route = Screen.ChatScreen.route + "/{$ArgChatId}/{$ArgApiKey}/{$ArgConversationModeKey}",
             arguments = listOf(
                 navArgument(name = ArgChatId) {
                     type = NavType.LongType
