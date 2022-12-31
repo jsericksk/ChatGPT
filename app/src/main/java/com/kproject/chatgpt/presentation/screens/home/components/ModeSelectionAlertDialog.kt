@@ -23,7 +23,7 @@ import com.kproject.chatgpt.R
 import com.kproject.chatgpt.presentation.screens.components.CustomAlertDialog
 import com.kproject.chatgpt.presentation.theme.CompletePreview
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
-import com.kproject.chatgpt.presentation.utils.ConversationMode
+import com.kproject.chatgpt.presentation.model.ConversationMode
 
 @Composable
 fun ModeSelectionAlertDialog(

@@ -17,7 +17,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -34,11 +33,12 @@ import com.kproject.chatgpt.presentation.screens.home.components.ApiKeyAlertDial
 import com.kproject.chatgpt.presentation.screens.home.components.ModeSelectionAlertDialog
 import com.kproject.chatgpt.presentation.theme.CompletePreview
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
-import com.kproject.chatgpt.presentation.utils.ConversationMode
+import com.kproject.chatgpt.presentation.model.ConversationMode
+import com.kproject.chatgpt.presentation.navigation.NullChatId
 
 @Composable
 fun HomeScreen(
-    onNavigateToChatScreen: (chatId: Long, apiKey: String) -> Unit,
+    onNavigateToChatScreen: (chatId: Long, apiKey: String, conversationMode: Int) -> Unit,
 ) {
     val homeViewModel: HomeViewModel = hiltViewModel()
     val uiState = homeViewModel.homeUiState
@@ -52,11 +52,11 @@ fun HomeScreen(
         onAppThemeOptionClick = {
 
         },
-        onConversationModeSelected = {
-            onNavigateToChatScreen.invoke(12345, uiState.apiKey)
+        onConversationModeSelected = { conversationMode ->
+            onNavigateToChatScreen.invoke(NullChatId, uiState.apiKey, conversationMode.value)
         },
         onNavigateToChatScreen = { chatId ->
-            onNavigateToChatScreen.invoke(chatId, uiState.apiKey)
+            onNavigateToChatScreen.invoke(chatId, uiState.apiKey, ConversationMode.None.value)
         }
     )
 

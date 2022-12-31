@@ -38,22 +38,11 @@ import com.kproject.chatgpt.presentation.theme.CompletePreview
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
 import com.kproject.chatgpt.presentation.theme.SimplePreview
 
-private val recentChat = RecentChat(
-    chatName = "Android Questions",
-    chatMode = false,
-    usedTokens = 450
-)
-
 @Composable
 fun ChatScreen(
     onNavigateBack: () -> Unit
 ) {
     val chatViewModel: ChatViewModel = hiltViewModel()
-    val uiState = ChatUiState(
-        messageList = fakeChatList,
-        recentChat = recentChat
-    )
-
 
     Content(
         uiState = chatViewModel.chatUiState,
@@ -319,14 +308,18 @@ private fun Preview() {
     PreviewTheme {
         val uiState = ChatUiState(
             messageList = fakeChatList,
-            recentChat = recentChat
+            recentChat = RecentChat(
+                chatName = "Android Questions",
+                chatMode = false,
+                usedTokens = 450
+            )
         )
-       Content(
-           uiState = uiState,
-           onMessageValueChange = {},
-           onSendMessage = {},
-           onNavigateBack = {}
-       )
+        Content(
+            uiState = uiState,
+            onMessageValueChange = {},
+            onSendMessage = {},
+            onNavigateBack = {}
+        )
     }
 }
 
@@ -334,6 +327,13 @@ private fun Preview() {
 @Composable
 private fun CustomTopBarPreview() {
     PreviewTheme {
-        CustomTopBar(recentChat = recentChat, onNavigateBack = {})
+        CustomTopBar(
+            recentChat = RecentChat(
+                chatName = "Android Questions",
+                chatMode = false,
+                usedTokens = 300
+            ),
+            onNavigateBack = {}
+        )
     }
 }
