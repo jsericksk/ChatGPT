@@ -53,9 +53,10 @@ class MessageRepositoryImpl(
         val apiResponse = apiService.sendMessage(apiKey = "Bearer $apiKey", messageBody = messageBody)
         if (apiResponse.code() == 200) {
             return apiResponse.body()?.let { messageResponse ->
+                val answerText = messageResponse.choices.first().text.trim()
                 val messageModel = MessageModel(
                     chatId = recentChat.chatId,
-                    message = messageResponse.choices.first().text,
+                    message = answerText,
                     sentByUser = false,
                     sendDate = Date()
                 )

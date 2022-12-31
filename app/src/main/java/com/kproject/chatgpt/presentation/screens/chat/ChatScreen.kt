@@ -214,7 +214,9 @@ private fun ChatListItem(
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 12.dp)
     ) {
-        SelectionContainer {
+        SelectionContainer(
+            modifier = Modifier.align(alignment)
+        ) {
             Text(
                 text = chat.message,
                 color = Color.White,
@@ -224,7 +226,6 @@ private fun ChatListItem(
                         color = backgroundTextColor,
                         shape = shape
                     )
-                    .align(alignment)
                     .padding(8.dp)
             )
         }
