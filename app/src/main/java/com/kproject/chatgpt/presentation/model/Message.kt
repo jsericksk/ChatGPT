@@ -1,7 +1,7 @@
 package com.kproject.chatgpt.presentation.model
 
 import com.kproject.chatgpt.domain.model.MessageModel
-import java.util.Date
+import java.util.*
 
 data class Message(
     val chatId: Long,

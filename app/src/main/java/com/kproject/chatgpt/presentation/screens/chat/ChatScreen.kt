@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kproject.chatgpt.R
+import com.kproject.chatgpt.presentation.extensions.getFormattedDate
 import com.kproject.chatgpt.presentation.model.Message
 import com.kproject.chatgpt.presentation.model.RecentChat
 import com.kproject.chatgpt.presentation.model.fakeChatList
@@ -231,7 +232,7 @@ private fun ChatListItem(
         }
 
         Text(
-            text = chat.sendDate.toString(),
+            text = chat.sendDate.getFormattedDate(),
             color = MaterialTheme.colors.onPrimary,
             maxLines = 1,
             fontSize = 13.sp,

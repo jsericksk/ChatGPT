@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kproject.chatgpt.R
+import com.kproject.chatgpt.presentation.extensions.getFormattedDate
 import com.kproject.chatgpt.presentation.model.RecentChat
 import com.kproject.chatgpt.presentation.model.fakeRecentChatsList
 import com.kproject.chatgpt.presentation.screens.components.EmptyListInfo
@@ -283,7 +284,7 @@ private fun RecentChatsListItem(
             }
 
             Text(
-                text = "Date", //.lastMessageDate.toString(),
+                text = recentChat.lastMessageDate.getFormattedDate(),
                 color = MaterialTheme.colors.onPrimary,
                 fontSize = 12.sp
             )
