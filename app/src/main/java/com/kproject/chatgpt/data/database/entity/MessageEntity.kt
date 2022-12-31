@@ -19,7 +19,7 @@ import java.util.*
 data class MessageEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    @ColumnInfo(name = "chat_id")
+    @ColumnInfo(name = "chat_id", index = true)
     val chatId: Long,
     @ColumnInfo(name = "message")
     val message: String,
