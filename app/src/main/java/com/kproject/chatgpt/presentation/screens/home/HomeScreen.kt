@@ -9,9 +9,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,14 +20,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDirection.Companion.Content
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kproject.chatgpt.R
 import com.kproject.chatgpt.presentation.extensions.getFormattedDate
+import com.kproject.chatgpt.presentation.model.ConversationMode
 import com.kproject.chatgpt.presentation.model.RecentChat
 import com.kproject.chatgpt.presentation.model.fakeRecentChatsList
+import com.kproject.chatgpt.presentation.navigation.NullChatId
+import com.kproject.chatgpt.presentation.screens.components.AlertDialogWithTextField
 import com.kproject.chatgpt.presentation.screens.components.EmptyListInfo
 import com.kproject.chatgpt.presentation.screens.components.ProgressIndicator
 import com.kproject.chatgpt.presentation.screens.components.TopBar
@@ -37,9 +37,6 @@ import com.kproject.chatgpt.presentation.screens.home.components.ApiKeyAlertDial
 import com.kproject.chatgpt.presentation.screens.home.components.ModeSelectionAlertDialog
 import com.kproject.chatgpt.presentation.theme.CompletePreview
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
-import com.kproject.chatgpt.presentation.model.ConversationMode
-import com.kproject.chatgpt.presentation.navigation.NullChatId
-import com.kproject.chatgpt.presentation.screens.components.AlertDialogWithTextField
 
 @Composable
 fun HomeScreen(

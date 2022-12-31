@@ -37,7 +37,8 @@ fun NavigationGraph() {
 
         // ChatScreen
         composable(
-            route = Screen.ChatScreen.route + "/{$ArgChatId}/{$ArgApiKey}/{$ArgConversationModeKey}",
+            route = Screen.ChatScreen.route
+                    + "/{$ArgChatId}/{$ArgApiKey}/{$ArgChatNameKey}/{$ArgConversationModeKey}",
             arguments = listOf(
                 navArgument(name = ArgChatId) {
                     type = NavType.LongType
