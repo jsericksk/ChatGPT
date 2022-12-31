@@ -28,7 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kproject.chatgpt.R
-import com.kproject.chatgpt.presentation.model.Chat
+import com.kproject.chatgpt.presentation.model.Message
 import com.kproject.chatgpt.presentation.model.RecentChat
 import com.kproject.chatgpt.presentation.model.fakeChatList
 import com.kproject.chatgpt.presentation.screens.components.EmptyListInfo
@@ -166,7 +166,7 @@ private fun CustomTopBar(
 @Composable
 private fun ChatList(
     modifier: Modifier = Modifier,
-    chatList: List<Chat>
+    chatList: List<Message>
 ) {
     if (chatList.isNotEmpty()) {
         val lazyListState = rememberLazyListState()
@@ -202,7 +202,7 @@ private fun ChatList(
 @Composable
 private fun ChatListItem(
     modifier: Modifier = Modifier,
-    chat: Chat
+    chat: Message
 ) {
     val backgroundColor = if (chat.sentByUser) Color.DarkGray else MaterialTheme.colors.secondary
     val alignment = if (chat.sentByUser) Alignment.Start else Alignment.End

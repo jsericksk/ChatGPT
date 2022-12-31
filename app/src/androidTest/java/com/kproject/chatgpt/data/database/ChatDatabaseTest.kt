@@ -90,7 +90,7 @@ class ChatDatabaseTest {
             temperature = 1f
         )
         val updatedRecentChat = recentChat2.copy(
-            chatName = "New Chat Title",
+            chatName = "New Message Title",
             lastMessageSentByUser = true,
             aiModelOptions = updatedAIModelOptions
         )
@@ -138,7 +138,7 @@ class ChatDatabaseTest {
         // RecentChats
         private val recentChat1 = RecentChatEntity(
             chatId = 1,
-            chatName = "Chat 1",
+            chatName = "Message 1",
             usedTokens = 500,
             lastMessage = "Hello",
             lastMessageDate = Date(),
@@ -148,7 +148,7 @@ class ChatDatabaseTest {
         )
         private val recentChat2 = RecentChatEntity(
             chatId = 2,
-            chatName = "Chat 2",
+            chatName = "Message 2",
             usedTokens = 600,
             lastMessage = "Hi",
             lastMessageDate = Date(),
