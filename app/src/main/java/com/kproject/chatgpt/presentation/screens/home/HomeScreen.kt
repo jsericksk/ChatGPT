@@ -9,6 +9,8 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,6 +22,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDirection.Companion.Content
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -36,10 +39,11 @@ import com.kproject.chatgpt.presentation.theme.CompletePreview
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
 import com.kproject.chatgpt.presentation.model.ConversationMode
 import com.kproject.chatgpt.presentation.navigation.NullChatId
+import com.kproject.chatgpt.presentation.screens.components.AlertDialogWithTextField
 
 @Composable
 fun HomeScreen(
-    onNavigateToChatScreen: (chatId: Long, apiKey: String, conversationMode: Int) -> Unit,
+    onNavigateToChatScreen: (chatId: Long, apiKey: String, chatName: String, conversationMode: Int) -> Unit,
 ) {
     val homeViewModel: HomeViewModel = hiltViewModel()
     val uiState = homeViewModel.homeUiState
@@ -53,11 +57,11 @@ fun HomeScreen(
         onAppThemeOptionClick = {
 
         },
-        onConversationModeSelected = { conversationMode ->
-            onNavigateToChatScreen.invoke(NullChatId, uiState.apiKey, conversationMode.value)
+        onStartNewChat = { chatName, conversationMode ->
+            onNavigateToChatScreen.invoke(NullChatId, uiState.apiKey, chatName, conversationMode.value)
         },
-        onNavigateToChatScreen = { chatId ->
-            onNavigateToChatScreen.invoke(chatId, uiState.apiKey, ConversationMode.None.value)
+        onChatSelected = { chatId ->
+            onNavigateToChatScreen.invoke(chatId, uiState.apiKey, "", ConversationMode.None.value)
         }
     )
 
@@ -76,11 +80,11 @@ private fun HomeScreenContent(
     homeUiState: HomeUiState,
     onApiKeyOptionClick: () -> Unit,
     onAppThemeOptionClick: () -> Unit,
-    onConversationModeSelected: (ConversationMode) -> Unit,
-    onNavigateToChatScreen: (chatId: Long) -> Unit
+    onStartNewChat: (chatName: String, conversationMode: ConversationMode) -> Unit,
+    onChatSelected: (chatId: Long) -> Unit
 ) {
     var showOptionsMenu by remember { mutableStateOf(false) }
-    var showModeSelectionDialog by remember { mutableStateOf(false) }
+    var showNewChatDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -93,7 +97,7 @@ private fun HomeScreenContent(
                         }
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Settings,
+                            imageVector = Icons.Default.MoreVert,
                             contentDescription = null,
                             tint = MaterialTheme.colors.onSurface
                         )
@@ -109,9 +113,7 @@ private fun HomeScreenContent(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = { showModeSelectionDialog = true }
-            ) {
+            FloatingActionButton(onClick = { showNewChatDialog = true }) {
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_chat),
                     null,
@@ -124,15 +126,15 @@ private fun HomeScreenContent(
             modifier = Modifier.padding(paddingValues),
             homeUiState = homeUiState,
             onNavigateToChatScreen = { chatId ->
-                onNavigateToChatScreen.invoke(chatId)
+                onChatSelected.invoke(chatId)
             }
         )
-        
-        ModeSelectionAlertDialog(
-            showDialog = showModeSelectionDialog, 
-            onDismiss = { showModeSelectionDialog = false }, 
-            onModeSelected = { conversationMode ->  
-                onConversationModeSelected.invoke(conversationMode)
+
+        NewChatAlertDialog(
+            showDialog = showNewChatDialog,
+            onDismiss = { showNewChatDialog = false },
+            onStartNewChat = { chatName, conversationMode ->
+                onStartNewChat.invoke(chatName, conversationMode)
             }
         )
     }
@@ -292,6 +294,38 @@ private fun RecentChatsListItem(
     }
 }
 
+@Composable
+private fun NewChatAlertDialog(
+    showDialog: Boolean,
+    onDismiss: () -> Unit,
+    onStartNewChat: (chatName: String, conversationMode: ConversationMode) -> Unit
+) {
+    var showModeSelectionDialog by remember { mutableStateOf(false) }
+    var chatName by remember { mutableStateOf("") }
+
+    AlertDialogWithTextField(
+        showDialog = showDialog,
+        onDismiss = onDismiss,
+        title = stringResource(id = R.string.insert_chat_name),
+        textFieldValue = chatName,
+        textFieldPlaceholder = stringResource(id = R.string.insert_api_key),
+        okButtonEnabled = chatName.isNotBlank(),
+        okButtonTitle = stringResource(id = R.string.button_save),
+        onTextValueChange = {
+            chatName = it
+        },
+        onClickButtonOk = { showModeSelectionDialog = true }
+    )
+
+    ModeSelectionAlertDialog(
+        showDialog = showModeSelectionDialog,
+        onDismiss = { showModeSelectionDialog = false },
+        onModeSelected = { conversationMode ->
+            onStartNewChat.invoke(chatName, conversationMode)
+        }
+    )
+}
+
 @CompletePreview
 @Composable
 private fun Preview() {
@@ -304,8 +338,8 @@ private fun Preview() {
             homeUiState = uiState,
             onApiKeyOptionClick = {},
             onAppThemeOptionClick = {},
-            onConversationModeSelected = {},
-            onNavigateToChatScreen = {}
+            onStartNewChat = { chatName, conversationMode ->  },
+            onChatSelected = {}
         )
     }
 }

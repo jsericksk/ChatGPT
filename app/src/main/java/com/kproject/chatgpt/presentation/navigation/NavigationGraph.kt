@@ -16,6 +16,7 @@ const val NullChatId = -1L
 
 const val ArgChatId = "chatId"
 const val ArgApiKey = "apiKey"
+const val ArgChatNameKey = "chatName"
 const val ArgConversationModeKey = "conversationMode"
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -26,8 +27,10 @@ fun NavigationGraph() {
     AnimatedNavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
         composable(route = Screen.HomeScreen.route) {
             HomeScreen(
-                onNavigateToChatScreen = { chatId, apiKey, conversationMode ->
-                    navController.navigate(Screen.ChatScreen.route + "/$chatId/$apiKey/$conversationMode")
+                onNavigateToChatScreen = { chatId, apiKey, chatName, conversationMode ->
+                    navController.navigate(
+                        Screen.ChatScreen.route + "/$chatId/$apiKey/$chatName/$conversationMode"
+                    )
                 }
             )
         }
@@ -40,6 +43,9 @@ fun NavigationGraph() {
                     type = NavType.LongType
                 },
                 navArgument(name = ArgApiKey) {
+                    type = NavType.StringType
+                },
+                navArgument(name = ArgChatNameKey) {
                     type = NavType.StringType
                 },
                 navArgument(name = ArgConversationModeKey) {

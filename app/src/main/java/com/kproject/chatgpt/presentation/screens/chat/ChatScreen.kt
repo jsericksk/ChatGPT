@@ -201,7 +201,7 @@ private fun ChatListItem(
     modifier: Modifier = Modifier,
     chat: Message
 ) {
-    val backgroundTextColor = if (chat.sentByUser) Color.DarkGray else MaterialTheme.colors.secondary
+    val backgroundTextColor = if (chat.sentByUser) MaterialTheme.colors.surface else MaterialTheme.colors.secondary
     val alignment = if (chat.sentByUser) Alignment.Start else Alignment.End
     val shape = if (chat.sentByUser) {
         RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp, bottomStart = 20.dp, bottomEnd = 10.dp)
@@ -268,7 +268,7 @@ private fun ChatTextField(
             placeholder = {
                 Text(
                     text = stringResource(id = R.string.message),
-                    color = MaterialTheme.colors.secondary
+                    color = MaterialTheme.colors.onPrimary.copy(0.5f)
                 )
             },
             maxLines = 4,
