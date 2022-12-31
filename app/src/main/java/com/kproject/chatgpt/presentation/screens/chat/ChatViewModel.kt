@@ -93,6 +93,11 @@ class ChatViewModel @Inject constructor(
         viewModelScope.launch {
             if (message.isNotBlank()) {
                 onMessageValueChange(message = "")
+                updateRecentChat(
+                    sumTokens = false,
+                    lastMessage = message,
+                    lastMessageSentByUser = false
+                )
 
                 val response = sendMessageUseCase(
                     message = message,
@@ -102,11 +107,12 @@ class ChatViewModel @Inject constructor(
                 when (response) {
                     is DataState.Success -> {
                         response.data?.let { messageData ->
-                            val usedTokens = sumUsedTokens(messageData.totalTokens)
-                            val currentRecentChat = chatUiState.recentChat
-                            val updatedRecentChat = currentRecentChat.copy(usedTokens = usedTokens)
-                            chatUiState = chatUiState.copy(recentChat = updatedRecentChat)
-                            updateRecentChatUseCase(updatedRecentChat.toModel())
+                            updateRecentChat(
+                                usedTokens = messageData.totalTokens,
+                                sumTokens = true,
+                                lastMessage = messageData.message,
+                                lastMessageSentByUser = false
+                            )
                         }
                     }
                     is DataState.Error -> {
@@ -118,12 +124,36 @@ class ChatViewModel @Inject constructor(
         }
     }
 
+    private fun updateRecentChat(
+        usedTokens: Int = 0,
+        sumTokens: Boolean,
+        lastMessage: String,
+        lastMessageSentByUser: Boolean,
+    ) {
+        viewModelScope.launch {
+            val currentRecentChat = chatUiState.recentChat
+            val totalUsedTokens = if (sumTokens) {
+                sumUsedTokens(usedTokens)
+            } else {
+                currentRecentChat.usedTokens
+            }
+            val updatedRecentChat = currentRecentChat.copy(
+                usedTokens = totalUsedTokens,
+                lastMessage = lastMessage,
+                lastMessageDate = Date(),
+                lastMessageSentByUser = lastMessageSentByUser
+            )
+            chatUiState = chatUiState.copy(recentChat = updatedRecentChat)
+            updateRecentChatUseCase(updatedRecentChat.toModel())
+        }
+    }
+
     private fun sumUsedTokens(tokens: Int): Int {
         val isChatMode = ConversationMode.fromValue(conversationMode) == ConversationMode.ChatMode
-        val currentUsedTokens = chatUiState.recentChat.usedTokens
         if (isChatMode) {
             return tokens
         }
+        val currentUsedTokens = chatUiState.recentChat.usedTokens
         return currentUsedTokens + tokens
     }
 
