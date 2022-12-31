@@ -49,7 +49,8 @@ class MessageRepositoryImpl(
             maxTokens = aiModelOptions.maxTokens,
             temperature = aiModelOptions.temperature
         )
-        val apiResponse = apiService.sendMessage(apiKey = apiKey, messageBody = messageBody)
+
+        val apiResponse = apiService.sendMessage(apiKey = "Bearer $apiKey", messageBody = messageBody)
         if (apiResponse.code() == 200) {
             return apiResponse.body()?.let { messageResponse ->
                 val messageModel = MessageModel(
@@ -58,6 +59,7 @@ class MessageRepositoryImpl(
                     sentByUser = false,
                     sendDate = Date()
                 )
+                messageDao.addMessage(messageModel.fromModel())
                 DataState.Success(messageModel)
             } ?: DataState.Error()
         }

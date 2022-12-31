@@ -37,7 +37,7 @@ import com.kproject.chatgpt.presentation.utils.ConversationMode
 
 @Composable
 fun HomeScreen(
-    onNavigateToChatScreen: (chatId: Long) -> Unit,
+    onNavigateToChatScreen: (chatId: Long, apiKey: String) -> Unit,
 ) {
     val homeViewModel: HomeViewModel = hiltViewModel()
     val uiState = homeViewModel.homeUiState
@@ -52,10 +52,10 @@ fun HomeScreen(
 
         },
         onConversationModeSelected = {
-            onNavigateToChatScreen.invoke(12345)
+            onNavigateToChatScreen.invoke(12345, uiState.apiKey)
         },
         onNavigateToChatScreen = { chatId ->
-            onNavigateToChatScreen.invoke(chatId)
+            onNavigateToChatScreen.invoke(chatId, uiState.apiKey)
         }
     )
 

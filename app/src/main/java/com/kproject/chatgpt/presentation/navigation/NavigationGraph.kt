@@ -12,7 +12,8 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.kproject.chatgpt.presentation.screens.chat.ChatScreen
 import com.kproject.chatgpt.presentation.screens.home.HomeScreen
 
-private const val ArgChatId = "chatId"
+const val ArgChatId = "chatId"
+const val ArgApiKey = "apiKey"
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -22,17 +23,20 @@ fun NavigationGraph() {
     AnimatedNavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
         composable(route = Screen.HomeScreen.route) {
             HomeScreen(
-                onNavigateToChatScreen = { chatId ->
-                    navController.navigate(Screen.ChatScreen.route + "/$chatId")
+                onNavigateToChatScreen = { chatId, apiKey ->
+                    navController.navigate(Screen.ChatScreen.route + "/$chatId/$apiKey")
                 }
             )
         }
 
         // ChatScreen
         composable(
-            route = Screen.ChatScreen.route + "/{$ArgChatId}",
+            route = Screen.ChatScreen.route + "/{$ArgChatId}/{$ArgApiKey}",
             arguments = listOf(
                 navArgument(name = ArgChatId) {
+                    type = NavType.LongType
+                },
+                navArgument(name = ArgApiKey) {
                     type = NavType.StringType
                 },
             ),
@@ -50,7 +54,6 @@ fun NavigationGraph() {
             }
         ) { navBackStackEntry ->
             ChatScreen(
-                chatId = navBackStackEntry.arguments!!.getLong(ArgChatId),
                 onNavigateBack = {
                     navController.popBackStack()
                 }

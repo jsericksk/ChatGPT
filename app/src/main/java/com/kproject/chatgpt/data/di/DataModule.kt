@@ -3,12 +3,16 @@ package com.kproject.chatgpt.data.di
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
+import com.google.gson.Gson
 import com.kproject.chatgpt.data.api.ApiService
 import com.kproject.chatgpt.data.database.ChatDatabase
+import com.kproject.chatgpt.data.database.converter.RoomTypeConverter
 import com.kproject.chatgpt.data.database.dao.MessageDao
 import com.kproject.chatgpt.data.database.dao.RecentChatDao
+import com.kproject.chatgpt.data.repository.MessageRepositoryImpl
 import com.kproject.chatgpt.data.repository.PreferenceRepositoryImpl
 import com.kproject.chatgpt.data.repository.RecentChatRepositoryImpl
+import com.kproject.chatgpt.domain.repository.MessageRepository
 import com.kproject.chatgpt.domain.repository.PreferenceRepository
 import com.kproject.chatgpt.domain.repository.RecentChatRepository
 import dagger.Module
@@ -33,12 +37,19 @@ object DataModule {
     // Database
     @Provides
     @Singleton
-    fun provideChatDatabase(application: Application): ChatDatabase {
+    fun provideChatDatabase(application: Application, gson: Gson): ChatDatabase {
         return Room.databaseBuilder(
             application,
             ChatDatabase::class.java,
             "chat_database"
-        ).build()
+        ).addTypeConverter(RoomTypeConverter(gson)).build()
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson {
+        return Gson()
     }
 
     @Provides
@@ -55,10 +66,17 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun provideRecentChatRepository(
-        recentChatDao: RecentChatDao
-    ): RecentChatRepository {
+    fun provideRecentChatRepository(recentChatDao: RecentChatDao): RecentChatRepository {
         return RecentChatRepositoryImpl(recentChatDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMessageRepository(
+        messageDao: MessageDao,
+        apiService: ApiService
+    ): MessageRepository {
+        return MessageRepositoryImpl(messageDao, apiService)
     }
 
     // API

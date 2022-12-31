@@ -27,6 +27,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.kproject.chatgpt.R
 import com.kproject.chatgpt.presentation.model.Message
 import com.kproject.chatgpt.presentation.model.RecentChat
@@ -45,15 +46,17 @@ private val recentChat = RecentChat(
 
 @Composable
 fun ChatScreen(
-    chatId: Long,
     onNavigateBack: () -> Unit
 ) {
+    val chatViewModel: ChatViewModel = hiltViewModel()
     val uiState = ChatUiState(
         messageList = fakeChatList,
         recentChat = recentChat
     )
+
+
     Content(
-        uiState = uiState,
+        uiState = chatViewModel.chatUiState,
         onMessageValueChange = {},
         onSendMessage = {},
         onNavigateBack = onNavigateBack
