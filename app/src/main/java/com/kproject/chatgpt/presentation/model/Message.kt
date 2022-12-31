@@ -7,21 +7,24 @@ data class Message(
     val chatId: Long,
     val message: String = "",
     val sentByUser: Boolean = true,
-    val sendDate: Date = Date()
+    val sendDate: Date = Date(),
+    val totalTokens: Int = 0
 )
 
 fun MessageModel.fromModel() = Message(
     chatId = chatId,
     message = message,
     sentByUser = sentByUser,
-    sendDate = sendDate
+    sendDate = sendDate,
+    totalTokens = totalTokens
 )
 
 fun Message.toModel() = MessageModel(
     chatId = chatId,
     message = message,
     sentByUser = sentByUser,
-    sendDate = sendDate
+    sendDate = sendDate,
+    totalTokens = totalTokens
 )
 
 val fakeChatList = listOf(

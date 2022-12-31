@@ -6,11 +6,13 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kproject.chatgpt.commom.DataState
 import com.kproject.chatgpt.commom.model.AIModelOptions
 import com.kproject.chatgpt.domain.usecase.api.SendMessageUseCase
 import com.kproject.chatgpt.domain.usecase.database.AddRecentChatUseCase
 import com.kproject.chatgpt.domain.usecase.database.GetMessagesByChatIdUseCase
 import com.kproject.chatgpt.domain.usecase.database.GetRecentChatByIdUseCase
+import com.kproject.chatgpt.domain.usecase.database.UpdateRecentChatUseCase
 import com.kproject.chatgpt.presentation.model.*
 import com.kproject.chatgpt.presentation.navigation.ArgApiKey
 import com.kproject.chatgpt.presentation.navigation.ArgChatId
@@ -29,6 +31,7 @@ class ChatViewModel @Inject constructor(
     private val getMessagesByChatIdUseCase: GetMessagesByChatIdUseCase,
     private val getRecentChatByIdUseCase: GetRecentChatByIdUseCase,
     private val addRecentChatUseCase: AddRecentChatUseCase,
+    private val updateRecentChatUseCase: UpdateRecentChatUseCase,
     private val sendMessageUseCase: SendMessageUseCase,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -89,13 +92,39 @@ class ChatViewModel @Inject constructor(
     fun sendMessage(message: String) {
         viewModelScope.launch {
             if (message.isNotBlank()) {
-                sendMessageUseCase(
+                onMessageValueChange(message = "")
+
+                val response = sendMessageUseCase(
                     message = message,
                     recentChat = chatUiState.recentChat.toModel(),
                     apiKey = apiKey
                 )
+                when (response) {
+                    is DataState.Success -> {
+                        response.data?.let { messageData ->
+                            val usedTokens = sumUsedTokens(messageData.totalTokens)
+                            val currentRecentChat = chatUiState.recentChat
+                            val updatedRecentChat = currentRecentChat.copy(usedTokens = usedTokens)
+                            chatUiState = chatUiState.copy(recentChat = updatedRecentChat)
+                            updateRecentChatUseCase(updatedRecentChat.toModel())
+                        }
+                    }
+                    is DataState.Error -> {
+
+                    }
+                    else -> {}
+                }
             }
         }
+    }
+
+    private fun sumUsedTokens(tokens: Int): Int {
+        val isChatMode = ConversationMode.fromValue(conversationMode) == ConversationMode.ChatMode
+        val currentUsedTokens = chatUiState.recentChat.usedTokens
+        if (isChatMode) {
+            return tokens
+        }
+        return currentUsedTokens + tokens
     }
 
     fun onMessageValueChange(message: String) {

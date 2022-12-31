@@ -6,5 +6,6 @@ data class MessageModel(
     val chatId: Long,
     val message: String,
     val sentByUser: Boolean,
-    val sendDate: Date
+    val sendDate: Date,
+    val totalTokens: Int = 0
 )

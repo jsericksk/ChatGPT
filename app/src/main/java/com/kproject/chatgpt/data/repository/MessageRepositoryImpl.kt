@@ -58,7 +58,8 @@ class MessageRepositoryImpl(
                     chatId = recentChat.chatId,
                     message = answerText,
                     sentByUser = false,
-                    sendDate = Date()
+                    sendDate = Date(),
+                    totalTokens = messageResponse.usage.totalTokens
                 )
                 messageDao.addMessage(messageModel.fromModel())
                 DataState.Success(messageModel)
