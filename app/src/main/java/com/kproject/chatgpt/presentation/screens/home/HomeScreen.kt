@@ -1,6 +1,5 @@
 package com.kproject.chatgpt.presentation.screens.home
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,6 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,6 +28,7 @@ import com.kproject.chatgpt.R
 import com.kproject.chatgpt.presentation.model.RecentChat
 import com.kproject.chatgpt.presentation.model.fakeRecentChatsList
 import com.kproject.chatgpt.presentation.screens.components.EmptyListInfo
+import com.kproject.chatgpt.presentation.screens.components.ProgressIndicator
 import com.kproject.chatgpt.presentation.screens.components.TopBar
 import com.kproject.chatgpt.presentation.screens.home.components.ApiKeyAlertDialog
 import com.kproject.chatgpt.presentation.screens.home.components.ModeSelectionAlertDialog
@@ -180,14 +181,15 @@ private fun Content(
     homeUiState: HomeUiState,
     onNavigateToChatScreen: (chatId: Long) -> Unit
 ) {
-    Column(
-        modifier = modifier
-    ) {
+    if (homeUiState.isLoading) {
+        ProgressIndicator()
+    } else {
         RecentChatsList(
             recentChatsList = homeUiState.recentChatsList,
             onClick = { chatId ->
                 onNavigateToChatScreen.invoke(chatId.toLong())
-            }
+            },
+            modifier = modifier
         )
     }
 }
@@ -281,7 +283,7 @@ private fun RecentChatsListItem(
             }
 
             Text(
-                text = recentChat.lastMessageDate,
+                text = "Date", //.lastMessageDate.toString(),
                 color = MaterialTheme.colors.onPrimary,
                 fontSize = 12.sp
             )

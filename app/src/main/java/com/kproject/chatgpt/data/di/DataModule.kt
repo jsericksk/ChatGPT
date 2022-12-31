@@ -45,7 +45,6 @@ object DataModule {
         ).addTypeConverter(RoomTypeConverter(gson)).build()
     }
 
-
     @Provides
     @Singleton
     fun provideGson(): Gson {

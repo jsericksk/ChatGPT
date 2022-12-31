@@ -10,7 +10,7 @@ data class Message(
     val sendDate: Date = Date()
 )
 
-fun Message.fromModel() = MessageModel(
+fun Message.toModel() = MessageModel(
     chatId = chatId,
     message = message,
     sentByUser = sentByUser,
