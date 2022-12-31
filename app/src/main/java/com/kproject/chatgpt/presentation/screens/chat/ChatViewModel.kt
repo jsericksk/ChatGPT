@@ -37,7 +37,7 @@ class ChatViewModel @Inject constructor(
 
     private val chatId: Long = checkNotNull(savedStateHandle[ArgChatId])
     private val apiKey: String = checkNotNull(savedStateHandle[ArgApiKey])
-    val conversationMode: Int = checkNotNull(savedStateHandle[ArgConversationModeKey])
+    private val conversationMode: Int = checkNotNull(savedStateHandle[ArgConversationModeKey])
 
     init {
         initialize()
@@ -69,15 +69,15 @@ class ChatViewModel @Inject constructor(
 
     private fun createChat() {
         viewModelScope.launch {
+            val chatMode = ConversationMode.fromValue(conversationMode) == ConversationMode.ChatMode
             val recentChat = RecentChat(
-                chatId = 0,
+                chatId = 1,
                 chatName = "Test",
                 usedTokens = 0,
                 lastMessage = "",
                 lastMessageDate = Date(),
                 lastMessageSentByUser = true,
-                // todo: chage this...
-                chatMode = false,
+                chatMode = chatMode,
                 aiModelOptions = AIModelOptions()
             )
             addRecentChatUseCase(recentChat.toModel())
@@ -86,12 +86,20 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    fun sendMessage(
-        message: String,
-        recentChat: RecentChat,
-        apiKey: String
-    ) {
+    fun sendMessage(message: String) {
+        viewModelScope.launch {
+            if (message.isNotBlank()) {
+                sendMessageUseCase(
+                    message = message,
+                    recentChat = chatUiState.recentChat.toModel(),
+                    apiKey = apiKey
+                )
+            }
+        }
+    }
 
+    fun onMessageValueChange(message: String) {
+        chatUiState = chatUiState.copy(message = message)
     }
 
 }

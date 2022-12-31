@@ -46,8 +46,12 @@ fun ChatScreen(
 
     Content(
         uiState = chatViewModel.chatUiState,
-        onMessageValueChange = {},
-        onSendMessage = {},
+        onMessageValueChange = { message ->
+            chatViewModel.onMessageValueChange(message)
+        },
+        onSendMessage = { message ->
+            chatViewModel.sendMessage(message)
+        },
         onNavigateBack = onNavigateBack
     )
 }
