@@ -70,7 +70,7 @@ class MessageRepositoryImpl(
         val messageModel = MessageModel(
             chatId = chatId,
             message = message,
-            sentByUser = false,
+            sentByUser = true,
             sendDate = Date()
         )
         addMessage(messageModel)

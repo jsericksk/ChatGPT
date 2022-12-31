@@ -71,7 +71,7 @@ class ChatViewModel @Inject constructor(
         viewModelScope.launch {
             val chatMode = ConversationMode.fromValue(conversationMode) == ConversationMode.ChatMode
             val recentChat = RecentChat(
-                chatId = 1,
+                chatId = 0,
                 chatName = "Test",
                 usedTokens = 0,
                 lastMessage = "",

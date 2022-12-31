@@ -200,7 +200,7 @@ private fun ChatListItem(
     modifier: Modifier = Modifier,
     chat: Message
 ) {
-    val backgroundColor = if (chat.sentByUser) Color.DarkGray else MaterialTheme.colors.secondary
+    val backgroundTextColor = if (chat.sentByUser) Color.DarkGray else MaterialTheme.colors.secondary
     val alignment = if (chat.sentByUser) Alignment.Start else Alignment.End
     val shape = if (chat.sentByUser) {
         RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp, bottomStart = 20.dp, bottomEnd = 10.dp)
@@ -221,7 +221,7 @@ private fun ChatListItem(
                 fontSize = 16.sp,
                 modifier = Modifier
                     .background(
-                        color = backgroundColor,
+                        color = backgroundTextColor,
                         shape = shape
                     )
                     .align(alignment)
