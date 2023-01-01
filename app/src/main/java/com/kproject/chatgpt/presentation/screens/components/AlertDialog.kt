@@ -144,6 +144,7 @@ fun CustomAlertDialog(
     content: @Composable () -> Unit
 ) {
     if (showDialog) {
+        val defaultDialogPadding = 24.dp
         Dialog(
             onDismissRequest = { if (cancelable) onDismiss.invoke() },
             content = {
@@ -153,12 +154,17 @@ fun CustomAlertDialog(
                             color = MaterialTheme.colors.background,
                             shape = shape
                         )
-                        .padding(18.dp)
+                        .padding(
+                            start = defaultDialogPadding,
+                            end = defaultDialogPadding,
+                            top = defaultDialogPadding,
+                            bottom = 14.dp
+                        )
                 ) {
                     // Title
                     if (showTitle) {
                         Title(title = title)
-                        Spacer(Modifier.height(18.dp))
+                        Spacer(Modifier.height(22.dp))
                     }
 
                     // Content
@@ -170,7 +176,7 @@ fun CustomAlertDialog(
                         content.invoke()
                     }
 
-                    Spacer(Modifier.height(16.dp))
+                    Spacer(Modifier.height(20.dp))
 
                     ActionButtons(
                         onDismiss = onDismiss,
