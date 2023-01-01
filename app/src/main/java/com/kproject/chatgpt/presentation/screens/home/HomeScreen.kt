@@ -420,7 +420,10 @@ private fun NewChatAlertDialog(
 
     AlertDialogWithTextField(
         showDialog = showDialog,
-        onDismiss = onDismiss,
+        onDismiss = {
+            chatName = ""
+            onDismiss.invoke()
+        },
         title = stringResource(id = R.string.chat_name),
         textFieldValue = chatName,
         textFieldPlaceholder = stringResource(id = R.string.insert_chat_name),

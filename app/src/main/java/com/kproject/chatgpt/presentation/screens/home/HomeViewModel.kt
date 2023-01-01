@@ -1,6 +1,5 @@
 package com.kproject.chatgpt.presentation.screens.home
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -22,7 +21,6 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val TAG = "HomeViewModel"
-private const val KEY = "kkk"
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
