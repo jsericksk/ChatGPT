@@ -277,18 +277,21 @@ private fun RecentChatsListItem(
                     maxLines = 1,
                     fontSize = 18.sp,
                 )
-                Spacer(Modifier.height(4.dp))
-                val messageTextColor = if (recentChat.lastMessageSentByUser) {
-                    MaterialTheme.colors.onPrimary
-                } else {
-                    MaterialTheme.colors.onSecondary
+
+                if (recentChat.lastMessage.isNotBlank()) {
+                    Spacer(Modifier.height(4.dp))
+                    val messageTextColor = if (recentChat.lastMessageSentByUser) {
+                        MaterialTheme.colors.onPrimary
+                    } else {
+                        MaterialTheme.colors.onSecondary
+                    }
+                    Text(
+                        text = recentChat.lastMessage,
+                        color = messageTextColor,
+                        maxLines = 1,
+                        fontSize = 16.sp
+                    )
                 }
-                Text(
-                    text = recentChat.lastMessage,
-                    color = messageTextColor,
-                    maxLines = 1,
-                    fontSize = 16.sp
-                )
             }
 
             Text(
