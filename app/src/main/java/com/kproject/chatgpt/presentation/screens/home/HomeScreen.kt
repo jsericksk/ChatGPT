@@ -1,5 +1,6 @@
 package com.kproject.chatgpt.presentation.screens.home
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -131,7 +132,7 @@ private fun HomeScreenContent(
         Content(
             modifier = Modifier.padding(paddingValues),
             homeUiState = homeUiState,
-            onNavigateToChatScreen = { chatId ->
+            onChatSelected = { chatId ->
                 onChatSelected.invoke(chatId)
             }
         )
@@ -188,7 +189,7 @@ private fun OptionsDropdownMenu(
 private fun Content(
     modifier: Modifier = Modifier,
     homeUiState: HomeUiState,
-    onNavigateToChatScreen: (chatId: Long) -> Unit
+    onChatSelected: (chatId: Long) -> Unit
 ) {
     if (homeUiState.isLoading) {
         ProgressIndicator()
@@ -196,7 +197,7 @@ private fun Content(
         RecentChatsList(
             recentChatsList = homeUiState.recentChatsList,
             onClick = { chatId ->
-                onNavigateToChatScreen.invoke(chatId.toLong())
+                onChatSelected.invoke(chatId)
             },
             modifier = modifier
         )
@@ -207,7 +208,7 @@ private fun Content(
 private fun RecentChatsList(
     modifier: Modifier = Modifier,
     recentChatsList: List<RecentChat>,
-    onClick: (index: Int) -> Unit
+    onClick: (chatId: Long) -> Unit
 ) {
     if (recentChatsList.isNotEmpty()) {
         LazyColumn(
@@ -217,7 +218,7 @@ private fun RecentChatsList(
                 RecentChatsListItem(
                     recentChat = recentChat,
                     onClick = {
-                        onClick(index)
+                        onClick(recentChat.chatId)
                     }
                 )
             }

@@ -1,5 +1,6 @@
 package com.kproject.chatgpt.presentation.screens.home
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -48,11 +49,11 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             homeUiState = homeUiState.copy(isLoading = true)
             getAllRecentChatsUseCase().collect { recentChatsModelList ->
-               val recentChatsList = recentChatsModelList.map { recentChatModel ->
-                   recentChatModel.fromModel()
-               }
-               homeUiState = homeUiState.copy(recentChatsList = recentChatsList, isLoading = false)
-           }
+                val recentChatsList = recentChatsModelList.map { recentChatModel ->
+                    recentChatModel.fromModel()
+                }
+                homeUiState = homeUiState.copy(recentChatsList = recentChatsList, isLoading = false)
+            }
         }
     }
 
