@@ -9,15 +9,11 @@ import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.kproject.chatgpt.presentation.extensions.toJson
 import com.kproject.chatgpt.presentation.screens.chat.ChatScreen
 import com.kproject.chatgpt.presentation.screens.home.HomeScreen
 
-const val NullChatId = -1L
-
-const val ArgChatId = "chatId"
-const val ArgApiKey = "apiKey"
-const val ArgChatNameKey = "chatName"
-const val ArgConversationModeKey = "conversationMode"
+const val ArgChatArgs = "chatArgs"
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -27,9 +23,9 @@ fun NavigationGraph() {
     AnimatedNavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
         composable(route = Screen.HomeScreen.route) {
             HomeScreen(
-                onNavigateToChatScreen = { chatId, apiKey, chatName, conversationMode ->
+                onNavigateToChatScreen = { chatArgs ->
                     navController.navigate(
-                        Screen.ChatScreen.route + "/$chatId/$apiKey/$chatName/$conversationMode"
+                        Screen.ChatScreen.route + "/${chatArgs.toJson()}"
                     )
                 }
             )
@@ -37,20 +33,10 @@ fun NavigationGraph() {
 
         // ChatScreen
         composable(
-            route = Screen.ChatScreen.route
-                    + "/{$ArgChatId}/{$ArgApiKey}/{$ArgChatNameKey}/{$ArgConversationModeKey}",
+            route = Screen.ChatScreen.route + "/{$ArgChatArgs}",
             arguments = listOf(
-                navArgument(name = ArgChatId) {
-                    type = NavType.LongType
-                },
-                navArgument(name = ArgApiKey) {
+                navArgument(name = ArgChatArgs) {
                     type = NavType.StringType
-                },
-                navArgument(name = ArgChatNameKey) {
-                    type = NavType.StringType
-                },
-                navArgument(name = ArgConversationModeKey) {
-                    type = NavType.IntType
                 },
             ),
             enterTransition = {

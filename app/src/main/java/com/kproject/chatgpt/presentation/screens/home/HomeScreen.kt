@@ -25,10 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kproject.chatgpt.R
 import com.kproject.chatgpt.presentation.extensions.getFormattedDate
-import com.kproject.chatgpt.presentation.model.ConversationMode
-import com.kproject.chatgpt.presentation.model.RecentChat
-import com.kproject.chatgpt.presentation.model.fakeRecentChatsList
-import com.kproject.chatgpt.presentation.navigation.NullChatId
+import com.kproject.chatgpt.presentation.model.*
 import com.kproject.chatgpt.presentation.screens.components.AlertDialogWithTextField
 import com.kproject.chatgpt.presentation.screens.components.EmptyListInfo
 import com.kproject.chatgpt.presentation.screens.components.ProgressIndicator
@@ -40,7 +37,7 @@ import com.kproject.chatgpt.presentation.theme.PreviewTheme
 
 @Composable
 fun HomeScreen(
-    onNavigateToChatScreen: (chatId: Long, apiKey: String, chatName: String, conversationMode: Int) -> Unit,
+    onNavigateToChatScreen: (chatArgs: ChatArgs) -> Unit,
 ) {
     val homeViewModel: HomeViewModel = hiltViewModel()
     val uiState = homeViewModel.homeUiState
@@ -55,10 +52,22 @@ fun HomeScreen(
 
         },
         onStartNewChat = { chatName, conversationMode ->
-            onNavigateToChatScreen.invoke(NullChatId, uiState.apiKey, chatName, conversationMode.value)
+            val chatArgs = ChatArgs(
+                chatId = UnspecifiedChatId,
+                apiKey = uiState.apiKey,
+                chatName = chatName,
+                conversationMode = conversationMode.value
+            )
+            onNavigateToChatScreen.invoke(chatArgs)
         },
         onChatSelected = { chatId ->
-            onNavigateToChatScreen.invoke(chatId, uiState.apiKey, "", ConversationMode.None.value)
+            val chatArgs = ChatArgs(
+                chatId = chatId,
+                apiKey = uiState.apiKey,
+                chatName = UnspecifiedChatName,
+                conversationMode = ConversationMode.None.value
+            )
+            onNavigateToChatScreen.invoke(chatArgs)
         }
     )
 
@@ -303,11 +312,11 @@ private fun NewChatAlertDialog(
     AlertDialogWithTextField(
         showDialog = showDialog,
         onDismiss = onDismiss,
-        title = stringResource(id = R.string.insert_chat_name),
+        title = stringResource(id = R.string.chat_name),
         textFieldValue = chatName,
-        textFieldPlaceholder = stringResource(id = R.string.insert_api_key),
+        textFieldPlaceholder = stringResource(id = R.string.insert_chat_name),
         okButtonEnabled = chatName.isNotBlank(),
-        okButtonTitle = stringResource(id = R.string.button_save),
+        okButtonTitle = stringResource(id = R.string.button_continue),
         onTextValueChange = {
             chatName = it
         },

@@ -13,13 +13,10 @@ import com.kproject.chatgpt.domain.usecase.database.AddRecentChatUseCase
 import com.kproject.chatgpt.domain.usecase.database.GetMessagesByChatIdUseCase
 import com.kproject.chatgpt.domain.usecase.database.GetRecentChatByIdUseCase
 import com.kproject.chatgpt.domain.usecase.database.UpdateRecentChatUseCase
+import com.kproject.chatgpt.presentation.extensions.fromJson
 import com.kproject.chatgpt.presentation.model.*
-import com.kproject.chatgpt.presentation.navigation.ArgApiKey
-import com.kproject.chatgpt.presentation.navigation.ArgChatId
-import com.kproject.chatgpt.presentation.navigation.ArgConversationModeKey
-import com.kproject.chatgpt.presentation.navigation.NullChatId
+import com.kproject.chatgpt.presentation.navigation.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -35,12 +32,11 @@ class ChatViewModel @Inject constructor(
     private val sendMessageUseCase: SendMessageUseCase,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    var chatUiState by mutableStateOf(ChatUiState(messageList = fakeChatList))
+    var chatUiState by mutableStateOf(ChatUiState())
         private set
 
-    private val chatId: Long = checkNotNull(savedStateHandle[ArgChatId])
-    private val apiKey: String = checkNotNull(savedStateHandle[ArgApiKey])
-    private val conversationMode: Int = checkNotNull(savedStateHandle[ArgConversationModeKey])
+    private val chatArgs =
+            checkNotNull(savedStateHandle[ArgChatArgs]).toString().fromJson(ChatArgs::class.java)
 
     init {
         initialize()
@@ -49,7 +45,7 @@ class ChatViewModel @Inject constructor(
     private fun initialize() {
         viewModelScope.launch {
             chatUiState = chatUiState.copy(isLoading = true)
-            if (chatId != NullChatId) {
+            if (chatArgs.chatId != UnspecifiedChatId) {
                 getMessages()
             } else {
                 createChat()
@@ -59,9 +55,9 @@ class ChatViewModel @Inject constructor(
 
     private fun getMessages() {
         viewModelScope.launch {
-            val recentChat = getRecentChatByIdUseCase(chatId)
+            val recentChat = getRecentChatByIdUseCase(chatArgs.chatId)
             chatUiState = chatUiState.copy(recentChat = recentChat.fromModel())
-            getMessagesByChatIdUseCase(chatId).collect { messageModelList ->
+            getMessagesByChatIdUseCase(chatArgs.chatId).collect { messageModelList ->
                 val messageList = messageModelList.map { messageModel ->
                     messageModel.fromModel()
                 }
@@ -72,10 +68,9 @@ class ChatViewModel @Inject constructor(
 
     private fun createChat() {
         viewModelScope.launch {
-            val chatMode = ConversationMode.fromValue(conversationMode) == ConversationMode.ChatMode
+            val chatMode = ConversationMode.fromValue(chatArgs.conversationMode) == ConversationMode.ChatMode
             val recentChat = RecentChat(
-                chatId = 0,
-                chatName = "Test",
+                chatName = chatArgs.chatName,
                 usedTokens = 0,
                 lastMessage = "",
                 lastMessageDate = Date(),
@@ -102,7 +97,7 @@ class ChatViewModel @Inject constructor(
                 val response = sendMessageUseCase(
                     message = message,
                     recentChat = chatUiState.recentChat.toModel(),
-                    apiKey = apiKey
+                    apiKey = chatArgs.apiKey
                 )
                 when (response) {
                     is DataState.Success -> {
@@ -149,7 +144,7 @@ class ChatViewModel @Inject constructor(
     }
 
     private fun sumUsedTokens(tokens: Int): Int {
-        val isChatMode = ConversationMode.fromValue(conversationMode) == ConversationMode.ChatMode
+        val isChatMode = ConversationMode.fromValue(chatArgs.conversationMode) == ConversationMode.ChatMode
         if (isChatMode) {
             return tokens
         }

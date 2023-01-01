@@ -41,7 +41,7 @@ fun ModeSelectionAlertDialog(
                 onModeSelected.invoke(selectedMode)
             },
             okButtonEnabled = selectedMode != ConversationMode.None,
-            okButtonTitle = stringResource(id = R.string.button_continue),
+            okButtonTitle = stringResource(id = R.string.button_ok),
             showTitle = false
         ) {
             Column {
