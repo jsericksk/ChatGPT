@@ -125,7 +125,7 @@ class ChatViewModel @Inject constructor(
             return messageText
         }
 
-        val text = StringBuilder()
+        val text = StringBuilder(messageText + "\n\n")
         currentMessageList.forEach { message ->
             text.append(message.message + "\n\n")
         }

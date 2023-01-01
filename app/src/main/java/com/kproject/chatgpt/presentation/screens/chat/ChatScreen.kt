@@ -202,7 +202,7 @@ private fun ChatListItem(
     chat: Message
 ) {
     val backgroundTextColor = if (chat.sentByUser) MaterialTheme.colors.surface else MaterialTheme.colors.secondary
-    val alignment = if (chat.sentByUser) Alignment.Start else Alignment.End
+    val alignment = if (chat.sentByUser) Alignment.End else Alignment.Start
     val shape = if (chat.sentByUser) {
         RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp, bottomStart = 20.dp, bottomEnd = 10.dp)
     } else {
