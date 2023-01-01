@@ -22,6 +22,11 @@
     <string name="insert_chat_name">Insira um título</string>
 
 
+    <string name="rename_chat">Renomear Conversa</string>
+    <string name="delete_chat">Excluir Conversa</string>
+    <string name="delete_chat_confirmation">Tem certeza que deseja excluir essa conversa?</string>
+
+
     <string name="chat_mode">Modo Chat</string>
     <string name="search_mode">Modo de Pesquisa</string>
     <string name="chat_mode_description">

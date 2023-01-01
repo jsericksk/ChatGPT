@@ -14,6 +14,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DatabaseDomainModule {
 
+
     // RecentMessage
     @Provides
     @Singleton

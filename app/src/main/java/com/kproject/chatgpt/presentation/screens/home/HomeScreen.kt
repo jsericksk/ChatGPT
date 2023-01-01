@@ -1,9 +1,9 @@
 package com.kproject.chatgpt.presentation.screens.home
 
-import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -27,10 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.kproject.chatgpt.R
 import com.kproject.chatgpt.presentation.extensions.getFormattedDate
 import com.kproject.chatgpt.presentation.model.*
-import com.kproject.chatgpt.presentation.screens.components.AlertDialogWithTextField
-import com.kproject.chatgpt.presentation.screens.components.EmptyListInfo
-import com.kproject.chatgpt.presentation.screens.components.ProgressIndicator
-import com.kproject.chatgpt.presentation.screens.components.TopBar
+import com.kproject.chatgpt.presentation.screens.components.*
 import com.kproject.chatgpt.presentation.screens.home.components.ApiKeyAlertDialog
 import com.kproject.chatgpt.presentation.screens.home.components.ModeSelectionAlertDialog
 import com.kproject.chatgpt.presentation.theme.CompletePreview
@@ -69,6 +66,12 @@ fun HomeScreen(
                 conversationMode = ConversationMode.None.value
             )
             onNavigateToChatScreen.invoke(chatArgs)
+        },
+        onRenameChat = { newChatName, recentChat ->
+            homeViewModel.renameRecentChat(newChatName, recentChat)
+        },
+        onDeleteChat = { recentChat ->
+            homeViewModel.deleteRecentChat(recentChat)
         }
     )
 
@@ -88,10 +91,19 @@ private fun HomeScreenContent(
     onApiKeyOptionClick: () -> Unit,
     onAppThemeOptionClick: () -> Unit,
     onStartNewChat: (chatName: String, conversationMode: ConversationMode) -> Unit,
-    onChatSelected: (chatId: Long) -> Unit
+    onChatSelected: (chatId: Long) -> Unit,
+    onRenameChat: (newTitle: String, recentChat: RecentChat) -> Unit,
+    onDeleteChat: (recentChat: RecentChat) -> Unit
 ) {
     var showOptionsMenu by remember { mutableStateOf(false) }
     var showNewChatDialog by remember { mutableStateOf(false) }
+    var showChatOptionsDropdownMenu by remember { mutableStateOf(false) }
+    var selectedRecentChat by remember { mutableStateOf(RecentChat()) }
+
+    var showRenameChatDialog by remember { mutableStateOf(false) }
+    var showDeleteChatDialog by remember { mutableStateOf(false) }
+
+    var chatName by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -134,7 +146,19 @@ private fun HomeScreenContent(
             homeUiState = homeUiState,
             onChatSelected = { chatId ->
                 onChatSelected.invoke(chatId)
+            },
+            onShowChatOptions = { recentChat ->
+                selectedRecentChat = recentChat
+                chatName = recentChat.chatName
+                showChatOptionsDropdownMenu = true
             }
+        )
+
+        ChatOptionsDropdownMenu(
+            showOptionsMenu = showChatOptionsDropdownMenu,
+            onDismiss = { showChatOptionsDropdownMenu = false },
+            onRenameChatOptionClick = { showRenameChatDialog = true },
+            onDeleteChatOptionClick = { showDeleteChatDialog = true }
         )
 
         NewChatAlertDialog(
@@ -142,6 +166,36 @@ private fun HomeScreenContent(
             onDismiss = { showNewChatDialog = false },
             onStartNewChat = { chatName, conversationMode ->
                 onStartNewChat.invoke(chatName, conversationMode)
+            }
+        )
+
+        // Rename Chat Dialog
+        AlertDialogWithTextField(
+            showDialog = showRenameChatDialog,
+            onDismiss = {
+                showRenameChatDialog = false
+            },
+            title = stringResource(id = R.string.rename_chat),
+            textFieldValue = chatName,
+            textFieldPlaceholder = stringResource(id = R.string.insert_chat_name),
+            okButtonEnabled = chatName.isNotBlank(),
+            okButtonTitle = stringResource(id = R.string.button_save),
+            onTextValueChange = {
+                chatName = it
+            },
+            onClickButtonOk = {
+                onRenameChat.invoke(chatName, selectedRecentChat)
+            }
+        )
+
+        // Delete Chat Dialog
+        SimpleAlertDialog(
+            showDialog = showDeleteChatDialog,
+            onDismiss = { showDeleteChatDialog = false },
+            title = stringResource(id = R.string.delete_chat),
+            message = stringResource(id = R.string.delete_chat_confirmation),
+            onClickButtonOk = {
+                onDeleteChat.invoke(selectedRecentChat)
             }
         )
     }
@@ -189,7 +243,8 @@ private fun OptionsDropdownMenu(
 private fun Content(
     modifier: Modifier = Modifier,
     homeUiState: HomeUiState,
-    onChatSelected: (chatId: Long) -> Unit
+    onChatSelected: (chatId: Long) -> Unit,
+    onShowChatOptions: (recentChat: RecentChat) -> Unit
 ) {
     if (homeUiState.isLoading) {
         ProgressIndicator()
@@ -199,7 +254,10 @@ private fun Content(
             onClick = { chatId ->
                 onChatSelected.invoke(chatId)
             },
-            modifier = modifier
+            onLongClick = { recentChat ->
+                onShowChatOptions.invoke(recentChat)
+            },
+            modifier = modifier,
         )
     }
 }
@@ -208,7 +266,8 @@ private fun Content(
 private fun RecentChatsList(
     modifier: Modifier = Modifier,
     recentChatsList: List<RecentChat>,
-    onClick: (chatId: Long) -> Unit
+    onClick: (chatId: Long) -> Unit,
+    onLongClick: (recentChat: RecentChat) -> Unit
 ) {
     if (recentChatsList.isNotEmpty()) {
         LazyColumn(
@@ -219,6 +278,9 @@ private fun RecentChatsList(
                     recentChat = recentChat,
                     onClick = {
                         onClick(recentChat.chatId)
+                    },
+                    onLongClick = {
+                        onLongClick.invoke(recentChat)
                     }
                 )
             }
@@ -232,14 +294,19 @@ private fun RecentChatsList(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun RecentChatsListItem(
     recentChat: RecentChat,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onLongClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
-            .clickable { onClick() }
+            .combinedClickable(
+                onClick = onClick,
+                onLongClick = onLongClick
+            )
             .padding(8.dp)
     ) {
         Row(
@@ -305,6 +372,44 @@ private fun RecentChatsListItem(
 }
 
 @Composable
+private fun ChatOptionsDropdownMenu(
+    showOptionsMenu: Boolean,
+    onDismiss: () -> Unit,
+    onRenameChatOptionClick: () -> Unit,
+    onDeleteChatOptionClick: () -> Unit
+) {
+    DropdownMenu(
+        expanded = showOptionsMenu,
+        onDismissRequest = onDismiss,
+        modifier = Modifier.background(MaterialTheme.colors.surface)
+    ) {
+        DropdownMenuItem(
+            onClick = {
+                onDismiss.invoke()
+                onRenameChatOptionClick.invoke()
+            }
+        ) {
+            Text(
+                text = stringResource(id = R.string.rename_chat),
+                color = MaterialTheme.colors.onSurface
+            )
+        }
+
+        DropdownMenuItem(
+            onClick = {
+                onDismiss.invoke()
+                onDeleteChatOptionClick.invoke()
+            }
+        ) {
+            Text(
+                text = stringResource(id = R.string.delete_chat),
+                color = MaterialTheme.colors.onSurface
+            )
+        }
+    }
+}
+
+@Composable
 private fun NewChatAlertDialog(
     showDialog: Boolean,
     onDismiss: () -> Unit,
@@ -348,8 +453,10 @@ private fun Preview() {
             homeUiState = uiState,
             onApiKeyOptionClick = {},
             onAppThemeOptionClick = {},
-            onStartNewChat = { chatName, conversationMode ->  },
-            onChatSelected = {}
+            onStartNewChat = { _, _ -> },
+            onChatSelected = {},
+            onRenameChat = { _, _ -> },
+            onDeleteChat = {}
         )
     }
 }

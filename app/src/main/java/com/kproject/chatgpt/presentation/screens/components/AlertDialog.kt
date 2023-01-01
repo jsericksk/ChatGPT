@@ -1,6 +1,5 @@
 package com.kproject.chatgpt.presentation.screens.components
 
-import android.icu.text.CaseMap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -23,6 +22,44 @@ import com.kproject.chatgpt.presentation.theme.CompletePreview
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
 
 private val defaultShapeSize = 16.dp
+
+@Composable
+fun SimpleAlertDialog(
+    showDialog: Boolean,
+    onDismiss: () -> Unit,
+    showTitle: Boolean = true,
+    title: String = "",
+    message: String,
+    cancelable: Boolean = true,
+    okButtonEnabled: Boolean = true,
+    showButtonCancel: Boolean = true,
+    okButtonTitle: String = stringResource(id = R.string.button_ok),
+    cancelButtonTitle: String = stringResource(id = R.string.button_cancel),
+    shape: Shape = RoundedCornerShape(defaultShapeSize),
+    onClickButtonOk: () -> Unit,
+    onClickButtonCancel: () -> Unit = {}
+) {
+    CustomAlertDialog(
+        showDialog = showDialog,
+        onDismiss = onDismiss,
+        title = title,
+        showTitle = showTitle,
+        cancelable = cancelable,
+        okButtonEnabled = okButtonEnabled,
+        showButtonCancel = showButtonCancel,
+        okButtonTitle = okButtonTitle,
+        cancelButtonTitle = cancelButtonTitle,
+        shape = shape,
+        onClickButtonOk = onClickButtonOk,
+        onClickButtonCancel = onClickButtonCancel
+    ) {
+        Text(
+            text = message,
+            fontSize = 16.sp,
+            color = MaterialTheme.colors.onPrimary
+        )
+    }
+}
 
 @Composable
 fun AlertDialogWithTextField(
