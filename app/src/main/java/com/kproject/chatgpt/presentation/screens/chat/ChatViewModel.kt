@@ -15,7 +15,7 @@ import com.kproject.chatgpt.domain.usecase.database.GetRecentChatByIdUseCase
 import com.kproject.chatgpt.domain.usecase.database.UpdateRecentChatUseCase
 import com.kproject.chatgpt.presentation.extensions.fromJson
 import com.kproject.chatgpt.presentation.model.*
-import com.kproject.chatgpt.presentation.navigation.*
+import com.kproject.chatgpt.presentation.navigation.ArgChatArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.*
@@ -68,14 +68,13 @@ class ChatViewModel @Inject constructor(
 
     private fun createChat() {
         viewModelScope.launch {
-            val chatMode = ConversationMode.fromValue(chatArgs.conversationMode) == ConversationMode.ChatMode
             val recentChat = RecentChat(
                 chatName = chatArgs.chatName,
                 usedTokens = 0,
                 lastMessage = "",
                 lastMessageDate = Date(),
                 lastMessageSentByUser = true,
-                chatMode = chatMode,
+                chatMode = isChatMode(),
                 aiModelOptions = AIModelOptions()
             )
             addRecentChatUseCase(recentChat.toModel())
@@ -93,12 +92,13 @@ class ChatViewModel @Inject constructor(
                     lastMessage = message,
                     lastMessageSentByUser = false
                 )
-
+                val messageText = generateMessageToSend(message)
                 val response = sendMessageUseCase(
-                    message = message,
+                    message = messageText,
                     recentChat = chatUiState.recentChat.toModel(),
                     apiKey = chatArgs.apiKey
                 )
+
                 when (response) {
                     is DataState.Success -> {
                         response.data?.let { messageData ->
@@ -117,6 +117,19 @@ class ChatViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun generateMessageToSend(messageText: String): String {
+        val currentMessageList = chatUiState.messageList
+        if (!isChatMode() || currentMessageList.isEmpty()) {
+            return messageText
+        }
+
+        val text = StringBuilder()
+        currentMessageList.forEach { message ->
+            text.append(message.message + "\n\n")
+        }
+        return text.toString()
     }
 
     private fun updateRecentChat(
@@ -144,12 +157,15 @@ class ChatViewModel @Inject constructor(
     }
 
     private fun sumUsedTokens(tokens: Int): Int {
-        val isChatMode = ConversationMode.fromValue(chatArgs.conversationMode) == ConversationMode.ChatMode
-        if (isChatMode) {
+        if (isChatMode()) {
             return tokens
         }
         val currentUsedTokens = chatUiState.recentChat.usedTokens
         return currentUsedTokens + tokens
+    }
+
+    private fun isChatMode(): Boolean {
+        return ConversationMode.fromValue(chatArgs.conversationMode) == ConversationMode.ChatMode
     }
 
     fun onMessageValueChange(message: String) {
