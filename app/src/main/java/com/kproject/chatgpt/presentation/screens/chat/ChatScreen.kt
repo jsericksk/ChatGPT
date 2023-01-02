@@ -13,8 +13,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,10 +28,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kproject.chatgpt.R
+import com.kproject.chatgpt.commom.model.AIModelOptions
 import com.kproject.chatgpt.presentation.extensions.getFormattedDate
 import com.kproject.chatgpt.presentation.model.Message
 import com.kproject.chatgpt.presentation.model.RecentChat
 import com.kproject.chatgpt.presentation.model.fakeChatList
+import com.kproject.chatgpt.presentation.screens.chat.components.AIModelOptionsAlertDialog
 import com.kproject.chatgpt.presentation.screens.components.EmptyListInfo
 import com.kproject.chatgpt.presentation.screens.components.TopBar
 import com.kproject.chatgpt.presentation.theme.CompletePreview
@@ -44,16 +45,28 @@ fun ChatScreen(
     onNavigateBack: () -> Unit
 ) {
     val chatViewModel: ChatViewModel = hiltViewModel()
+    var showAIModelOptionsDialog by remember { mutableStateOf(false) }
+    val chatUiState = chatViewModel.chatUiState
 
     Content(
-        uiState = chatViewModel.chatUiState,
+        uiState = chatUiState,
         onMessageValueChange = { message ->
             chatViewModel.onMessageValueChange(message)
         },
         onSendMessage = { message ->
             chatViewModel.sendMessage(message)
         },
-        onNavigateBack = onNavigateBack
+        onNavigateBack = onNavigateBack,
+        onOptionsClick = { showAIModelOptionsDialog = true }
+    )
+
+    AIModelOptionsAlertDialog(
+        showDialog = showAIModelOptionsDialog,
+        onDismiss = { showAIModelOptionsDialog = false },
+        currentAIModelOptions = chatUiState.recentChat.aiModelOptions,
+        onSaveAIModelOptions = { aiModelOptions ->
+            chatViewModel.updateAIModelOptions(aiModelOptions)
+        }
     )
 }
 
@@ -63,12 +76,14 @@ private fun Content(
     uiState: ChatUiState,
     onMessageValueChange: (String) -> Unit,
     onSendMessage: (String) -> Unit,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onOptionsClick: () -> Unit
 ) {
     Column {
         CustomTopBar(
             recentChat = uiState.recentChat,
-            onNavigateBack = onNavigateBack
+            onNavigateBack = onNavigateBack,
+            onOptionsClick = onOptionsClick
         )
 
         ChatList(
@@ -94,7 +109,8 @@ private fun Content(
 private fun CustomTopBar(
     modifier: Modifier = Modifier,
     recentChat: RecentChat,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onOptionsClick: () -> Unit
 ) {
     val chatIcon = if (recentChat.chatMode) R.drawable.ic_chat else R.drawable.ic_manage_search
     TopBar(
@@ -144,11 +160,7 @@ private fun CustomTopBar(
             }
         },
         actions = {
-            IconButton(
-                onClick = {
-
-                }
-            ) {
+            IconButton(onClick = onOptionsClick) {
                 Icon(
                     imageVector = Icons.Default.Settings,
                     contentDescription = null,
@@ -324,7 +336,8 @@ private fun Preview() {
             uiState = uiState,
             onMessageValueChange = {},
             onSendMessage = {},
-            onNavigateBack = {}
+            onNavigateBack = {},
+            onOptionsClick = {}
         )
     }
 }
@@ -339,7 +352,8 @@ private fun CustomTopBarPreview() {
                 chatMode = false,
                 usedTokens = 300
             ),
-            onNavigateBack = {}
+            onNavigateBack = {},
+            onOptionsClick = {}
         )
     }
 }

@@ -7,19 +7,17 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import com.kproject.chatgpt.R
 import com.kproject.chatgpt.commom.model.AIModel
 import com.kproject.chatgpt.commom.model.AIModelOptions
+import com.kproject.chatgpt.presentation.screens.components.CustomAlertDialog
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
 import com.kproject.chatgpt.presentation.theme.SimplePreview
 
@@ -27,93 +25,51 @@ import com.kproject.chatgpt.presentation.theme.SimplePreview
 fun AIModelOptionsAlertDialog(
     showDialog: Boolean,
     onDismiss: () -> Unit,
-    aiModelOptions: AIModelOptions
+    currentAIModelOptions: AIModelOptions,
+    onSaveAIModelOptions: (AIModelOptions) -> Unit
 ) {
     if (showDialog) {
-        var aiModel by rememberSaveable { mutableStateOf(aiModelOptions.aiModel) }
-        var maxTokens by rememberSaveable { mutableStateOf(aiModelOptions.maxTokens.toFloat()) }
-        var temperature by rememberSaveable { mutableStateOf(aiModelOptions.temperature) }
+        var aiModelOptions: AIModelOptions by remember { mutableStateOf(currentAIModelOptions) }
 
-        Dialog(
-            onDismissRequest = onDismiss,
-            content = {
-                Column(
-                    modifier = Modifier
-                        .background(
-                            color = MaterialTheme.colors.background,
-                            shape = RoundedCornerShape(14.dp)
-                        )
-                        .padding(18.dp)
-                ) {
-                    // Title
-                    Text(
-                        text = stringResource(id = R.string.ia_model_options),
-                        fontSize = 18.sp,
-                        color = MaterialTheme.colors.onPrimary,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    )
-
-                    Spacer(Modifier.height(16.dp))
-
-                    // Content
-                    Column {
-                        AIModelOption(
-                            aiModel = aiModel,
-                            onAIModelOptionsChanged = {
-                                aiModel = it
-                            }
-                        )
-                        Spacer(Modifier.height(10.dp))
-                        MaxTokensOption(
-                            maxTokens = maxTokens,
-                            onMaxTokensValueChange = {
-                                maxTokens = it
-                            }
-                        )
-                        Spacer(Modifier.height(10.dp))
-                        TemperatureOption(
-                            temperature = temperature,
-                            onTemperatureValueChange = {
-                                temperature = it
-                            }
-                        )
+        CustomAlertDialog(
+            showDialog = showDialog,
+            onDismiss = onDismiss,
+            onClickButtonOk = {
+                onSaveAIModelOptions.invoke(aiModelOptions)
+            },
+            okButtonTitle = stringResource(id = R.string.button_save),
+            title = stringResource(id = R.string.ia_model_options)
+        ) {
+            Column {
+                AIModelOption(
+                    aiModel = aiModelOptions.aiModel,
+                    onAIModelChanged = {
+                        aiModelOptions = aiModelOptions.copy(aiModel = it)
                     }
-
-                    Spacer(Modifier.height(16.dp))
-
-                    // Action buttons
-                    Row(
-                        modifier = Modifier.align(Alignment.End)
-                    ) {
-                        TextButton(onClick = onDismiss) {
-                            Text(
-                                text = stringResource(id = R.string.button_cancel).uppercase(),
-                                color = MaterialTheme.colors.secondary
-                            )
-                        }
-                        Spacer(Modifier.width(6.dp))
-                        TextButton(
-                            onClick = {
-                                onDismiss.invoke()
-                            }
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.button_save).uppercase(),
-                                color = MaterialTheme.colors.secondary
-                            )
-                        }
+                )
+                Spacer(Modifier.height(10.dp))
+                MaxTokensOption(
+                    maxTokens = aiModelOptions.maxTokens.toFloat(),
+                    onMaxTokensValueChange = {
+                        aiModelOptions = aiModelOptions.copy(maxTokens = it)
                     }
-                }
+                )
+                Spacer(Modifier.height(10.dp))
+                TemperatureOption(
+                    temperature = aiModelOptions.temperature,
+                    onTemperatureValueChange = {
+                        aiModelOptions = aiModelOptions.copy(temperature = it)
+                    }
+                )
             }
-        )
+        }
     }
 }
 
 @Composable
 private fun AIModelOption(
     aiModel: AIModel,
-    onAIModelOptionsChanged: (AIModel) -> Unit
+    onAIModelChanged: (AIModel) -> Unit
 ) {
     var showOptionsMenu by remember { mutableStateOf(false) }
     val modelDescriptionResId = if (aiModel == AIModel.TextDavinci003) {
@@ -163,7 +119,7 @@ private fun AIModelOption(
             showDropdownMenu = showOptionsMenu,
             onDismiss = { showOptionsMenu = false },
             onOptionSelected = { option ->
-                onAIModelOptionsChanged.invoke(option)
+                onAIModelChanged.invoke(option)
             }
         )
     }
@@ -215,7 +171,7 @@ private fun IAModelOptionCustomDropdownMenu(
 @Composable
 private fun MaxTokensOption(
     maxTokens: Float,
-    onMaxTokensValueChange: (Float) -> Unit
+    onMaxTokensValueChange: (Int) -> Unit
 ) {
     CardOptionItem {
         OptionTitle(
@@ -226,7 +182,7 @@ private fun MaxTokensOption(
         Slider(
             value = maxTokens,
             onValueChange = {
-                onMaxTokensValueChange.invoke(it)
+                onMaxTokensValueChange.invoke(it.toInt())
             },
             colors = SliderDefaults.colors(
                 thumbColor = MaterialTheme.colors.secondary,
@@ -339,8 +295,9 @@ private fun Preview() {
     PreviewTheme {
         AIModelOptionsAlertDialog(
             showDialog = true,
-            aiModelOptions = AIModelOptions(),
-            onDismiss = {}
+            onDismiss = {},
+            currentAIModelOptions = AIModelOptions(),
+            onSaveAIModelOptions = {}
         )
     }
 }

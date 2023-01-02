@@ -156,8 +156,16 @@ class ChatViewModel @Inject constructor(
         return ConversationMode.fromValue(chatArgs.conversationMode) == ConversationMode.ChatMode
     }
 
+    fun updateAIModelOptions(aiModelOptions: AIModelOptions) {
+        viewModelScope.launch {
+            val currentRecentChat = chatUiState.recentChat
+            val updatedRecentChat = currentRecentChat.copy(aiModelOptions = aiModelOptions)
+            updateRecentChatUseCase(updatedRecentChat.toModel())
+            chatUiState = chatUiState.copy(recentChat = updatedRecentChat)
+        }
+    }
+
     fun onMessageValueChange(message: String) {
         chatUiState = chatUiState.copy(message = message)
     }
-
 }

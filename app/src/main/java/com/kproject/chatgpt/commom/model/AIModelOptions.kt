@@ -8,5 +8,5 @@ data class AIModelOptions(
 
 enum class AIModel(val value: String) {
     TextDavinci003("text-davinci-003"),
-    TextCurie001("text-curi-001")
+    TextCurie001("text-curie-001")
 }
