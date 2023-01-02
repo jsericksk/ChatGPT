@@ -14,11 +14,11 @@ interface RecentChatDao {
     suspend fun getRecentChatById(chatId: Long): RecentChatEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addRecentChat(recentChat: RecentChatEntity)
+    suspend fun addRecentChat(recentChat: RecentChatEntity): Long
 
     @Update
-    suspend fun updateRecentChat(recentChat: RecentChatEntity)
+    suspend fun updateRecentChat(recentChat: RecentChatEntity): Long
 
     @Delete
-    suspend fun deleteRecentChat(recentChat: RecentChatEntity)
+    suspend fun deleteRecentChat(recentChat: RecentChatEntity): Long
 }

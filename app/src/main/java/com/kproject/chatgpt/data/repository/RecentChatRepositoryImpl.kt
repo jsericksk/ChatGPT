@@ -24,15 +24,15 @@ class RecentChatRepositoryImpl(
         return recentChatDao.getRecentChatById(chatId).toModel()
     }
 
-    override suspend fun addRecentChat(recentChat: RecentChatModel) {
-        recentChatDao.addRecentChat(recentChat.fromModel())
+    override suspend fun addRecentChat(recentChat: RecentChatModel): Long {
+        return recentChatDao.addRecentChat(recentChat.fromModel())
     }
 
-    override suspend fun updateRecentChat(recentChat: RecentChatModel) {
-        recentChatDao.updateRecentChat(recentChat.fromModel())
+    override suspend fun updateRecentChat(recentChat: RecentChatModel): Long {
+        return recentChatDao.updateRecentChat(recentChat.fromModel())
     }
 
-    override suspend fun deleteRecentChat(recentChat: RecentChatModel) {
-        recentChatDao.deleteRecentChat(recentChat.fromModel())
+    override suspend fun deleteRecentChat(recentChat: RecentChatModel): Long {
+        return recentChatDao.deleteRecentChat(recentChat.fromModel())
     }
 }
