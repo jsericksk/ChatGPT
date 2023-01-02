@@ -7,5 +7,5 @@ data class ChatArgs(
     val chatId: Long,
     val apiKey: String,
     val chatName: String,
-    val conversationMode: Int
+    val isChatMode: Boolean
 )

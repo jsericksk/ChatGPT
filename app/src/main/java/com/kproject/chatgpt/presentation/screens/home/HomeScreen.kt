@@ -1,7 +1,5 @@
 package com.kproject.chatgpt.presentation.screens.home
 
-import android.net.Uri
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -60,16 +58,16 @@ fun HomeScreen(
                 chatId = UnspecifiedChatId,
                 apiKey = uiState.apiKey,
                 chatName = chatName,
-                conversationMode = conversationMode.value
+                isChatMode = (conversationMode == ConversationMode.ChatMode)
             )
             onNavigateToChatScreen.invoke(chatArgs)
         },
-        onChatSelected = { chatId ->
+        onChatSelected = { recentChat ->
             val chatArgs = ChatArgs(
-                chatId = chatId,
+                chatId = recentChat.chatId,
                 apiKey = uiState.apiKey,
                 chatName = UnspecifiedChatName,
-                conversationMode = ConversationMode.None.value
+                isChatMode = recentChat.chatMode
             )
             onNavigateToChatScreen.invoke(chatArgs)
         },
@@ -97,7 +95,7 @@ private fun HomeScreenContent(
     onApiKeyOptionClick: () -> Unit,
     onAppThemeOptionClick: () -> Unit,
     onStartNewChat: (chatName: String, conversationMode: ConversationMode) -> Unit,
-    onChatSelected: (chatId: Long) -> Unit,
+    onChatSelected: (recentChat: RecentChat) -> Unit,
     onRenameChat: (newTitle: String, recentChat: RecentChat) -> Unit,
     onDeleteChat: (recentChat: RecentChat) -> Unit
 ) {
@@ -150,8 +148,8 @@ private fun HomeScreenContent(
         Content(
             modifier = Modifier.padding(paddingValues),
             homeUiState = homeUiState,
-            onChatSelected = { chatId ->
-                onChatSelected.invoke(chatId)
+            onChatSelected = { recentChat ->
+                onChatSelected.invoke(recentChat)
             },
             onShowChatOptions = { recentChat ->
                 selectedRecentChat = recentChat
@@ -249,7 +247,7 @@ private fun OptionsDropdownMenu(
 private fun Content(
     modifier: Modifier = Modifier,
     homeUiState: HomeUiState,
-    onChatSelected: (chatId: Long) -> Unit,
+    onChatSelected: (recentChat: RecentChat) -> Unit,
     onShowChatOptions: (recentChat: RecentChat) -> Unit
 ) {
     if (homeUiState.isLoading) {
@@ -257,8 +255,8 @@ private fun Content(
     } else {
         RecentChatsList(
             recentChatsList = homeUiState.recentChatsList,
-            onClick = { chatId ->
-                onChatSelected.invoke(chatId)
+            onClick = { recentChat ->
+                onChatSelected.invoke(recentChat)
             },
             onLongClick = { recentChat ->
                 onShowChatOptions.invoke(recentChat)
@@ -272,7 +270,7 @@ private fun Content(
 private fun RecentChatsList(
     modifier: Modifier = Modifier,
     recentChatsList: List<RecentChat>,
-    onClick: (chatId: Long) -> Unit,
+    onClick: (recentChat: RecentChat) -> Unit,
     onLongClick: (recentChat: RecentChat) -> Unit
 ) {
     if (recentChatsList.isNotEmpty()) {
@@ -283,7 +281,7 @@ private fun RecentChatsList(
                 RecentChatsListItem(
                     recentChat = recentChat,
                     onClick = {
-                        onClick(recentChat.chatId)
+                        onClick(recentChat)
                     },
                     onLongClick = {
                         onLongClick.invoke(recentChat)

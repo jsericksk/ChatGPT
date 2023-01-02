@@ -1,5 +1,6 @@
 package com.kproject.chatgpt.presentation.screens.chat
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -9,10 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.kproject.chatgpt.commom.DataState
 import com.kproject.chatgpt.commom.model.AIModelOptions
 import com.kproject.chatgpt.domain.usecase.api.SendMessageUseCase
-import com.kproject.chatgpt.domain.usecase.database.AddRecentChatUseCase
-import com.kproject.chatgpt.domain.usecase.database.GetMessagesByChatIdUseCase
-import com.kproject.chatgpt.domain.usecase.database.GetRecentChatByIdUseCase
-import com.kproject.chatgpt.domain.usecase.database.UpdateRecentChatUseCase
+import com.kproject.chatgpt.domain.usecase.database.*
 import com.kproject.chatgpt.presentation.extensions.fromJson
 import com.kproject.chatgpt.presentation.model.*
 import com.kproject.chatgpt.presentation.navigation.ArgChatArgs
@@ -30,6 +28,7 @@ class ChatViewModel @Inject constructor(
     private val addRecentChatUseCase: AddRecentChatUseCase,
     private val updateRecentChatUseCase: UpdateRecentChatUseCase,
     private val sendMessageUseCase: SendMessageUseCase,
+    private val addMessageUseCase: AddMessageUseCase,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     var chatUiState by mutableStateOf(ChatUiState())
@@ -74,12 +73,7 @@ class ChatViewModel @Inject constructor(
         viewModelScope.launch {
             if (message.isNotBlank()) {
                 onMessageValueChange(message = "")
-                updateRecentChat(
-                    sumTokens = false,
-                    lastMessage = message,
-                    lastMessageSentByUser = true
-                )
-
+                addMessageToDatabase(message)
                 val messageText = generateMessageToSend(message)
                 val response = sendMessageUseCase(
                     message = messageText,
@@ -113,11 +107,28 @@ class ChatViewModel @Inject constructor(
             return messageText
         }
 
-        val text = StringBuilder(messageText + "\n\n")
+        val text = StringBuilder()
         currentMessageList.forEach { message ->
             text.append(message.message + "\n\n")
         }
-        return text.toString()
+        return text.toString() + messageText
+    }
+
+    private fun addMessageToDatabase(textMessage: String) {
+        viewModelScope.launch {
+            val message = Message(
+                chatId = chatUiState.recentChat.chatId,
+                message = textMessage,
+                sentByUser = true,
+                sendDate = Date()
+            )
+            addMessageUseCase(message.toModel())
+            updateRecentChat(
+                sumTokens = false,
+                lastMessage = textMessage,
+                lastMessageSentByUser = true
+            )
+        }
     }
 
     private fun updateRecentChat(
@@ -153,7 +164,7 @@ class ChatViewModel @Inject constructor(
     }
 
     private fun isChatMode(): Boolean {
-        return ConversationMode.fromValue(chatArgs.conversationMode) == ConversationMode.ChatMode
+        return chatArgs.isChatMode
     }
 
     fun updateAIModelOptions(aiModelOptions: AIModelOptions) {

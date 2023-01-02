@@ -4,7 +4,6 @@ import com.kproject.chatgpt.commom.DataState
 import com.kproject.chatgpt.data.api.ApiService
 import com.kproject.chatgpt.data.api.entity.MessageBody
 import com.kproject.chatgpt.data.database.dao.MessageDao
-import com.kproject.chatgpt.data.database.dao.RecentChatDao
 import com.kproject.chatgpt.data.mapper.fromModel
 import com.kproject.chatgpt.data.mapper.toModel
 import com.kproject.chatgpt.domain.model.MessageModel
@@ -37,11 +36,6 @@ class MessageRepositoryImpl(
         recentChat: RecentChatModel,
         apiKey: String
     ): DataState<MessageModel> {
-        addMessageToDatabase(
-            chatId = recentChat.chatId,
-            message = message
-        )
-
         val aiModelOptions = recentChat.aiModelOptions
         val messageBody = MessageBody(
             model = aiModelOptions.aiModel.value,
@@ -66,15 +60,5 @@ class MessageRepositoryImpl(
             } ?: DataState.Error()
         }
         return DataState.Error()
-    }
-
-    private suspend fun addMessageToDatabase(chatId: Long, message: String) {
-        val messageModel = MessageModel(
-            chatId = chatId,
-            message = message,
-            sentByUser = true,
-            sendDate = Date()
-        )
-        addMessage(messageModel)
     }
 }
