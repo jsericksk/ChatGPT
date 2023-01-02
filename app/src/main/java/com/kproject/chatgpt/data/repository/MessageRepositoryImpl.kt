@@ -1,7 +1,11 @@
 package com.kproject.chatgpt.data.repository
 
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.kproject.chatgpt.commom.DataState
+import com.kproject.chatgpt.commom.error.ApiResponseError
 import com.kproject.chatgpt.data.api.ApiService
+import com.kproject.chatgpt.data.api.entity.ErrorResponse
 import com.kproject.chatgpt.data.api.entity.MessageBody
 import com.kproject.chatgpt.data.database.dao.MessageDao
 import com.kproject.chatgpt.data.mapper.fromModel
@@ -11,6 +15,7 @@ import com.kproject.chatgpt.domain.model.RecentChatModel
 import com.kproject.chatgpt.domain.repository.MessageRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import okhttp3.ResponseBody
 import java.util.*
 
 class MessageRepositoryImpl(
@@ -30,7 +35,6 @@ class MessageRepositoryImpl(
         messageDao.addMessage(message.fromModel())
     }
 
-    // TODO: Get apiKey from preferences and better handle errors
     override suspend fun sendMessage(
         message: String,
         recentChat: RecentChatModel,
@@ -44,9 +48,13 @@ class MessageRepositoryImpl(
             temperature = aiModelOptions.temperature
         )
 
-        val apiResponse = apiService.sendMessage(apiKey = "Bearer $apiKey", messageBody = messageBody)
+        val apiResponse = apiService.sendMessage(
+            apiKey = "Bearer $apiKey",
+            messageBody = messageBody
+        )
+
         if (apiResponse.code() == 200) {
-            return apiResponse.body()?.let { messageResponse ->
+            apiResponse.body()?.let { messageResponse ->
                 val answerText = messageResponse.choices.first().text.trim()
                 val messageModel = MessageModel(
                     chatId = recentChat.chatId,
@@ -56,9 +64,33 @@ class MessageRepositoryImpl(
                     totalTokens = messageResponse.usage.totalTokens
                 )
                 messageDao.addMessage(messageModel.fromModel())
-                DataState.Success(messageModel)
-            } ?: DataState.Error()
+                return DataState.Success(messageModel)
+            }
+        } else {
+            return handleApiError(apiResponse.errorBody())
         }
-        return DataState.Error()
+        return DataState.Error(ApiResponseError.UnknownError)
+    }
+
+    private fun handleApiError(errorBody: ResponseBody?): DataState<MessageModel> {
+        if (errorBody != null) {
+            val type = object : TypeToken<ErrorResponse>() {}.type
+            val errorResponse: ErrorResponse? = Gson().fromJson(errorBody.charStream(), type)
+            errorResponse?.let {
+                val errorMessage = errorResponse.error.message
+                return when {
+                    errorMessage.contains("incorrect API key", ignoreCase = true) -> {
+                        DataState.Error(ApiResponseError.InvalidApiKey)
+                    }
+                    errorMessage.contains("maximum context length", ignoreCase = true) -> {
+                        DataState.Error(ApiResponseError.MaxTokensReached)
+                    }
+                    else -> {
+                        DataState.Error(ApiResponseError.UnknownError)
+                    }
+                }
+            }
+        }
+        return DataState.Error(ApiResponseError.UnknownError)
     }
 }
