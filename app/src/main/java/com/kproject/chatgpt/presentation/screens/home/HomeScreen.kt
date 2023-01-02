@@ -1,5 +1,7 @@
 package com.kproject.chatgpt.presentation.screens.home
 
+import android.net.Uri
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -18,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -33,6 +36,7 @@ import com.kproject.chatgpt.presentation.screens.home.components.ModeSelectionAl
 import com.kproject.chatgpt.presentation.theme.CompletePreview
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
 
+
 @Composable
 fun HomeScreen(
     onNavigateToChatScreen: (chatArgs: ChatArgs) -> Unit,
@@ -40,6 +44,8 @@ fun HomeScreen(
     val homeViewModel: HomeViewModel = hiltViewModel()
     val uiState = homeViewModel.homeUiState
     var showApiKeyAlertDialog by remember { mutableStateOf(false) }
+
+    val context = LocalContext.current
 
     HomeScreenContent(
         homeUiState = uiState,

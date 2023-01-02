@@ -93,6 +93,9 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
     implementation "com.google.code.gson:gson:2.10"
 
+    // Custom Tabs
+    implementation "androidx.browser:browser:1.4.0"
+
     // Landscapist Coil
     implementation "com.github.skydoves:landscapist-coil:2.1.0"
 
