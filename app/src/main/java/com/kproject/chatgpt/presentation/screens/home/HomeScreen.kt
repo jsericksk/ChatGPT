@@ -351,7 +351,7 @@ private fun RecentChatsListItem(
                     val messageTextColor = if (recentChat.lastMessageSentByUser) {
                         MaterialTheme.colors.onPrimary
                     } else {
-                        MaterialTheme.colors.onSecondary
+                        MaterialTheme.colors.secondary
                     }
                     Text(
                         text = recentChat.lastMessage,
@@ -416,20 +416,22 @@ private fun NewChatAlertDialog(
     onStartNewChat: (chatName: String, conversationMode: ConversationMode) -> Unit
 ) {
     var showModeSelectionDialog by remember { mutableStateOf(false) }
+    var textFieldValue by remember { mutableStateOf("") }
     var chatName by remember { mutableStateOf("") }
 
     AlertDialogWithTextField(
         showDialog = showDialog,
         onDismiss = {
-            chatName = ""
+            textFieldValue = ""
             onDismiss.invoke()
         },
         title = stringResource(id = R.string.chat_name),
-        textFieldValue = chatName,
+        textFieldValue = textFieldValue,
         textFieldPlaceholder = stringResource(id = R.string.insert_chat_name),
-        okButtonEnabled = chatName.isNotBlank(),
+        okButtonEnabled = textFieldValue.isNotBlank(),
         okButtonTitle = stringResource(id = R.string.button_continue),
         onTextValueChange = {
+            textFieldValue = it
             chatName = it
         },
         onClickButtonOk = { showModeSelectionDialog = true }
