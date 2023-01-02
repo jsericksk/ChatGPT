@@ -17,8 +17,8 @@ interface RecentChatDao {
     suspend fun addRecentChat(recentChat: RecentChatEntity): Long
 
     @Update
-    suspend fun updateRecentChat(recentChat: RecentChatEntity): Long
+    suspend fun updateRecentChat(recentChat: RecentChatEntity)
 
     @Delete
-    suspend fun deleteRecentChat(recentChat: RecentChatEntity): Long
+    suspend fun deleteRecentChat(recentChat: RecentChatEntity)
 }

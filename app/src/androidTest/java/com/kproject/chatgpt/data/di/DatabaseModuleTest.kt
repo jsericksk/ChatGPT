@@ -19,6 +19,7 @@ object DatabaseModuleTest {
 
     @Provides
     @Singleton
+    @Named("test_gson")
     fun provideGson(): Gson {
         return Gson()
     }

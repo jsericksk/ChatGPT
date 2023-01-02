@@ -11,7 +11,7 @@ interface RecentChatRepository {
 
     suspend fun addRecentChat(recentChat: RecentChatModel): Long
 
-    suspend fun updateRecentChat(recentChat: RecentChatModel): Long
+    suspend fun updateRecentChat(recentChat: RecentChatModel)
 
-    suspend fun deleteRecentChat(recentChat: RecentChatModel): Long
+    suspend fun deleteRecentChat(recentChat: RecentChatModel)
 }

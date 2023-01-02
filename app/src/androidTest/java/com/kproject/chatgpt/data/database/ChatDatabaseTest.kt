@@ -61,6 +61,15 @@ class ChatDatabaseTest {
     }
 
     @Test
+    fun addRecentChat_should_return_your_specific_chatId() = runBlocking {
+        val chatId1 = recentChatDao.addRecentChat(recentChat1)
+        val chatId2 = recentChatDao.addRecentChat(recentChat2)
+
+        assertThat(chatId1 == 1L).isTrue()
+        assertThat(chatId2 == 2L).isTrue()
+    }
+
+    @Test
     fun getRecentChatById_should_return_the_corresponding_RecentChat() = runBlocking {
         recentChatDao.addRecentChat(recentChat1)
         val recentChat = recentChatDao.getRecentChatById(recentChat1.chatId)
