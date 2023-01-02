@@ -39,47 +39,34 @@ class ChatViewModel @Inject constructor(
             checkNotNull(savedStateHandle[ArgChatArgs]).toString().fromJson(ChatArgs::class.java)
 
     init {
-        initialize()
+        initializeChat()
     }
 
-    private fun initialize() {
+    private fun initializeChat() {
         viewModelScope.launch {
             chatUiState = chatUiState.copy(isLoading = true)
-            if (chatArgs.chatId != UnspecifiedChatId) {
-                getMessages()
+            var recentChat = RecentChat(chatName = chatArgs.chatName)
+            var chatId = chatArgs.chatId
+            if (chatId == UnspecifiedChatId) {
+                chatId = addRecentChatUseCase(recentChat.toModel())
+                recentChat = recentChat.copy(chatId = chatId)
             } else {
-                createChat()
+                recentChat = getRecentChatByIdUseCase(chatArgs.chatId).fromModel()
             }
+
+            getMessages(chatId = chatId)
+            chatUiState = chatUiState.copy(recentChat = recentChat)
         }
     }
 
-    private fun getMessages() {
+    private fun getMessages(chatId: Long) {
         viewModelScope.launch {
-            val recentChat = getRecentChatByIdUseCase(chatArgs.chatId)
-            chatUiState = chatUiState.copy(recentChat = recentChat.fromModel())
-            getMessagesByChatIdUseCase(chatArgs.chatId).collect { messageModelList ->
+            getMessagesByChatIdUseCase(chatId).collect { messageModelList ->
                 val messageList = messageModelList.map { messageModel ->
                     messageModel.fromModel()
                 }
                 chatUiState = chatUiState.copy(messageList = messageList, isLoading = false)
             }
-        }
-    }
-
-    private fun createChat() {
-        viewModelScope.launch {
-            val recentChat = RecentChat(
-                chatName = chatArgs.chatName,
-                usedTokens = 0,
-                lastMessage = "",
-                lastMessageDate = Date(),
-                lastMessageSentByUser = true,
-                chatMode = isChatMode(),
-                aiModelOptions = AIModelOptions()
-            )
-            addRecentChatUseCase(recentChat.toModel())
-            // todo: observe id of this...
-            chatUiState = chatUiState.copy(recentChat = recentChat)
         }
     }
 
@@ -90,8 +77,9 @@ class ChatViewModel @Inject constructor(
                 updateRecentChat(
                     sumTokens = false,
                     lastMessage = message,
-                    lastMessageSentByUser = false
+                    lastMessageSentByUser = true
                 )
+
                 val messageText = generateMessageToSend(message)
                 val response = sendMessageUseCase(
                     message = messageText,
