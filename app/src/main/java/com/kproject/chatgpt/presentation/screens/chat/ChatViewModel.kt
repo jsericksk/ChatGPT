@@ -1,5 +1,6 @@
 package com.kproject.chatgpt.presentation.screens.chat
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -45,7 +46,7 @@ class ChatViewModel @Inject constructor(
     private fun initializeChat() {
         viewModelScope.launch {
             chatUiState = chatUiState.copy(isLoading = true)
-            var recentChat = RecentChat(chatName = chatArgs.chatName)
+            var recentChat = RecentChat(chatName = chatArgs.chatName, chatMode = isChatMode())
             var chatId = chatArgs.chatId
             if (chatId == UnspecifiedChatId) {
                 chatId = addRecentChatUseCase(recentChat.toModel())
