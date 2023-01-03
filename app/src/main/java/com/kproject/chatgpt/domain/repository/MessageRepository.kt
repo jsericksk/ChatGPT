@@ -1,7 +1,6 @@
 package com.kproject.chatgpt.domain.repository
 
 import com.kproject.chatgpt.commom.DataState
-import com.kproject.chatgpt.commom.model.AIModelOptions
 import com.kproject.chatgpt.domain.model.MessageModel
 import com.kproject.chatgpt.domain.model.RecentChatModel
 import kotlinx.coroutines.flow.Flow

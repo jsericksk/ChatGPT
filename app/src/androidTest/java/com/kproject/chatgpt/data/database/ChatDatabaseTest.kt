@@ -143,6 +143,21 @@ class ChatDatabaseTest {
         assertThat(updatedMessageList.isEmpty()).isTrue()
     }
 
+    @Test
+    fun deleteMessagesByChatId_should_be_successful() = runBlocking {
+        recentChatDao.addRecentChat(recentChat2)
+        messageDao.addMessage(message4)
+        messageDao.addMessage(message5)
+
+        val messageList = messageDao.getMessagesByChatId(recentChat2.chatId).first()
+        assertThat(messageList.size == 2).isTrue()
+
+        messageDao.deleteMessagesFromChatId(recentChat2.chatId)
+
+        val updatedMessageList = messageDao.getMessagesByChatId(recentChat2.chatId).first()
+        assertThat(updatedMessageList.isEmpty()).isTrue()
+    }
+
     companion object {
         // RecentChats
         private val recentChat1 = RecentChatEntity(
