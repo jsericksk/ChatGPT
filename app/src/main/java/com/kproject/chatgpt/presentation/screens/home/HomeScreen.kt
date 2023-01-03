@@ -230,6 +230,7 @@ private fun OptionsDropdownMenu(
     onApiKeyOptionClick: () -> Unit,
     onAppThemeOptionClick: () -> Unit
 ) {
+    val context = LocalContext.current
     DropdownMenu(
         expanded = showOptionsMenu,
         onDismissRequest = onDismiss,
@@ -255,6 +256,19 @@ private fun OptionsDropdownMenu(
         ) {
             Text(
                 text = stringResource(id = R.string.app_theme),
+                color = MaterialTheme.colors.onSurface
+            )
+        }
+
+        DropdownMenuItem(
+            onClick = {
+                onDismiss.invoke()
+                val url = "https://beta.openai.com/account/usage"
+                Utils.openUrl(context, url)
+            }
+        ) {
+            Text(
+                text = stringResource(id = R.string.api_consumption),
                 color = MaterialTheme.colors.onSurface
             )
         }

@@ -7,6 +7,7 @@
     <string name="button_continue">Continuar</string>
 
     <string name="app_theme">Tema do Aplicatio</string>
+    <string name="api_consumption">Consumo da Conta</string>
 
     <string name="info_title_empty_recent_chats_list">Nenhuma conversa ainda</string>
     <string name="info_description_empty_recent_chats_list">Você ainda não iniciou nenhuma conversa.
