@@ -1,6 +1,5 @@
 package com.kproject.chatgpt.presentation.screens.chat
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -178,9 +177,6 @@ class ChatViewModel @Inject constructor(
     }
 
     private fun sumUsedTokens(tokens: Int): Int {
-        if (isChatMode()) {
-            return tokens
-        }
         val currentUsedTokens = chatUiState.recentChat.usedTokens
         return currentUsedTokens + tokens
     }
