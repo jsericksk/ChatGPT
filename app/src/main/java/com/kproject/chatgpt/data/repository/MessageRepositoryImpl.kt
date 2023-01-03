@@ -96,4 +96,8 @@ class MessageRepositoryImpl(
         }
         return DataState.Error(ApiResponseError.UnknownError)
     }
+
+    override suspend fun deleteMessagesFromChatId(chatId: Long) {
+        messageDao.deleteMessagesFromChatId(chatId)
+    }
 }
