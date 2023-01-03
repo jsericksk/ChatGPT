@@ -105,8 +105,8 @@ class ChatViewModel @Inject constructor(
                                     }
                                     ApiResponseError.MaxTokensReached -> {
                                         ApiResponseErrorInfo(
-                                            titleResId = R.string.invalid_api_key,
-                                            descriptionResId = R.string.invalid_api_key_message
+                                            titleResId = R.string.max_tokens_reached,
+                                            descriptionResId = R.string.max_tokens_reached_message
                                         )
                                     }
                                     else -> {

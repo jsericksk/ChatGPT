@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface RecentChatDao {
 
-    @Query("SELECT * FROM recent_chats")
+    @Query("SELECT * FROM recent_chats ORDER BY last_message_date DESC")
     fun getAllRecentChats(): Flow<List<RecentChatEntity>>
 
     @Query("SELECT * FROM recent_chats WHERE chat_id = :chatId")
