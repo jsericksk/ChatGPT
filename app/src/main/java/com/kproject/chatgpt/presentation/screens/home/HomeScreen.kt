@@ -31,6 +31,7 @@ import com.kproject.chatgpt.presentation.model.*
 import com.kproject.chatgpt.presentation.screens.components.*
 import com.kproject.chatgpt.presentation.screens.home.components.ApiKeyAlertDialog
 import com.kproject.chatgpt.presentation.screens.home.components.ModeSelectionAlertDialog
+import com.kproject.chatgpt.presentation.screens.utils.Utils
 import com.kproject.chatgpt.presentation.theme.CompletePreview
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
 
@@ -270,16 +271,30 @@ private fun Content(
     if (homeUiState.isLoading) {
         ProgressIndicator()
     } else {
-        RecentChatsList(
-            recentChatsList = homeUiState.recentChatsList,
-            onClick = { recentChat ->
-                onChatSelected.invoke(recentChat)
-            },
-            onLongClick = { recentChat ->
-                onShowChatOptions.invoke(recentChat)
-            },
-            modifier = modifier,
-        )
+        if (homeUiState.apiKey.isNotBlank()) {
+            RecentChatsList(
+                recentChatsList = homeUiState.recentChatsList,
+                onClick = { recentChat ->
+                    onChatSelected.invoke(recentChat)
+                },
+                onLongClick = { recentChat ->
+                    onShowChatOptions.invoke(recentChat)
+                },
+                modifier = modifier,
+            )
+        } else {
+            val context = LocalContext.current
+            EmptyInfo(
+                iconResId = R.drawable.ic_key_off,
+                title = stringResource(id = R.string.info_title_empty_api_key),
+                description = stringResource(id = R.string.info_description_empty_api_key),
+                buttonTitle = stringResource(id = R.string.access_url),
+                onClickButton = {
+                    val url = "https://beta.openai.com/account/api-keys"
+                    Utils.openUrl(context, url)
+                }
+            )
+        }
     }
 }
 

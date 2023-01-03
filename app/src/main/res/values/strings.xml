@@ -18,6 +18,11 @@
     <string name="api_key">Chave da API</string>
     <string name="insert_api_key">Insira sua chave da API</string>
 
+    <string name="info_title_empty_api_key">Chave da API Vazia</string>
+    <string name="info_description_empty_api_key">Você ainda não inseriu a sua chave da API. Para
+        obter sua chave, acesse o site da OpenAI no seu navegador, entre em sua conta ou se registre.</string>
+    <string name="access_url">Acessar Site</string>
+
     <string name="chat_name">Título da Conversa</string>
     <string name="insert_chat_name">Insira um título</string>
 
