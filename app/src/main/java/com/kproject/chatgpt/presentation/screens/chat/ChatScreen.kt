@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kproject.chatgpt.R
+import com.kproject.chatgpt.commom.error.ApiResponseError
 import com.kproject.chatgpt.commom.model.AIModelOptions
 import com.kproject.chatgpt.presentation.extensions.getFormattedDate
 import com.kproject.chatgpt.presentation.model.Message
@@ -35,6 +36,7 @@ import com.kproject.chatgpt.presentation.model.RecentChat
 import com.kproject.chatgpt.presentation.model.fakeChatList
 import com.kproject.chatgpt.presentation.screens.chat.components.AIModelOptionsAlertDialog
 import com.kproject.chatgpt.presentation.screens.components.EmptyListInfo
+import com.kproject.chatgpt.presentation.screens.components.SimpleAlertDialog
 import com.kproject.chatgpt.presentation.screens.components.TopBar
 import com.kproject.chatgpt.presentation.theme.CompletePreview
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
@@ -68,6 +70,18 @@ fun ChatScreen(
             chatViewModel.updateAIModelOptions(aiModelOptions)
         }
     )
+    
+    chatUiState.apiResponseErrorInfo?.let { info ->
+        SimpleAlertDialog(
+            showDialog = true,
+            onDismiss = {
+                chatViewModel.onApiResponseErrorInfoChange(null)
+            },
+            title = stringResource(id = info.titleResId),
+            message = stringResource(id = info.descriptionResId),
+            onClickButtonOk = {}
+        )
+    }
 }
 
 @Composable

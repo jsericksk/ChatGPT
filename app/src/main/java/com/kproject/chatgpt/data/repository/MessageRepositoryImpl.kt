@@ -48,28 +48,31 @@ class MessageRepositoryImpl(
             temperature = aiModelOptions.temperature
         )
 
-        val apiResponse = apiService.sendMessage(
-            apiKey = "Bearer $apiKey",
-            messageBody = messageBody
-        )
-
-        if (apiResponse.code() == 200) {
-            apiResponse.body()?.let { messageResponse ->
-                val answerText = messageResponse.choices.first().text.trim()
-                val messageModel = MessageModel(
-                    chatId = recentChat.chatId,
-                    message = answerText,
-                    sentByUser = false,
-                    sendDate = Date(),
-                    totalTokens = messageResponse.usage.totalTokens
-                )
-                messageDao.addMessage(messageModel.fromModel())
+        try {
+            val apiResponse = apiService.sendMessage(
+                apiKey = "Bearer $apiKey",
+                messageBody = messageBody
+            )
+            lateinit var messageModel: MessageModel
+            if (apiResponse.code() == 200) {
+                apiResponse.body()?.let { messageResponse ->
+                    val answerText = messageResponse.choices.first().text.trim()
+                    messageModel = MessageModel(
+                        chatId = recentChat.chatId,
+                        message = answerText,
+                        sentByUser = false,
+                        sendDate = Date(),
+                        totalTokens = messageResponse.usage.totalTokens
+                    )
+                    messageDao.addMessage(messageModel.fromModel())
+                }
                 return DataState.Success(messageModel)
+            } else {
+                return handleApiError(apiResponse.errorBody())
             }
-        } else {
-            return handleApiError(apiResponse.errorBody())
+        } catch (e: Exception) {
+            return DataState.Error(ApiResponseError.UnknownError)
         }
-        return DataState.Error(ApiResponseError.UnknownError)
     }
 
     private fun handleApiError(errorBody: ResponseBody?): DataState<MessageModel> {

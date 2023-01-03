@@ -7,7 +7,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kproject.chatgpt.R
 import com.kproject.chatgpt.commom.DataState
+import com.kproject.chatgpt.commom.error.ApiResponseError
 import com.kproject.chatgpt.commom.model.AIModelOptions
 import com.kproject.chatgpt.domain.usecase.api.SendMessageUseCase
 import com.kproject.chatgpt.domain.usecase.database.*
@@ -75,15 +77,15 @@ class ChatViewModel @Inject constructor(
                 onMessageValueChange(message = "")
                 addMessageToDatabase(message)
                 val messageText = generateMessageToSend(message)
-                val response = sendMessageUseCase(
+                val apiResponse = sendMessageUseCase(
                     message = messageText,
                     recentChat = chatUiState.recentChat.toModel(),
                     apiKey = chatArgs.apiKey
                 )
 
-                when (response) {
+                when (apiResponse) {
                     is DataState.Success -> {
-                        response.data?.let { messageData ->
+                        apiResponse.data?.let { messageData ->
                             updateRecentChat(
                                 usedTokens = messageData.totalTokens,
                                 sumTokens = true,
@@ -93,9 +95,29 @@ class ChatViewModel @Inject constructor(
                         }
                     }
                     is DataState.Error -> {
-
+                        val apiResponseErrorInfo =
+                                when (apiResponse.exception as ApiResponseError) {
+                                    ApiResponseError.InvalidApiKey -> {
+                                        ApiResponseErrorInfo(
+                                            titleResId = R.string.invalid_api_key,
+                                            descriptionResId = R.string.invalid_api_key_message
+                                        )
+                                    }
+                                    ApiResponseError.MaxTokensReached -> {
+                                        ApiResponseErrorInfo(
+                                            titleResId = R.string.invalid_api_key,
+                                            descriptionResId = R.string.invalid_api_key_message
+                                        )
+                                    }
+                                    else -> {
+                                        ApiResponseErrorInfo(
+                                            titleResId = R.string.unknown_api_response_error,
+                                            descriptionResId = R.string.unknown_api_response_error_message
+                                        )
+                                    }
+                                }
+                        onApiResponseErrorInfoChange(apiResponseErrorInfo = apiResponseErrorInfo)
                     }
-                    else -> {}
                 }
             }
         }
@@ -178,5 +200,9 @@ class ChatViewModel @Inject constructor(
 
     fun onMessageValueChange(message: String) {
         chatUiState = chatUiState.copy(message = message)
+    }
+
+    fun onApiResponseErrorInfoChange(apiResponseErrorInfo: ApiResponseErrorInfo?) {
+        chatUiState = chatUiState.copy(apiResponseErrorInfo = apiResponseErrorInfo)
     }
 }
