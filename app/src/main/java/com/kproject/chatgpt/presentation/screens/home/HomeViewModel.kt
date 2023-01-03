@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kproject.chatgpt.commom.PrefsConstants
+import com.kproject.chatgpt.domain.usecase.database.DeleteMessagesFromChatIdUseCase
 import com.kproject.chatgpt.domain.usecase.database.DeleteRecentChatUseCase
 import com.kproject.chatgpt.domain.usecase.database.GetAllRecentChatsUseCase
 import com.kproject.chatgpt.domain.usecase.database.UpdateRecentChatUseCase
@@ -18,6 +19,7 @@ import com.kproject.chatgpt.presentation.model.toModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 private const val TAG = "HomeViewModel"
@@ -28,7 +30,8 @@ class HomeViewModel @Inject constructor(
     private val savePreferenceUseCase: SavePreferenceUseCase,
     private val getAllRecentChatsUseCase: GetAllRecentChatsUseCase,
     private val updateRecentChatUseCase: UpdateRecentChatUseCase,
-    private val deleteRecentChatUseCase: DeleteRecentChatUseCase
+    private val deleteRecentChatUseCase: DeleteRecentChatUseCase,
+    private val deleteMessagesFromChatIdUseCase: DeleteMessagesFromChatIdUseCase
 ) : ViewModel() {
     var homeUiState by mutableStateOf(HomeUiState(recentChatsList = fakeRecentChatsList))
         private set
@@ -80,6 +83,17 @@ class HomeViewModel @Inject constructor(
     fun deleteRecentChat(recentChat: RecentChat) {
         viewModelScope.launch {
             deleteRecentChatUseCase(recentChat.toModel())
+        }
+    }
+
+    fun clearMessagesFromChat(recentChat: RecentChat) {
+        viewModelScope.launch {
+            deleteMessagesFromChatIdUseCase(recentChat.chatId)
+            val updatedRecentChat = recentChat.copy(
+                usedTokens = 0,
+                lastMessage = ""
+            )
+            updateRecentChatUseCase(updatedRecentChat.toModel())
         }
     }
 }

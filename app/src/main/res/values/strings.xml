@@ -23,6 +23,9 @@
 
 
     <string name="rename_chat">Renomear Conversa</string>
+    <string name="clear_chat">Limpar Conversa</string>
+    <string name="clear_chat_confirmation">Tem certeza que deseja limpar essa conversa? Todas as
+        mensagens serão excluídas.</string>
     <string name="delete_chat">Excluir Conversa</string>
     <string name="delete_chat_confirmation">Tem certeza que deseja excluir essa conversa?</string>
 

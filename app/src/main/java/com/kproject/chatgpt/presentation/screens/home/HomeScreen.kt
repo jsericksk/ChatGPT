@@ -74,6 +74,9 @@ fun HomeScreen(
         onRenameChat = { newChatName, recentChat ->
             homeViewModel.renameRecentChat(newChatName, recentChat)
         },
+        onClearChat = { recentChat ->
+            homeViewModel.clearMessagesFromChat(recentChat)
+        },
         onDeleteChat = { recentChat ->
             homeViewModel.deleteRecentChat(recentChat)
         }
@@ -97,7 +100,8 @@ private fun HomeScreenContent(
     onStartNewChat: (chatName: String, conversationMode: ConversationMode) -> Unit,
     onChatSelected: (recentChat: RecentChat) -> Unit,
     onRenameChat: (newTitle: String, recentChat: RecentChat) -> Unit,
-    onDeleteChat: (recentChat: RecentChat) -> Unit
+    onClearChat: (recentChat: RecentChat) -> Unit,
+    onDeleteChat: (recentChat: RecentChat) -> Unit,
 ) {
     var showOptionsMenu by remember { mutableStateOf(false) }
     var showNewChatDialog by remember { mutableStateOf(false) }
@@ -105,6 +109,7 @@ private fun HomeScreenContent(
     var selectedRecentChat by remember { mutableStateOf(RecentChat()) }
 
     var showRenameChatDialog by remember { mutableStateOf(false) }
+    var showClearChatDialog by remember { mutableStateOf(false) }
     var showDeleteChatDialog by remember { mutableStateOf(false) }
 
     var chatName by remember { mutableStateOf("") }
@@ -162,6 +167,7 @@ private fun HomeScreenContent(
             showOptionsMenu = showChatOptionsDropdownMenu,
             onDismiss = { showChatOptionsDropdownMenu = false },
             onRenameChatOptionClick = { showRenameChatDialog = true },
+            onClearChatOptionClick = { showClearChatDialog = true },
             onDeleteChatOptionClick = { showDeleteChatDialog = true }
         )
 
@@ -189,6 +195,17 @@ private fun HomeScreenContent(
             },
             onClickButtonOk = {
                 onRenameChat.invoke(chatName, selectedRecentChat)
+            }
+        )
+
+        // Clear Chat Dialog
+        SimpleAlertDialog(
+            showDialog = showClearChatDialog,
+            onDismiss = { showClearChatDialog = false },
+            title = stringResource(id = R.string.clear_chat),
+            message = stringResource(id = R.string.clear_chat_confirmation),
+            onClickButtonOk = {
+                onClearChat.invoke(selectedRecentChat)
             }
         )
 
@@ -380,7 +397,8 @@ private fun ChatOptionsDropdownMenu(
     showOptionsMenu: Boolean,
     onDismiss: () -> Unit,
     onRenameChatOptionClick: () -> Unit,
-    onDeleteChatOptionClick: () -> Unit
+    onClearChatOptionClick: () -> Unit,
+    onDeleteChatOptionClick: () -> Unit,
 ) {
     DropdownMenu(
         expanded = showOptionsMenu,
@@ -395,6 +413,18 @@ private fun ChatOptionsDropdownMenu(
         ) {
             Text(
                 text = stringResource(id = R.string.rename_chat),
+                color = MaterialTheme.colors.onSurface
+            )
+        }
+
+        DropdownMenuItem(
+            onClick = {
+                onDismiss.invoke()
+                onClearChatOptionClick.invoke()
+            }
+        ) {
+            Text(
+                text = stringResource(id = R.string.clear_chat),
                 color = MaterialTheme.colors.onSurface
             )
         }
@@ -465,6 +495,7 @@ private fun Preview() {
             onStartNewChat = { _, _ -> },
             onChatSelected = {},
             onRenameChat = { _, _ -> },
+            onClearChat = {},
             onDeleteChat = {}
         )
     }

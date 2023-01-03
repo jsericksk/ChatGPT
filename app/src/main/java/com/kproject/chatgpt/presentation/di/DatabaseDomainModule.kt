@@ -63,4 +63,10 @@ object DatabaseDomainModule {
     fun provideSendMessageUseCase(messageRepository: MessageRepository): SendMessageUseCase {
         return SendMessageUseCase(messageRepository::sendMessage)
     }
+
+    @Provides
+    @Singleton
+    fun provideDeleteMessagesFromChatIdUseCase(messageRepository: MessageRepository): DeleteMessagesFromChatIdUseCase {
+        return DeleteMessagesFromChatIdUseCase(messageRepository::deleteMessagesFromChatId)
+    }
 }
