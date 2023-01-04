@@ -4,5 +4,5 @@ interface PreferenceRepository {
 
     fun getPreference(key: String, defaultValue: Any): Any
 
-    suspend fun savePreference(key: String, value: Any)
+    fun savePreference(key: String, value: Any)
 }

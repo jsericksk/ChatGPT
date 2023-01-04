@@ -12,17 +12,19 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.kproject.chatgpt.presentation.extensions.toJson
 import com.kproject.chatgpt.presentation.screens.chat.ChatScreen
 import com.kproject.chatgpt.presentation.screens.home.HomeScreen
+import com.kproject.chatgpt.presentation.screens.home.HomeViewModel
 
 const val ArgChatArgs = "chatArgs"
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun NavigationGraph() {
+fun NavigationGraph(homeViewModel: HomeViewModel) {
     val navController = rememberAnimatedNavController()
 
     AnimatedNavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
         composable(route = Screen.HomeScreen.route) {
             HomeScreen(
+                homeViewModel = homeViewModel,
                 onNavigateToChatScreen = { chatArgs ->
                     navController.navigate(
                         Screen.ChatScreen.route + "/${chatArgs.toJson()}"

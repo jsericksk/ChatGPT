@@ -16,6 +16,7 @@ import com.kproject.chatgpt.presentation.model.RecentChat
 import com.kproject.chatgpt.presentation.model.fakeRecentChatsList
 import com.kproject.chatgpt.presentation.model.fromModel
 import com.kproject.chatgpt.presentation.model.toModel
+import com.kproject.chatgpt.presentation.theme.custom.ThemeOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -33,20 +34,24 @@ class HomeViewModel @Inject constructor(
     private val deleteRecentChatUseCase: DeleteRecentChatUseCase,
     private val deleteMessagesFromChatIdUseCase: DeleteMessagesFromChatIdUseCase
 ) : ViewModel() {
-    var homeUiState by mutableStateOf(HomeUiState(recentChatsList = fakeRecentChatsList))
+    var homeUiState by mutableStateOf(HomeUiState())
         private set
 
     init {
-        getApiKey()
+        getPreferences()
         getAllRecentChats()
     }
 
-    private fun getApiKey() {
+    private fun getPreferences() {
         val apiKey = getPreferenceUseCase(
             key = PrefsConstants.ApiKey,
             defaultValue = ""
         ) as String
-        homeUiState = homeUiState.copy(apiKey = apiKey)
+        val themeOption = getPreferenceUseCase(
+            key = PrefsConstants.ThemeOption,
+            defaultValue = ThemeOptions.Option1
+        ) as Int
+        homeUiState = homeUiState.copy(apiKey = apiKey, themeOption = themeOption)
     }
 
     private fun getAllRecentChats() {
@@ -62,13 +67,11 @@ class HomeViewModel @Inject constructor(
     }
 
     fun saveApiKey(apiKey: String) {
-        viewModelScope.launch {
-            savePreferenceUseCase(
-                key = PrefsConstants.ApiKey,
-                value = apiKey
-            )
-            homeUiState = homeUiState.copy(apiKey = apiKey)
-        }
+        savePreferenceUseCase(
+            key = PrefsConstants.ApiKey,
+            value = apiKey
+        )
+        homeUiState = homeUiState.copy(apiKey = apiKey)
     }
 
     fun renameRecentChat(newChatName: String, recentChat: RecentChat) {
@@ -93,5 +96,13 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             deleteRecentChatUseCase(recentChat.toModel())
         }
+    }
+
+    fun changeThemeOption(themeOption: Int) {
+        savePreferenceUseCase(
+            key = PrefsConstants.ThemeOption,
+            value = themeOption
+        )
+        homeUiState = homeUiState.copy(themeOption = themeOption)
     }
 }

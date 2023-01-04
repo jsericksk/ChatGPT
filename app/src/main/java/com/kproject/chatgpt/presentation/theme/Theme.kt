@@ -4,31 +4,52 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.darkColors
 import androidx.compose.runtime.Composable
-
-private val DarkColorPalette = darkColors(
-    primary = PrimaryDark,
-    onPrimary = OnPrimaryDark,
-    secondary = SecondaryDark,
-    onSecondary = OnSecondaryDark,
-    background = BackgroundDark,
-    surface = SurfaceDark,
-    onSurface = OnSurfaceDark
-)
+import androidx.compose.runtime.SideEffect
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.kproject.chatgpt.presentation.theme.custom.ThemeOptions
 
 @Composable
-fun ChatGPTTheme(content: @Composable () -> Unit) {
+fun ChatGPTTheme(themeOption: Int = ThemeOptions.Option3, content: @Composable () -> Unit) {
+    val theme = ThemeOptions.options[themeOption]
+    val themeColors = darkColors(
+        primary = theme.primary,
+        primaryVariant = theme.primaryVariant,
+        onPrimary = theme.onPrimary,
+        secondary = theme.secondary,
+        onSecondary = theme.onSecondary,
+        background = theme.background,
+        surface = theme.surface,
+        onSurface = theme.onSurface
+    )
     MaterialTheme(
-        colors = DarkColorPalette,
+        colors = themeColors,
         typography = Typography,
         shapes = Shapes,
         content = content
     )
+
+    val systemUiController = rememberSystemUiController()
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = themeColors.primaryVariant
+        )
+    }
 }
 
 @Composable
-fun PreviewTheme(content: @Composable () -> Unit) {
+fun PreviewTheme(themeOption: Int = ThemeOptions.Option1, content: @Composable () -> Unit) {
+    val theme = ThemeOptions.options[themeOption]
+    val themeColors = darkColors(
+        primary = theme.primary,
+        onPrimary = theme.onPrimary,
+        secondary = theme.secondary,
+        onSecondary = theme.onSecondary,
+        background = theme.background,
+        surface = theme.surface,
+        onSurface = theme.onSurface
+    )
     MaterialTheme(
-        colors = DarkColorPalette,
+        colors = themeColors,
         typography = Typography,
         shapes = Shapes,
         content = {

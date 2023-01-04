@@ -163,7 +163,7 @@ fun CustomAlertDialog(
                 ) {
                     // Title
                     if (showTitle) {
-                        Title(title = title)
+                        DialogTitle(title = title)
                         Spacer(Modifier.height(22.dp))
                     }
 
@@ -178,7 +178,7 @@ fun CustomAlertDialog(
 
                     Spacer(Modifier.height(20.dp))
 
-                    ActionButtons(
+                    DialogActionButtons(
                         onDismiss = onDismiss,
                         okButtonEnabled = okButtonEnabled,
                         showButtonCancel = showButtonCancel,
@@ -194,7 +194,7 @@ fun CustomAlertDialog(
 }
 
 @Composable
-private fun ColumnScope.Title(title: String) {
+fun ColumnScope.DialogTitle(title: String) {
     Text(
         text = title,
         fontSize = 18.sp,
@@ -205,7 +205,7 @@ private fun ColumnScope.Title(title: String) {
 }
 
 @Composable
-private fun ColumnScope.ActionButtons(
+fun ColumnScope.DialogActionButtons(
     onDismiss: () -> Unit,
     okButtonEnabled: Boolean,
     showButtonCancel: Boolean,

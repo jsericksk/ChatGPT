@@ -17,7 +17,7 @@ class PreferenceRepositoryImpl(
         return prefs.getValue(key, defaultValue)
     }
 
-    override suspend fun savePreference(key: String, value: Any) {
+    override fun savePreference(key: String, value: Any) {
         prefs.saveValue(key, value)
     }
 

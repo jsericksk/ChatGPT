@@ -31,6 +31,7 @@ import com.kproject.chatgpt.presentation.model.*
 import com.kproject.chatgpt.presentation.screens.components.*
 import com.kproject.chatgpt.presentation.screens.home.components.ApiKeyAlertDialog
 import com.kproject.chatgpt.presentation.screens.home.components.ModeSelectionAlertDialog
+import com.kproject.chatgpt.presentation.screens.home.components.ThemeOptionAlertDialog
 import com.kproject.chatgpt.presentation.screens.utils.Utils
 import com.kproject.chatgpt.presentation.theme.CompletePreview
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
@@ -38,22 +39,17 @@ import com.kproject.chatgpt.presentation.theme.PreviewTheme
 
 @Composable
 fun HomeScreen(
+    homeViewModel: HomeViewModel,
     onNavigateToChatScreen: (chatArgs: ChatArgs) -> Unit,
 ) {
-    val homeViewModel: HomeViewModel = hiltViewModel()
     val uiState = homeViewModel.homeUiState
-    var showApiKeyAlertDialog by remember { mutableStateOf(false) }
-
-    val context = LocalContext.current
+    var showApiKeyDialog by remember { mutableStateOf(false) }
+    var showThemeOptionDialog by remember { mutableStateOf(false) }
 
     HomeScreenContent(
         homeUiState = uiState,
-        onApiKeyOptionClick = {
-            showApiKeyAlertDialog = true
-        },
-        onAppThemeOptionClick = {
-
-        },
+        onApiKeyOptionClick = { showApiKeyDialog = true },
+        onAppThemeOptionClick = { showThemeOptionDialog = true },
         onStartNewChat = { chatName, conversationMode ->
             val chatArgs = ChatArgs(
                 chatId = UnspecifiedChatId,
@@ -84,11 +80,20 @@ fun HomeScreen(
     )
 
     ApiKeyAlertDialog(
-        showDialog = showApiKeyAlertDialog,
-        onDismiss = { showApiKeyAlertDialog = false },
+        showDialog = showApiKeyDialog,
+        onDismiss = { showApiKeyDialog = false },
         apiKey = uiState.apiKey,
         onSaveApiKey = { apiKey ->
             homeViewModel.saveApiKey(apiKey)
+        }
+    )
+
+    ThemeOptionAlertDialog(
+        showDialog = showThemeOptionDialog,
+        onDismiss = { showThemeOptionDialog = false },
+        currentSelectedTheme = uiState.themeOption,
+        onThemeSelected = { themOption ->
+            homeViewModel.changeThemeOption(themOption)
         }
     )
 }
