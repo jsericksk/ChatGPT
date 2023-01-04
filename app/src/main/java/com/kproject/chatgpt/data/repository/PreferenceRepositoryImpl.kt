@@ -18,7 +18,6 @@ class PreferenceRepositoryImpl(
     }
 
     override suspend fun savePreference(key: String, value: Any) {
-        val prefs = context.getSharedPreferences(PrefsName, Context.MODE_PRIVATE)
         prefs.saveValue(key, value)
     }
 

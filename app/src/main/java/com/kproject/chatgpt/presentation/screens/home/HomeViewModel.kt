@@ -78,12 +78,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun deleteRecentChat(recentChat: RecentChat) {
-        viewModelScope.launch {
-            deleteRecentChatUseCase(recentChat.toModel())
-        }
-    }
-
     fun clearMessagesFromChat(recentChat: RecentChat) {
         viewModelScope.launch {
             deleteMessagesFromChatIdUseCase(recentChat.chatId)
@@ -92,6 +86,12 @@ class HomeViewModel @Inject constructor(
                 lastMessage = ""
             )
             updateRecentChatUseCase(updatedRecentChat.toModel())
+        }
+    }
+
+    fun deleteRecentChat(recentChat: RecentChat) {
+        viewModelScope.launch {
+            deleteRecentChatUseCase(recentChat.toModel())
         }
     }
 }
