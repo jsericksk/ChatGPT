@@ -10,7 +10,7 @@ import com.kproject.chatgpt.domain.usecase.database.DeleteMessagesFromChatIdUseC
 import com.kproject.chatgpt.domain.usecase.database.DeleteRecentChatUseCase
 import com.kproject.chatgpt.domain.usecase.database.GetAllRecentChatsUseCase
 import com.kproject.chatgpt.domain.usecase.database.UpdateRecentChatUseCase
-import com.kproject.chatgpt.domain.usecase.preferences.GetPreferenceAsyncUseCase
+import com.kproject.chatgpt.domain.usecase.preferences.GetPreferenceUseCase
 import com.kproject.chatgpt.domain.usecase.preferences.SavePreferenceUseCase
 import com.kproject.chatgpt.presentation.model.RecentChat
 import com.kproject.chatgpt.presentation.model.fakeRecentChatsList
@@ -26,7 +26,7 @@ private const val TAG = "HomeViewModel"
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getPreferenceAsyncUseCase: GetPreferenceAsyncUseCase,
+    private val getPreferenceUseCase: GetPreferenceUseCase,
     private val savePreferenceUseCase: SavePreferenceUseCase,
     private val getAllRecentChatsUseCase: GetAllRecentChatsUseCase,
     private val updateRecentChatUseCase: UpdateRecentChatUseCase,
@@ -37,19 +37,16 @@ class HomeViewModel @Inject constructor(
         private set
 
     init {
-        collectApiKey()
+        getApiKey()
         getAllRecentChats()
     }
 
-    private fun collectApiKey() {
-        viewModelScope.launch {
-            getPreferenceAsyncUseCase(
-                key = PrefsConstants.ApiKey,
-                defaultValue = ""
-            ).collectLatest {
-                homeUiState = homeUiState.copy(apiKey = it as String)
-            }
-        }
+    private fun getApiKey() {
+        val apiKey = getPreferenceUseCase(
+            key = PrefsConstants.ApiKey,
+            defaultValue = ""
+        ) as String
+        homeUiState = homeUiState.copy(apiKey = apiKey)
     }
 
     private fun getAllRecentChats() {
@@ -70,6 +67,7 @@ class HomeViewModel @Inject constructor(
                 key = PrefsConstants.ApiKey,
                 value = apiKey
             )
+            homeUiState = homeUiState.copy(apiKey = apiKey)
         }
     }
 
