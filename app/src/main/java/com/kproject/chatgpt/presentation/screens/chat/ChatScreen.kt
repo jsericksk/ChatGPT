@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -28,8 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kproject.chatgpt.R
-import com.kproject.chatgpt.commom.error.ApiResponseError
-import com.kproject.chatgpt.commom.model.AIModelOptions
 import com.kproject.chatgpt.presentation.extensions.getFormattedDate
 import com.kproject.chatgpt.presentation.model.Message
 import com.kproject.chatgpt.presentation.model.RecentChat
@@ -227,8 +224,13 @@ private fun ChatListItem(
     modifier: Modifier = Modifier,
     chat: Message
 ) {
-    val backgroundTextColor = if (chat.sentByUser) MaterialTheme.colors.surface else MaterialTheme.colors.secondary
+    val backgroundTextColor = if (chat.sentByUser) MaterialTheme.colors.surface else MaterialTheme.colors.primary
     val alignment = if (chat.sentByUser) Alignment.End else Alignment.Start
+    val messageTextPadding = if (alignment == Alignment.End) {
+        PaddingValues(start = 46.dp)
+    } else {
+        PaddingValues(end = 46.dp)
+    }
     val shape = if (chat.sentByUser) {
         RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp, bottomStart = 20.dp, bottomEnd = 10.dp)
     } else {
@@ -241,14 +243,15 @@ private fun ChatListItem(
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 12.dp)
     ) {
-        SelectionContainer(
+        Row(
             modifier = Modifier.align(alignment)
         ) {
             Text(
                 text = chat.message,
-                color = Color.White,
+                color = MaterialTheme.colors.onPrimary,
                 fontSize = 16.sp,
                 modifier = Modifier
+                    .padding(messageTextPadding)
                     .background(
                         color = backgroundTextColor,
                         shape = shape
