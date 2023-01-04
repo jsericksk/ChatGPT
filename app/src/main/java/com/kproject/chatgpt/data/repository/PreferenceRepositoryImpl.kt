@@ -13,32 +13,33 @@ class PreferenceRepositoryImpl(
     private val prefs: SharedPreferences = context.getSharedPreferences(PrefsName, 0)
 ) : PreferenceRepository {
 
-    override fun getPreference(key: String, defaultValue: Any): Any {
-        return prefs.getValue(key, defaultValue)
+    override fun <T> getPreference(key: String, defaultValue: T): T {
+        return getValue(key, defaultValue)
     }
 
-    override fun savePreference(key: String, value: Any) {
-        prefs.saveValue(key, value)
+    override fun <T> savePreference(key: String, value: T) {
+        saveValue(key, value)
     }
 
-    private fun SharedPreferences.getValue(key: String, defaultValue: Any): Any {
+    @Suppress("UNCHECKED_CAST")
+    private fun <T> getValue(key: String, defaultValue: T): T {
         return when (defaultValue) {
-            is String -> getString(key, defaultValue) as Any
-            is Boolean -> getBoolean(key, defaultValue)
-            is Int -> getInt(key, defaultValue)
-            is Long -> getLong(key, defaultValue)
-            is Float -> getFloat(key, defaultValue)
+            is String -> prefs.getString(key, defaultValue as String) as T
+            is Boolean -> prefs.getBoolean(key, defaultValue as Boolean) as T
+            is Int -> prefs.getInt(key, defaultValue as Int) as T
+            is Long -> prefs.getLong(key, defaultValue as Long) as T
+            is Float -> prefs.getFloat(key, defaultValue as Float) as T
             else -> throw UnsupportedOperationException("Type provided as defaultValue not supported")
         }
     }
 
-    private fun SharedPreferences.saveValue(key: String, value: Any) {
+    private fun <T> saveValue(key: String, value: T) {
         when (value) {
-            is String -> edit { putString(key, value) }
-            is Boolean -> edit { putBoolean(key, value) }
-            is Int -> edit { putInt(key, value) }
-            is Long -> edit { putLong(key, value) }
-            is Float -> edit { putFloat(key, value) }
+            is String -> prefs.edit { putString(key, value) }
+            is Boolean -> prefs.edit { putBoolean(key, value) }
+            is Int -> prefs.edit { putInt(key, value) }
+            is Long -> prefs.edit { putLong(key, value) }
+            is Float -> prefs.edit { putFloat(key, value) }
             else -> throw UnsupportedOperationException("Type provided as defaultValue not supported")
         }
     }

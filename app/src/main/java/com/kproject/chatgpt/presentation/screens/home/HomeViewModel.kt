@@ -13,14 +13,11 @@ import com.kproject.chatgpt.domain.usecase.database.UpdateRecentChatUseCase
 import com.kproject.chatgpt.domain.usecase.preferences.GetPreferenceUseCase
 import com.kproject.chatgpt.domain.usecase.preferences.SavePreferenceUseCase
 import com.kproject.chatgpt.presentation.model.RecentChat
-import com.kproject.chatgpt.presentation.model.fakeRecentChatsList
 import com.kproject.chatgpt.presentation.model.fromModel
 import com.kproject.chatgpt.presentation.model.toModel
 import com.kproject.chatgpt.presentation.theme.custom.ThemeOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 private const val TAG = "HomeViewModel"
@@ -46,11 +43,11 @@ class HomeViewModel @Inject constructor(
         val apiKey = getPreferenceUseCase(
             key = PrefsConstants.ApiKey,
             defaultValue = ""
-        ) as String
+        )
         val themeOption = getPreferenceUseCase(
             key = PrefsConstants.ThemeOption,
             defaultValue = ThemeOptions.Option1
-        ) as Int
+        )
         homeUiState = homeUiState.copy(apiKey = apiKey, themeOption = themeOption)
     }
 

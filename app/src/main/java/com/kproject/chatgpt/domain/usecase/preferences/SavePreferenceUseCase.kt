@@ -1,5 +1,5 @@
 package com.kproject.chatgpt.domain.usecase.preferences
 
-fun interface SavePreferenceUseCase {
-    operator fun invoke(key: String, value: Any)
+interface SavePreferenceUseCase {
+    operator fun <T> invoke(key: String, value: T)
 }

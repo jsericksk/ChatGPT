@@ -2,7 +2,7 @@ package com.kproject.chatgpt.domain.repository
 
 interface PreferenceRepository {
 
-    fun getPreference(key: String, defaultValue: Any): Any
+    fun <T> getPreference(key: String, defaultValue: T): T
 
-    fun savePreference(key: String, value: Any)
+    fun <T> savePreference(key: String, value: T)
 }
