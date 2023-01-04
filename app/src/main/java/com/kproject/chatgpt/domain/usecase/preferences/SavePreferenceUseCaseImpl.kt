@@ -1,8 +1,11 @@
 package com.kproject.chatgpt.domain.usecase.preferences
 
 import com.kproject.chatgpt.domain.repository.PreferenceRepository
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class SavePreferenceUseCaseImpl(
+@Singleton
+class SavePreferenceUseCaseImpl @Inject constructor(
     private val preferenceRepository: PreferenceRepository
 ) : SavePreferenceUseCase {
 
