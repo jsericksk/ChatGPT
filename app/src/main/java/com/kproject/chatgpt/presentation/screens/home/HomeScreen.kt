@@ -29,6 +29,7 @@ import com.kproject.chatgpt.presentation.extensions.getFormattedDate
 import com.kproject.chatgpt.presentation.model.*
 import com.kproject.chatgpt.presentation.screens.components.*
 import com.kproject.chatgpt.presentation.screens.home.components.ApiKeyAlertDialog
+import com.kproject.chatgpt.presentation.screens.home.components.ChatOptionsAlertDialog
 import com.kproject.chatgpt.presentation.screens.home.components.ModeSelectionAlertDialog
 import com.kproject.chatgpt.presentation.screens.home.components.ThemeOptionAlertDialog
 import com.kproject.chatgpt.presentation.screens.utils.Utils
@@ -110,7 +111,7 @@ private fun HomeScreenContent(
 ) {
     var showOptionsMenu by remember { mutableStateOf(false) }
     var showNewChatDialog by remember { mutableStateOf(false) }
-    var showChatOptionsDropdownMenu by remember { mutableStateOf(false) }
+    var showChatOptionsDialog by remember { mutableStateOf(false) }
     var selectedRecentChat by remember { mutableStateOf(RecentChat()) }
 
     var showRenameChatDialog by remember { mutableStateOf(false) }
@@ -164,13 +165,13 @@ private fun HomeScreenContent(
             onShowChatOptions = { recentChat ->
                 selectedRecentChat = recentChat
                 chatName = recentChat.chatName
-                showChatOptionsDropdownMenu = true
+                showChatOptionsDialog = true
             }
         )
 
-        ChatOptionsDropdownMenu(
-            showOptionsMenu = showChatOptionsDropdownMenu,
-            onDismiss = { showChatOptionsDropdownMenu = false },
+        ChatOptionsAlertDialog(
+            showDialog = showChatOptionsDialog,
+            onDismiss = { showChatOptionsDialog = false },
             onRenameChatOptionClick = { showRenameChatDialog = true },
             onClearChatOptionClick = { showClearChatDialog = true },
             onDeleteChatOptionClick = { showDeleteChatDialog = true }
@@ -415,57 +416,6 @@ private fun RecentChatsListItem(
                 text = recentChat.lastMessageDate.getFormattedDate(),
                 color = MaterialTheme.colors.onPrimary,
                 fontSize = 12.sp
-            )
-        }
-    }
-}
-
-@Composable
-private fun ChatOptionsDropdownMenu(
-    showOptionsMenu: Boolean,
-    onDismiss: () -> Unit,
-    onRenameChatOptionClick: () -> Unit,
-    onClearChatOptionClick: () -> Unit,
-    onDeleteChatOptionClick: () -> Unit,
-) {
-    DropdownMenu(
-        expanded = showOptionsMenu,
-        onDismissRequest = onDismiss,
-        modifier = Modifier.background(MaterialTheme.colors.surface)
-    ) {
-        DropdownMenuItem(
-            onClick = {
-                onDismiss.invoke()
-                onRenameChatOptionClick.invoke()
-            }
-        ) {
-            Text(
-                text = stringResource(id = R.string.rename_chat),
-                color = MaterialTheme.colors.onSurface
-            )
-        }
-
-        DropdownMenuItem(
-            onClick = {
-                onDismiss.invoke()
-                onClearChatOptionClick.invoke()
-            }
-        ) {
-            Text(
-                text = stringResource(id = R.string.clear_chat),
-                color = MaterialTheme.colors.onSurface
-            )
-        }
-
-        DropdownMenuItem(
-            onClick = {
-                onDismiss.invoke()
-                onDeleteChatOptionClick.invoke()
-            }
-        ) {
-            Text(
-                text = stringResource(id = R.string.delete_chat),
-                color = MaterialTheme.colors.onSurface
             )
         }
     }
