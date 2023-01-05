@@ -75,6 +75,8 @@
         ao tentar obter uma resposta da IA. Tente novamente ou verifique se sua conexão com a
         internet está funcionando corretamente.</string>
 
+    <string name="copy_text">Copiar Texto</string>
+
     <!-- IA Model Options -->
     <string name="ia_model_options">Opções do Modelo da IA</string>
     <string name="ia_model_option_model">Modelo</string>

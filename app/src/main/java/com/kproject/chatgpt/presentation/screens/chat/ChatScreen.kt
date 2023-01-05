@@ -1,7 +1,6 @@
 package com.kproject.chatgpt.presentation.screens.chat
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -15,10 +14,12 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
@@ -35,6 +36,7 @@ import com.kproject.chatgpt.presentation.screens.chat.components.AIModelOptionsA
 import com.kproject.chatgpt.presentation.screens.components.EmptyListInfo
 import com.kproject.chatgpt.presentation.screens.components.SimpleAlertDialog
 import com.kproject.chatgpt.presentation.screens.components.TopBar
+import com.kproject.chatgpt.presentation.screens.utils.Utils
 import com.kproject.chatgpt.presentation.theme.CompletePreview
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
 import com.kproject.chatgpt.presentation.theme.SimplePreview
@@ -203,9 +205,12 @@ private fun ChatList(
             state = lazyListState,
             modifier = modifier.fillMaxSize()
         ) {
-            itemsIndexed(chatList) { index, chat ->
+            itemsIndexed(chatList) { index, message ->
                 ChatListItem(
-                    chat = chat
+                    message = message,
+                    onMessageLongClick = {
+
+                    }
                 )
             }
         }
@@ -219,23 +224,27 @@ private fun ChatList(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ChatListItem(
     modifier: Modifier = Modifier,
-    chat: Message
+    message: Message,
+    onMessageLongClick: () -> Unit
 ) {
-    val backgroundTextColor = if (chat.sentByUser) MaterialTheme.colors.surface else MaterialTheme.colors.primary
-    val alignment = if (chat.sentByUser) Alignment.End else Alignment.Start
+    val backgroundTextColor = if (message.sentByUser) MaterialTheme.colors.surface else MaterialTheme.colors.primary
+    val alignment = if (message.sentByUser) Alignment.End else Alignment.Start
     val messageTextPadding = if (alignment == Alignment.End) {
         PaddingValues(start = 46.dp)
     } else {
         PaddingValues(end = 46.dp)
     }
-    val shape = if (chat.sentByUser) {
+    val shape = if (message.sentByUser) {
         RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp, bottomStart = 20.dp, bottomEnd = 10.dp)
     } else {
         RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp, bottomStart = 8.dp, bottomEnd = 20.dp)
     }
+
+    var showCopyTextOption by remember { mutableStateOf(false) }
 
     Column(
         modifier =
@@ -243,11 +252,9 @@ private fun ChatListItem(
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 12.dp)
     ) {
-        Row(
-            modifier = Modifier.align(alignment)
-        ) {
+        Box(modifier = Modifier.align(alignment)) {
             Text(
-                text = chat.message,
+                text = message.message,
                 color = MaterialTheme.colors.onPrimary,
                 fontSize = 16.sp,
                 modifier = Modifier
@@ -256,12 +263,25 @@ private fun ChatListItem(
                         color = backgroundTextColor,
                         shape = shape
                     )
+                    .clip(shape)
+                    .combinedClickable(
+                        onClick = {},
+                        onLongClick = {
+                            showCopyTextOption = true
+                        }
+                    )
                     .padding(8.dp)
+            )
+
+            CopyTextDropdownMenu(
+                showCopyTextOption = showCopyTextOption,
+                onDismiss = { showCopyTextOption = false },
+                textToCopy = message.message
             )
         }
 
         Text(
-            text = chat.sendDate.getFormattedDate(),
+            text = message.sendDate.getFormattedDate(),
             color = MaterialTheme.colors.onPrimary,
             maxLines = 1,
             fontSize = 13.sp,
@@ -332,6 +352,43 @@ private fun ChatTextField(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_send),
                 contentDescription = null,
                 tint = Color.White
+            )
+        }
+    }
+}
+
+@Composable
+private fun CopyTextDropdownMenu(
+    showCopyTextOption: Boolean,
+    onDismiss: () -> Unit,
+    textToCopy: String
+) {
+    val context = LocalContext.current
+    DropdownMenu(
+        expanded = showCopyTextOption,
+        onDismissRequest = onDismiss,
+        modifier = Modifier
+            .background(MaterialTheme.colors.surface)
+            .clickable {
+                Utils.copyToClipBoard(context, textToCopy)
+                onDismiss.invoke()
+            }
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .padding(12.dp)
+        ) {
+            Icon(
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_content_copy),
+                contentDescription = null,
+                tint = MaterialTheme.colors.onSurface
+            )
+            Spacer(Modifier.width(8.dp))
+            Text(
+                text = stringResource(id = R.string.copy_text),
+                color = MaterialTheme.colors.onSurface,
+                fontSize = 16.sp
             )
         }
     }
