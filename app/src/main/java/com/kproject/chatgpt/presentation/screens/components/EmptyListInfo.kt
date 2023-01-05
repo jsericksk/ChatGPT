@@ -37,7 +37,7 @@ fun EmptyListInfo(
         Icon(
             imageVector = ImageVector.vectorResource(id = iconResId),
             contentDescription = null,
-            tint = MaterialTheme.colors.onPrimary,
+            tint = MaterialTheme.colors.primary,
             modifier = Modifier.size(110.dp)
         )
         Text(

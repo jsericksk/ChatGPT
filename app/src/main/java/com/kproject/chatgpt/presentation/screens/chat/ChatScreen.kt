@@ -420,7 +420,7 @@ private fun Preview() {
     }
 }
 
-@CompletePreview
+@SimplePreview
 @Composable
 private fun CustomTopBarPreview() {
     PreviewTheme {

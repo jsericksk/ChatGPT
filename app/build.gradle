@@ -100,9 +100,6 @@ dependencies {
     // Landscapist Coil
     implementation "com.github.skydoves:landscapist-coil:2.1.0"
 
-    // DataStore
-    implementation 'androidx.datastore:datastore-preferences:1.0.0'
-
     // Splash Screen
     implementation 'androidx.core:core-splashscreen:1.0.0'
 

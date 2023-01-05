@@ -24,7 +24,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.kproject.chatgpt.R
 import com.kproject.chatgpt.presentation.extensions.getFormattedDate
 import com.kproject.chatgpt.presentation.model.*
@@ -515,7 +514,8 @@ private fun Preview() {
     PreviewTheme {
         val uiState = HomeUiState(
             isLoading = false,
-            recentChatsList = fakeRecentChatsList
+            recentChatsList = fakeRecentChatsList,
+            apiKey = "123"
         )
         HomeScreenContent(
             homeUiState = uiState,
@@ -526,19 +526,6 @@ private fun Preview() {
             onRenameChat = { _, _ -> },
             onClearChat = {},
             onDeleteChat = {}
-        )
-    }
-}
-
-@CompletePreview
-@Composable
-private fun ApiKeyAlertDialogPreview() {
-    PreviewTheme {
-        ApiKeyAlertDialog(
-            showDialog = true,
-            onDismiss = {},
-            apiKey = "skskfjjifwojewpi3jjdjd3we",
-            onSaveApiKey = {}
         )
     }
 }
