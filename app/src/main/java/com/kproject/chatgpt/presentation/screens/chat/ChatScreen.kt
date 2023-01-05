@@ -34,6 +34,7 @@ import com.kproject.chatgpt.presentation.model.RecentChat
 import com.kproject.chatgpt.presentation.model.fakeChatList
 import com.kproject.chatgpt.presentation.screens.chat.components.AIModelOptionsAlertDialog
 import com.kproject.chatgpt.presentation.screens.components.EmptyListInfo
+import com.kproject.chatgpt.presentation.screens.components.ProgressIndicator
 import com.kproject.chatgpt.presentation.screens.components.SimpleAlertDialog
 import com.kproject.chatgpt.presentation.screens.components.TopBar
 import com.kproject.chatgpt.presentation.screens.utils.Utils
@@ -69,7 +70,7 @@ fun ChatScreen(
             chatViewModel.updateAIModelOptions(aiModelOptions)
         }
     )
-    
+
     chatUiState.apiResponseErrorInfo?.let { info ->
         SimpleAlertDialog(
             showDialog = true,
@@ -99,12 +100,18 @@ private fun Content(
             onOptionsClick = onOptionsClick
         )
 
-        ChatList(
-            chatList = uiState.messageList,
-            modifier = Modifier
-                .weight(1f)
-        )
+        if (uiState.isLoading) {
+            ProgressIndicator(modifier = Modifier.weight(1f))
+        } else {
+            ChatList(
+                chatList = uiState.messageList,
+                modifier = Modifier
+                    .weight(1f)
+            )
+        }
+
         Spacer(Modifier.height(8.dp))
+
         ChatTextField(
             message = uiState.message,
             onMessageValueChange = { message ->
@@ -207,10 +214,7 @@ private fun ChatList(
         ) {
             itemsIndexed(chatList) { index, message ->
                 ChatListItem(
-                    message = message,
-                    onMessageLongClick = {
-
-                    }
+                    message = message
                 )
             }
         }
@@ -228,10 +232,10 @@ private fun ChatList(
 @Composable
 private fun ChatListItem(
     modifier: Modifier = Modifier,
-    message: Message,
-    onMessageLongClick: () -> Unit
+    message: Message
 ) {
-    val backgroundTextColor = if (message.sentByUser) MaterialTheme.colors.surface else MaterialTheme.colors.primary
+    val backgroundTextColor =
+            if (message.sentByUser) MaterialTheme.colors.surface else MaterialTheme.colors.primary
     val alignment = if (message.sentByUser) Alignment.End else Alignment.Start
     val messageTextPadding = if (alignment == Alignment.End) {
         PaddingValues(start = 46.dp)
@@ -404,7 +408,8 @@ private fun Preview() {
                 chatName = "Android Questions",
                 chatMode = false,
                 usedTokens = 450
-            )
+            ),
+            isLoading = true
         )
         Content(
             uiState = uiState,
