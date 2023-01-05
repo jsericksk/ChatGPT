@@ -408,8 +408,7 @@ private fun Preview() {
                 chatName = "Android Questions",
                 chatMode = false,
                 usedTokens = 450
-            ),
-            isLoading = true
+            )
         )
         Content(
             uiState = uiState,

@@ -403,14 +403,9 @@ private fun RecentChatsListItem(
 
                 if (recentChat.lastMessage.isNotBlank()) {
                     Spacer(Modifier.height(4.dp))
-                    val messageTextColor = if (recentChat.lastMessageSentByUser) {
-                        MaterialTheme.colors.onPrimary
-                    } else {
-                        MaterialTheme.colors.secondary
-                    }
                     Text(
                         text = recentChat.lastMessage,
-                        color = messageTextColor,
+                        color = MaterialTheme.colors.onPrimary,
                         maxLines = 1,
                         fontSize = 16.sp
                     )
