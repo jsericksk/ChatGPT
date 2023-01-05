@@ -114,7 +114,7 @@ fun TextFieldAlertDialog(
                 shape = textFieldShape,
                 colors = TextFieldDefaults.textFieldColors(
                     cursorColor = MaterialTheme.colors.onPrimary,
-                    backgroundColor = MaterialTheme.colors.onSecondary,
+                    backgroundColor = MaterialTheme.colors.surface,
                     leadingIconColor = MaterialTheme.colors.onSurface,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,

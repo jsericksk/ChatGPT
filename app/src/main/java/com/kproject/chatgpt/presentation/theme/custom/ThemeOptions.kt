@@ -1,9 +1,9 @@
 package com.kproject.chatgpt.presentation.theme.custom
 
 object ThemeOptions {
-    val options = listOf(
-        ThemeOption1(), ThemeOption2(), ThemeOption3(),
-        ThemeOption4()
+    val darkThemeOptions = listOf(
+        ThemeDarkOption1(), ThemeDarkOption2(), ThemeDarkOption3(),
+        ThemeDarkOption4(), ThemeDarkOption5(), ThemeDarkOption6()
     )
 
     const val Option1 = 0

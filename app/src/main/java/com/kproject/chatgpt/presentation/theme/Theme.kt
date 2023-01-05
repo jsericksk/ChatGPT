@@ -10,7 +10,7 @@ import com.kproject.chatgpt.presentation.theme.custom.ThemeOptions
 
 @Composable
 fun ChatGPTTheme(themeOption: Int = ThemeOptions.Option3, content: @Composable () -> Unit) {
-    val theme = ThemeOptions.options[themeOption]
+    val theme = ThemeOptions.darkThemeOptions[themeOption]
     val themeColors = darkColors(
         primary = theme.primary,
         primaryVariant = theme.primaryVariant,
@@ -38,7 +38,7 @@ fun ChatGPTTheme(themeOption: Int = ThemeOptions.Option3, content: @Composable (
 
 @Composable
 fun PreviewTheme(themeOption: Int = ThemeOptions.Option1, content: @Composable () -> Unit) {
-    val theme = ThemeOptions.options[themeOption]
+    val theme = ThemeOptions.darkThemeOptions[themeOption]
     val themeColors = darkColors(
         primary = theme.primary,
         onPrimary = theme.onPrimary,
