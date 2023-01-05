@@ -62,7 +62,7 @@ fun SimpleAlertDialog(
 }
 
 @Composable
-fun AlertDialogWithTextField(
+fun TextFieldAlertDialog(
     showDialog: Boolean,
     onDismiss: () -> Unit,
     title: String,
@@ -254,7 +254,7 @@ fun ColumnScope.DialogActionButtons(
 @Composable
 private fun AlertDialogWithTextFieldPreview() {
     PreviewTheme {
-        AlertDialogWithTextField(
+        TextFieldAlertDialog(
             showDialog = true,
             onDismiss = {},
             title = "Insert your name",

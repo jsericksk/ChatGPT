@@ -3,7 +3,7 @@ package com.kproject.chatgpt.presentation.screens.home.components
 import androidx.compose.runtime.*
 import androidx.compose.ui.res.stringResource
 import com.kproject.chatgpt.R
-import com.kproject.chatgpt.presentation.screens.components.AlertDialogWithTextField
+import com.kproject.chatgpt.presentation.screens.components.TextFieldAlertDialog
 import com.kproject.chatgpt.presentation.theme.CompletePreview
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
 
@@ -17,7 +17,7 @@ fun ApiKeyAlertDialog(
 ) {
     var currentApiKey by remember { mutableStateOf(apiKey) }
 
-    AlertDialogWithTextField(
+    TextFieldAlertDialog(
         showDialog = showDialog,
         onDismiss = onDismiss,
         title = stringResource(id = R.string.api_key),

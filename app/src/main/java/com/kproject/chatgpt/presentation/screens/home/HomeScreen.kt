@@ -186,7 +186,7 @@ private fun HomeScreenContent(
         )
 
         // Rename Chat Dialog
-        AlertDialogWithTextField(
+        TextFieldAlertDialog(
             showDialog = showRenameChatDialog,
             onDismiss = {
                 showRenameChatDialog = false
@@ -431,7 +431,7 @@ private fun NewChatAlertDialog(
     var textFieldValue by remember { mutableStateOf("") }
     var chatName by remember { mutableStateOf("") }
 
-    AlertDialogWithTextField(
+    TextFieldAlertDialog(
         showDialog = showDialog,
         onDismiss = {
             textFieldValue = ""
