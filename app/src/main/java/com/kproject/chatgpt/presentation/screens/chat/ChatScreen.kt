@@ -314,19 +314,19 @@ private fun ChatTextField(
                 onMessageValueChange.invoke(value)
             },
             textStyle = TextStyle(
-                color = MaterialTheme.colors.onPrimary,
+                color = MaterialTheme.colors.onSurface,
                 fontSize = 18.sp
             ),
             placeholder = {
                 Text(
                     text = stringResource(id = R.string.message),
-                    color = MaterialTheme.colors.onPrimary.copy(0.5f)
+                    color = MaterialTheme.colors.onSurface.copy(0.5f)
                 )
             },
             maxLines = 4,
             shape = CircleShape,
             colors = TextFieldDefaults.textFieldColors(
-                cursorColor = MaterialTheme.colors.onPrimary,
+                cursorColor = MaterialTheme.colors.onSurface,
                 backgroundColor = MaterialTheme.colors.surface,
                 leadingIconColor = Color.White,
                 trailingIconColor = Color.White,

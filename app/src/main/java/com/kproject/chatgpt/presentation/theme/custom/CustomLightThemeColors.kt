@@ -3,9 +3,9 @@ package com.kproject.chatgpt.presentation.theme.custom
 import androidx.compose.ui.graphics.Color
 
 private val defaultOnPrimaryColor = Color(0xFF1D1D1D)
-private val defaultBackgroundColor = Color(0xFFF0F0F0)
-private val defaultSurfaceColor = Color(0xFF4B4B4B)
-private val defaultOnSurfaceColor = Color(0xFFECECEC)
+private val defaultBackgroundColor = Color(0xFFCFCFCF)
+private val defaultSurfaceColor = Color(0xFF2B2B2B)
+private val defaultOnSurfaceColor = Color(0xFFE7E7E7)
 
 data class ThemeLightOption1(
     override val primary: Color = Color(0xFF013477),
