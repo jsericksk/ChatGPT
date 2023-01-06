@@ -148,12 +148,14 @@ private fun HomeScreenContent(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { showNewChatDialog = true }) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_chat),
-                    null,
-                    tint = MaterialTheme.colors.onSurface
-                )
+            if (homeUiState.apiKey.isNotBlank()) {
+                FloatingActionButton(onClick = { showNewChatDialog = true }) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_chat),
+                        null,
+                        tint = MaterialTheme.colors.onSurface
+                    )
+                }
             }
         }
     ) { paddingValues ->

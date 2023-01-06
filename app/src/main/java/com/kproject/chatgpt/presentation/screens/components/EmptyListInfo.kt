@@ -63,7 +63,7 @@ fun EmptyListInfo(
                 Text(
                     text = buttonTitle,
                     fontSize = 16.sp,
-                    color = MaterialTheme.colors.onPrimary
+                    color = MaterialTheme.colors.onSurface
                 )
             }
         }
