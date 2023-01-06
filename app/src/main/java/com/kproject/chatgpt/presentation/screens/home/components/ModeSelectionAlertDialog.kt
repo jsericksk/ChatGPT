@@ -21,10 +21,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kproject.chatgpt.R
+import com.kproject.chatgpt.presentation.model.ConversationMode
 import com.kproject.chatgpt.presentation.screens.components.CustomAlertDialog
 import com.kproject.chatgpt.presentation.theme.CompletePreview
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
-import com.kproject.chatgpt.presentation.model.ConversationMode
 
 @Composable
 fun ModeSelectionAlertDialog(
@@ -109,12 +109,12 @@ private fun CardItem(
                     imageVector = ImageVector.vectorResource(id = icon),
                     contentDescription = null,
                     modifier = Modifier.size(30.dp),
-                    tint = MaterialTheme.colors.onPrimary
+                    tint = MaterialTheme.colors.onSurface
                 )
                 Spacer(Modifier.width(8.dp))
                 Text(
                     text = title,
-                    color = MaterialTheme.colors.onPrimary,
+                    color = MaterialTheme.colors.onSurface,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -122,7 +122,7 @@ private fun CardItem(
             Spacer(Modifier.height(12.dp))
             Text(
                 text = description,
-                color = MaterialTheme.colors.onPrimary,
+                color = MaterialTheme.colors.onSurface,
                 fontSize = 16.sp
             )
         }
