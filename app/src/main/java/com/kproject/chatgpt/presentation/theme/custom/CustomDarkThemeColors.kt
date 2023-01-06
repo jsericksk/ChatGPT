@@ -30,8 +30,8 @@ data class ThemeDarkOption2(
 ) : ThemeColors
 
 data class ThemeDarkOption3(
-    override val primary: Color = Color(0xFF003300),
-    override val primaryVariant: Color = Color(0xFF032703),
+    override val primary: Color = Color(0xFF044604),
+    override val primaryVariant: Color = Color(0xFF043A04),
     override val onPrimary: Color = defaultOnPrimaryColor,
     override val secondary: Color = Color(0xFF095209),
     override val onSecondary: Color = Color(0xFF0C500C),
@@ -44,8 +44,8 @@ data class ThemeDarkOption4(
     override val primary: Color = Color(0xFF431280),
     override val primaryVariant: Color = Color(0xFF3D1370),
     override val onPrimary: Color = defaultOnPrimaryColor,
-    override val secondary: Color = Color(0xFF461D79),
-    override val onSecondary: Color = Color(0xFF44177A),
+    override val secondary: Color = Color(0xFF4F1A91),
+    override val onSecondary: Color = Color(0xFF481388),
     override val background: Color = defaultBackgroundColor,
     override val surface: Color = defaultSurfaceColor,
     override val onSurface: Color = defaultOnSurfaceColor
@@ -66,8 +66,8 @@ data class ThemeDarkOption6(
     override val primary: Color = Color(0xFF2D3A41),
     override val primaryVariant: Color = Color(0xFF2C363C),
     override val onPrimary: Color = defaultOnPrimaryColor,
-    override val secondary: Color = Color(0xFF324149),
-    override val onSecondary: Color = Color(0xFF354249),
+    override val secondary: Color = Color(0xFF364D58),
+    override val onSecondary: Color = Color(0xFF394952),
     override val background: Color = defaultBackgroundColor,
     override val surface: Color = defaultSurfaceColor,
     override val onSurface: Color = defaultOnSurfaceColor

@@ -99,14 +99,14 @@ private fun OptionItem(
         Icon(
             imageVector = ImageVector.vectorResource(id = iconResId),
             contentDescription = null,
-            tint = MaterialTheme.colors.onSurface,
+            tint = MaterialTheme.colors.onPrimary,
             modifier = Modifier.size(28.dp)
         )
         Spacer(Modifier.width(8.dp))
         Text(
             text = title,
             fontSize = 18.sp,
-            color = MaterialTheme.colors.onSurface
+            color = MaterialTheme.colors.onPrimary
         )
     }
 }

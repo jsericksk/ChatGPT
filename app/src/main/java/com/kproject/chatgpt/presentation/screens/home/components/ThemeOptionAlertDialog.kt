@@ -8,8 +8,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,6 +21,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.kproject.chatgpt.R
 import com.kproject.chatgpt.presentation.screens.components.DialogActionButtons
@@ -35,10 +35,12 @@ fun ThemeOptionAlertDialog(
     showDialog: Boolean,
     onDismiss: () -> Unit,
     currentSelectedTheme: Int,
-    onThemeSelected: (Int) -> Unit
+    currentDarkMode: Boolean,
+    onThemeSelected: (themeOption: Int, isDarkMode: Boolean) -> Unit
 ) {
     if (showDialog) {
         var selectedTheme by rememberSaveable { mutableStateOf(currentSelectedTheme) }
+        var isDarkMode by rememberSaveable { mutableStateOf(currentDarkMode) }
 
         val defaultDialogPadding = 24.dp
         Dialog(
@@ -57,20 +59,29 @@ fun ThemeOptionAlertDialog(
                             bottom = 14.dp
                         )
                 ) {
-                    // Title
                     DialogTitle(title = stringResource(id = R.string.app_theme))
 
                     Spacer(Modifier.height(22.dp))
 
                     // Content
-                    ThemeOptionsList(
-                        currentSelectedTheme = selectedTheme,
-                        onOptionSelected = { option ->
-                            selectedTheme = option
-                        }
-                    )
+                    Column {
+                        ThemeOptionsList(
+                            currentSelectedTheme = selectedTheme,
+                            onOptionSelected = { option ->
+                                selectedTheme = option
+                            }
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        DarkModeOption(
+                            isDarkMode = isDarkMode,
+                            onDarkModeCheckedChange = { darkMode ->
+                                isDarkMode = darkMode
+                            },
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
+                    }
 
-                    Spacer(Modifier.height(20.dp))
+                    Spacer(Modifier.height(22.dp))
 
                     DialogActionButtons(
                         onDismiss = onDismiss,
@@ -79,7 +90,7 @@ fun ThemeOptionAlertDialog(
                         okButtonTitle = stringResource(id = R.string.button_save),
                         cancelButtonTitle = stringResource(id = R.string.button_cancel),
                         onClickButtonOk = {
-                            onThemeSelected.invoke(selectedTheme)
+                            onThemeSelected.invoke(selectedTheme, isDarkMode)
                         },
                         onClickButtonCancel = onDismiss
                     )
@@ -124,6 +135,40 @@ private fun ThemeOptionsList(
     }
 }
 
+@Composable
+private fun DarkModeOption(
+    modifier: Modifier = Modifier,
+    isDarkMode: Boolean,
+    onDarkModeCheckedChange: (Boolean) -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .clip(RoundedCornerShape(12.dp))
+            .clickable {
+                onDarkModeCheckedChange.invoke(!isDarkMode)
+            }
+    ) {
+        Checkbox(
+            checked = isDarkMode,
+            onCheckedChange = {
+                onDarkModeCheckedChange.invoke(it)
+            },
+            colors = CheckboxDefaults.colors(
+                checkedColor = MaterialTheme.colors.secondary,
+                uncheckedColor = MaterialTheme.colors.onSecondary,
+                checkmarkColor = MaterialTheme.colors.onPrimary
+            )
+        )
+        Spacer(Modifier.width(4.dp))
+        Text(
+            text = stringResource(id = R.string.dark_mode),
+            color = MaterialTheme.colors.onPrimary,
+            fontSize = 16.sp
+        )
+    }
+}
+
 @CompletePreview
 @Composable
 private fun Preview() {
@@ -132,7 +177,8 @@ private fun Preview() {
             showDialog = true,
             onDismiss = {},
             currentSelectedTheme = ThemeOptions.Option1,
-            onThemeSelected = {}
+            currentDarkMode = true,
+            onThemeSelected = { _, _ -> },
         )
     }
 }

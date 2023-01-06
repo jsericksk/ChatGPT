@@ -5,6 +5,10 @@ object ThemeOptions {
         ThemeDarkOption1(), ThemeDarkOption2(), ThemeDarkOption3(),
         ThemeDarkOption4(), ThemeDarkOption5(), ThemeDarkOption6()
     )
+    val lightThemeOptions = listOf(
+        ThemeLightOption1(), ThemeLightOption2(), ThemeLightOption3(),
+        ThemeLightOption4(), ThemeLightOption5(), ThemeLightOption6()
+    )
 
     const val Option1 = 0
     const val Option2 = 1

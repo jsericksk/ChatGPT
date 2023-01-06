@@ -38,7 +38,6 @@ import com.kproject.chatgpt.presentation.screens.components.ProgressIndicator
 import com.kproject.chatgpt.presentation.screens.components.SimpleAlertDialog
 import com.kproject.chatgpt.presentation.screens.components.TopBar
 import com.kproject.chatgpt.presentation.screens.utils.Utils
-import com.kproject.chatgpt.presentation.theme.CompletePreview
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
 import com.kproject.chatgpt.presentation.theme.SimplePreview
 
@@ -259,7 +258,7 @@ private fun ChatListItem(
         Box(modifier = Modifier.align(alignment)) {
             Text(
                 text = message.message,
-                color = MaterialTheme.colors.onPrimary,
+                color = MaterialTheme.colors.onSurface,
                 fontSize = 16.sp,
                 modifier = Modifier
                     .padding(messageTextPadding)

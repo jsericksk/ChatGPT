@@ -48,7 +48,15 @@ class HomeViewModel @Inject constructor(
             key = PrefsConstants.ThemeOption,
             defaultValue = ThemeOptions.Option1
         )
-        homeUiState = homeUiState.copy(apiKey = apiKey, themeOption = themeOption)
+        val isDarkMode = getPreferenceUseCase(
+            key = PrefsConstants.DarkMode,
+            defaultValue = true
+        )
+        homeUiState = homeUiState.copy(
+            apiKey = apiKey,
+            themeOption = themeOption,
+            isDarkMode = isDarkMode
+        )
     }
 
     private fun getAllRecentChats() {
@@ -95,11 +103,15 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun changeThemeOption(themeOption: Int) {
+    fun changeThemeOption(themeOption: Int, isDarkMode: Boolean) {
         savePreferenceUseCase(
             key = PrefsConstants.ThemeOption,
             value = themeOption
         )
-        homeUiState = homeUiState.copy(themeOption = themeOption)
+        savePreferenceUseCase(
+            key = PrefsConstants.DarkMode,
+            value = isDarkMode
+        )
+        homeUiState = homeUiState.copy(themeOption = themeOption, isDarkMode = isDarkMode)
     }
 }

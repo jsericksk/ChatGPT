@@ -92,8 +92,9 @@ fun HomeScreen(
         showDialog = showThemeOptionDialog,
         onDismiss = { showThemeOptionDialog = false },
         currentSelectedTheme = uiState.themeOption,
-        onThemeSelected = { themOption ->
-            homeViewModel.changeThemeOption(themOption)
+        currentDarkMode = uiState.isDarkMode,
+        onThemeSelected = { themeOption, isDarkMode ->
+            homeViewModel.changeThemeOption(themeOption, isDarkMode)
         }
     )
 }
@@ -151,7 +152,7 @@ private fun HomeScreenContent(
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_chat),
                     null,
-                    tint = MaterialTheme.colors.onPrimary
+                    tint = MaterialTheme.colors.onSurface
                 )
             }
         }

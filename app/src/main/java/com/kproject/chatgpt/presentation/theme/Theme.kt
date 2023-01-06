@@ -9,8 +9,16 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.kproject.chatgpt.presentation.theme.custom.ThemeOptions
 
 @Composable
-fun ChatGPTTheme(themeOption: Int = ThemeOptions.Option3, content: @Composable () -> Unit) {
-    val theme = ThemeOptions.darkThemeOptions[themeOption]
+fun ChatGPTTheme(
+    themeOption: Int = ThemeOptions.Option3,
+    isDarkMode: Boolean,
+    content: @Composable () -> Unit
+) {
+    val theme = if (isDarkMode) {
+        ThemeOptions.darkThemeOptions[themeOption]
+    } else {
+        ThemeOptions.lightThemeOptions[themeOption]
+    }
     val themeColors = darkColors(
         primary = theme.primary,
         primaryVariant = theme.primaryVariant,
@@ -37,8 +45,16 @@ fun ChatGPTTheme(themeOption: Int = ThemeOptions.Option3, content: @Composable (
 }
 
 @Composable
-fun PreviewTheme(themeOption: Int = ThemeOptions.Option1, content: @Composable () -> Unit) {
-    val theme = ThemeOptions.darkThemeOptions[themeOption]
+fun PreviewTheme(
+    themeOption: Int = ThemeOptions.Option1,
+    isDarkMode: Boolean = true,
+    content: @Composable () -> Unit
+) {
+    val theme = if (isDarkMode) {
+        ThemeOptions.darkThemeOptions[themeOption]
+    } else {
+        ThemeOptions.lightThemeOptions[themeOption]
+    }
     val themeColors = darkColors(
         primary = theme.primary,
         onPrimary = theme.onPrimary,

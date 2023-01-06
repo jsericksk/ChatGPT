@@ -21,7 +21,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val themeOption = homeViewModel.homeUiState.themeOption
-            ChatGPTTheme(themeOption = themeOption) {
+            val isDarkMode = homeViewModel.homeUiState.isDarkMode
+            ChatGPTTheme(themeOption = themeOption, isDarkMode = isDarkMode) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
@@ -29,9 +30,9 @@ class MainActivity : ComponentActivity() {
                     NavigationGraph(homeViewModel = homeViewModel)
                     // ChatScreen(chatId = 1234) {}
                     /**AIModelOptionsAlertDialog(
-                        showDialog = true,
-                        aiModelOptions = AIModelOptions(),
-                        onDismiss = {}
+                    showDialog = true,
+                    aiModelOptions = AIModelOptions(),
+                    onDismiss = {}
                     )*/
                 }
             }
