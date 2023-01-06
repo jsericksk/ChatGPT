@@ -3,6 +3,7 @@ package com.kproject.chatgpt.data.repository
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.kproject.chatgpt.commom.DataState
+import com.kproject.chatgpt.commom.PrefsConstants
 import com.kproject.chatgpt.commom.error.ApiResponseError
 import com.kproject.chatgpt.data.api.ApiService
 import com.kproject.chatgpt.data.api.entity.ErrorResponse
@@ -13,6 +14,7 @@ import com.kproject.chatgpt.data.mapper.toModel
 import com.kproject.chatgpt.domain.model.MessageModel
 import com.kproject.chatgpt.domain.model.RecentChatModel
 import com.kproject.chatgpt.domain.repository.MessageRepository
+import com.kproject.chatgpt.domain.repository.PreferenceRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import okhttp3.ResponseBody
@@ -20,7 +22,8 @@ import java.util.*
 
 class MessageRepositoryImpl(
     private val messageDao: MessageDao,
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    private val preferenceRepository: PreferenceRepository
 ) : MessageRepository {
 
     override fun getMessagesByChatId(chatId: Long): Flow<List<MessageModel>> {
@@ -37,8 +40,7 @@ class MessageRepositoryImpl(
 
     override suspend fun sendMessage(
         message: String,
-        recentChat: RecentChatModel,
-        apiKey: String
+        recentChat: RecentChatModel
     ): DataState<MessageModel> {
         val aiModelOptions = recentChat.aiModelOptions
         val messageBody = MessageBody(
@@ -48,6 +50,7 @@ class MessageRepositoryImpl(
             temperature = aiModelOptions.temperature
         )
 
+        val apiKey = preferenceRepository.getPreference(PrefsConstants.ApiKey, "")
         try {
             val apiResponse = apiService.sendMessage(
                 apiKey = "Bearer $apiKey",

@@ -53,7 +53,6 @@ fun HomeScreen(
         onStartNewChat = { chatName, conversationMode ->
             val chatArgs = ChatArgs(
                 chatId = UnspecifiedChatId,
-                apiKey = uiState.apiKey,
                 chatName = chatName,
                 isChatMode = (conversationMode == ConversationMode.ChatMode)
             )
@@ -62,7 +61,6 @@ fun HomeScreen(
         onChatSelected = { recentChat ->
             val chatArgs = ChatArgs(
                 chatId = recentChat.chatId,
-                apiKey = uiState.apiKey,
                 chatName = UnspecifiedChatName,
                 isChatMode = recentChat.chatMode
             )

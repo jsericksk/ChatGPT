@@ -5,7 +5,6 @@ const val UnspecifiedChatName = "unspecifiedChatName"
 
 data class ChatArgs(
     val chatId: Long,
-    val apiKey: String,
     val chatName: String,
     val isChatMode: Boolean
 )

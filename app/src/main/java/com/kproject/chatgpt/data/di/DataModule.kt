@@ -73,9 +73,10 @@ object DataModule {
     @Singleton
     fun provideMessageRepository(
         messageDao: MessageDao,
-        apiService: ApiService
+        apiService: ApiService,
+        preferenceRepository: PreferenceRepository
     ): MessageRepository {
-        return MessageRepositoryImpl(messageDao, apiService)
+        return MessageRepositoryImpl(messageDao, apiService, preferenceRepository)
     }
 
     // API

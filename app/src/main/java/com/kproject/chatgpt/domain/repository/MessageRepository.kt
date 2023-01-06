@@ -13,8 +13,7 @@ interface MessageRepository {
 
     suspend fun sendMessage(
         message: String,
-        recentChat: RecentChatModel,
-        apiKey: String
+        recentChat: RecentChatModel
     ): DataState<MessageModel>
 
     suspend fun deleteMessagesFromChatId(chatId: Long)

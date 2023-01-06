@@ -80,8 +80,7 @@ class ChatViewModel @Inject constructor(
                 val messageText = generateMessageToSend(message)
                 val apiResponse = sendMessageUseCase(
                     message = messageText,
-                    recentChat = chatUiState.recentChat.toModel(),
-                    apiKey = chatArgs.apiKey
+                    recentChat = chatUiState.recentChat.toModel()
                 )
 
                 when (apiResponse) {
