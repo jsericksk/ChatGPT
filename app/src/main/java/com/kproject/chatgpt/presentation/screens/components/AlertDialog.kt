@@ -70,6 +70,7 @@ fun TextFieldAlertDialog(
     onTextValueChange: (String) -> Unit,
     textFieldPlaceholder: String,
     maxLines: Int = 1,
+    singleLine: Boolean = true,
     textFieldShape: Shape = RoundedCornerShape(12.dp),
     cancelable: Boolean = true,
     okButtonEnabled: Boolean = true,
@@ -101,19 +102,20 @@ fun TextFieldAlertDialog(
                     onTextValueChange.invoke(value)
                 },
                 textStyle = TextStyle(
-                    color = MaterialTheme.colors.onPrimary,
+                    color = MaterialTheme.colors.onSurface,
                     fontSize = 18.sp
                 ),
                 placeholder = {
                     Text(
                         text = textFieldPlaceholder,
-                        color = MaterialTheme.colors.onPrimary.copy(alpha = 0.4f)
+                        color = MaterialTheme.colors.onSurface.copy(alpha = 0.4f)
                     )
                 },
                 maxLines = maxLines,
+                singleLine = singleLine,
                 shape = textFieldShape,
                 colors = TextFieldDefaults.textFieldColors(
-                    cursorColor = MaterialTheme.colors.onPrimary,
+                    cursorColor = MaterialTheme.colors.onSurface,
                     backgroundColor = MaterialTheme.colors.surface,
                     leadingIconColor = MaterialTheme.colors.onSurface,
                     focusedIndicatorColor = Color.Transparent,
