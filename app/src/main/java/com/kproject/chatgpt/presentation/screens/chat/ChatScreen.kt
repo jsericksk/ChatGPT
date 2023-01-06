@@ -324,7 +324,7 @@ private fun ChatTextField(
                 )
             },
             maxLines = 4,
-            shape = CircleShape,
+            shape = RoundedCornerShape(14.dp),
             colors = TextFieldDefaults.textFieldColors(
                 cursorColor = MaterialTheme.colors.onSurface,
                 backgroundColor = MaterialTheme.colors.surface,
