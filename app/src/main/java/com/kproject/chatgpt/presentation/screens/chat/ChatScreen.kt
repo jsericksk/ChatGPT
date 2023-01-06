@@ -1,5 +1,6 @@
 package com.kproject.chatgpt.presentation.screens.chat
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -113,6 +114,7 @@ private fun Content(
 
         ChatTextField(
             message = uiState.message,
+            enabled = !uiState.isWaitingApiResponse,
             onMessageValueChange = { message ->
                 onMessageValueChange.invoke(message)
             },
@@ -163,8 +165,7 @@ private fun CustomTopBar(
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Normal,
                         maxLines = 1,
-                        modifier = Modifier
-                            .fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth()
                     )
                 }
             }
@@ -296,67 +297,105 @@ private fun ChatListItem(
 }
 
 @Composable
-private fun ChatTextField(
+fun ChatTextField(
     modifier: Modifier = Modifier,
     message: String,
+    enabled: Boolean,
     onMessageValueChange: (String) -> Unit,
     onSendMessage: (String) -> Unit
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center,
-        modifier = modifier
-            .fillMaxWidth()
-    ) {
-        TextField(
-            value = message,
-            onValueChange = { value ->
-                onMessageValueChange.invoke(value)
-            },
-            textStyle = TextStyle(
-                color = MaterialTheme.colors.onSurface,
-                fontSize = 18.sp
-            ),
-            placeholder = {
-                Text(
-                    text = stringResource(id = R.string.message),
-                    color = MaterialTheme.colors.onSurface.copy(0.5f)
-                )
-            },
-            maxLines = 4,
-            shape = RoundedCornerShape(14.dp),
-            colors = TextFieldDefaults.textFieldColors(
-                cursorColor = MaterialTheme.colors.onSurface,
-                backgroundColor = MaterialTheme.colors.surface,
-                leadingIconColor = Color.White,
-                trailingIconColor = Color.White,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-                focusedLabelColor = MaterialTheme.colors.secondary,
-                unfocusedLabelColor = MaterialTheme.colors.onSecondary,
-            ),
+    Column(modifier = modifier) {
+        AnimatedVisibility(
+            visible = !enabled,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
+            WaitingApiResponseLoadingIndicator()
+        }
+
+        Spacer(Modifier.height(8.dp))
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
+        ) {
+            TextField(
+                value = message,
+                onValueChange = { value ->
+                    onMessageValueChange.invoke(value)
+                },
+                textStyle = TextStyle(
+                    color = MaterialTheme.colors.onSurface,
+                    fontSize = 18.sp
+                ),
+                placeholder = {
+                    Text(
+                        text = stringResource(id = R.string.message),
+                        color = MaterialTheme.colors.onSurface.copy(0.5f)
+                    )
+                },
+                enabled = enabled,
+                maxLines = 4,
+                shape = RoundedCornerShape(14.dp),
+                colors = TextFieldDefaults.textFieldColors(
+                    cursorColor = MaterialTheme.colors.onSurface,
+                    backgroundColor = MaterialTheme.colors.surface,
+                    leadingIconColor = Color.White,
+                    trailingIconColor = Color.White,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                    focusedLabelColor = MaterialTheme.colors.secondary,
+                    unfocusedLabelColor = MaterialTheme.colors.onSecondary,
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            )
+
+            Spacer(Modifier.width(8.dp))
+
+            IconButton(
+                onClick = { onSendMessage.invoke(message) },
+                enabled = message.isNotBlank(),
+                modifier = Modifier.background(
+                    color = MaterialTheme.colors.secondary,
+                    shape = CircleShape
+                )
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_send),
+                    contentDescription = null,
+                    tint = MaterialTheme.colors.onSurface
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun WaitingApiResponseLoadingIndicator() {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .size(60.dp)
+            .background(color = MaterialTheme.colors.primary, shape = CircleShape),
+    ) {
+        Icon(
+            imageVector = ImageVector.vectorResource(id = R.drawable.chatbot_icon),
+            contentDescription = null,
+            tint = MaterialTheme.colors.onSurface,
+            modifier = Modifier
+                .size(30.dp)
+
         )
 
-        Spacer(Modifier.width(8.dp))
-
-        IconButton(
-            onClick = { onSendMessage.invoke(message) },
-            enabled = message.isNotBlank(),
-            modifier = Modifier.background(
-                color = MaterialTheme.colors.secondary,
-                shape = CircleShape
-            )
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_send),
-                contentDescription = null,
-                tint = Color.White
-            )
-        }
+        ProgressIndicator(
+            color = MaterialTheme.colors.onPrimary,
+            strokeWidth = 3.dp,
+            modifier = Modifier.matchParentSize()
+        )
     }
 }
 

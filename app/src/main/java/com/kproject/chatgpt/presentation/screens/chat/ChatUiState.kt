@@ -9,6 +9,7 @@ data class ChatUiState(
     val isLoading: Boolean = false,
     val messageList: List<Message> = emptyList(),
     val recentChat: RecentChat = RecentChat(),
+    val isWaitingApiResponse: Boolean = false,
     val apiResponseErrorInfo: ApiResponseErrorInfo? = null
 )
 

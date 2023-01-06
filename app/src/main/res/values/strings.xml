@@ -64,6 +64,7 @@
     <!-- ChatScreen -->
     <string name="message">Digite sua mensagem</string>
     <string name="used_tokens">Tokens Usados: %s</string>
+
     <!-- Api Error Response -->
     <string name="invalid_api_key">Chave de API Inválida</string>
     <string name="invalid_api_key_message">Sua chave de API é inválida. Verifique se você inseriu

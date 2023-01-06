@@ -73,8 +73,10 @@ class ChatViewModel @Inject constructor(
     fun sendMessage(message: String) {
         viewModelScope.launch {
             if (message.isNotBlank()) {
+                chatUiState = chatUiState.copy(isWaitingApiResponse = true)
                 onMessageValueChange(message = "")
                 addMessageToDatabase(message)
+
                 val messageText = generateMessageToSend(message)
                 val apiResponse = sendMessageUseCase(
                     message = messageText,
@@ -84,6 +86,7 @@ class ChatViewModel @Inject constructor(
 
                 when (apiResponse) {
                     is DataState.Success -> {
+                        chatUiState = chatUiState.copy(isWaitingApiResponse = false)
                         apiResponse.data?.let { messageData ->
                             updateRecentChat(
                                 usedTokens = messageData.totalTokens,
@@ -94,6 +97,7 @@ class ChatViewModel @Inject constructor(
                         }
                     }
                     is DataState.Error -> {
+                        chatUiState = chatUiState.copy(isWaitingApiResponse = false)
                         val apiResponseErrorInfo =
                                 when (apiResponse.exception as ApiResponseError) {
                                     ApiResponseError.InvalidApiKey -> {
