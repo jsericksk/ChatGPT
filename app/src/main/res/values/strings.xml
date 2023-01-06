@@ -40,7 +40,7 @@
 
 
     <string name="chat_mode">Modo Chat</string>
-    <string name="search_mode">Modo de Pesquisa</string>
+    <string name="search_mode">Modo Pesquisa</string>
     <string name="chat_mode_description">
         • Com esse modo, todas as mensagens anteriores da conversa, incluindo as respostas da IA,
         sempre serão enviados na requisição ao enviar uma nova mensagem. Dessa forma, a IA conseguirá

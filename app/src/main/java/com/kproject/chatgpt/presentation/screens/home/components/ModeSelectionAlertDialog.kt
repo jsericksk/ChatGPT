@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kproject.chatgpt.R
@@ -95,13 +96,14 @@ private fun CardItem(
         ) {
             Row(
                 horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .background(
                         color = MaterialTheme.colors.primary,
                         shape = RoundedCornerShape(12.dp)
                     )
                     .padding(8.dp)
-                    .align(Alignment.CenterHorizontally)
+                    .align(Alignment.CenterHorizontally),
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(id = icon),
@@ -114,6 +116,7 @@ private fun CardItem(
                     text = title,
                     color = MaterialTheme.colors.onPrimary,
                     fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
                 )
             }
             Spacer(Modifier.height(12.dp))
