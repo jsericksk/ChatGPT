@@ -9,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -94,11 +95,12 @@ private fun AIModelOption(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .clickable { showOptionsMenu = true }
                     .background(
                         color = MaterialTheme.colors.secondary,
                         shape = RoundedCornerShape(12.dp)
                     )
+                    .clip(RoundedCornerShape(12.dp))
+                    .clickable { showOptionsMenu = true }
                     .padding(12.dp)
             ) {
                 Text(
@@ -115,7 +117,7 @@ private fun AIModelOption(
             }
         }
 
-        IAModelOptionCustomDropdownMenu(
+        AIModelOptionCustomDropdownMenu(
             showDropdownMenu = showOptionsMenu,
             onDismiss = { showOptionsMenu = false },
             onOptionSelected = { option ->
@@ -126,7 +128,7 @@ private fun AIModelOption(
 }
 
 @Composable
-private fun IAModelOptionCustomDropdownMenu(
+private fun AIModelOptionCustomDropdownMenu(
     modifier: Modifier = Modifier,
     showDropdownMenu: Boolean,
     onDismiss: () -> Unit,
@@ -156,7 +158,12 @@ private fun IAModelOptionCustomDropdownMenu(
                     .padding(4.dp)
                     .background(
                         color = MaterialTheme.colors.primary,
-                        shape = RoundedCornerShape(8.dp)
+                        shape = RoundedCornerShape(
+                            topStart = 8.dp,
+                            topEnd = 8.dp,
+                            bottomStart = 14.dp,
+                            bottomEnd = 14.dp
+                        )
                     )
             ) {
                 Text(
@@ -185,8 +192,9 @@ private fun MaxTokensOption(
                 onMaxTokensValueChange.invoke(it.toInt())
             },
             colors = SliderDefaults.colors(
-                thumbColor = MaterialTheme.colors.secondary,
-                activeTrackColor = MaterialTheme.colors.onSecondary,
+                thumbColor = MaterialTheme.colors.onSecondary,
+                activeTrackColor = MaterialTheme.colors.secondary,
+                inactiveTrackColor = MaterialTheme.colors.onSecondary.copy(0.5f)
             ),
             valueRange = 7f..700f
         )
@@ -217,8 +225,9 @@ private fun TemperatureOption(
                 onTemperatureValueChange.invoke(it)
             },
             colors = SliderDefaults.colors(
-                thumbColor = MaterialTheme.colors.secondary,
-                activeTrackColor = MaterialTheme.colors.onSecondary,
+                thumbColor = MaterialTheme.colors.onSecondary,
+                activeTrackColor = MaterialTheme.colors.secondary,
+                inactiveTrackColor = MaterialTheme.colors.onSecondary.copy(0.5f)
             ),
             valueRange = 0f..1f
         )
