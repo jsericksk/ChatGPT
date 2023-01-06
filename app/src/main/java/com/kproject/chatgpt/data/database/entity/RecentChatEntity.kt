@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.kproject.chatgpt.commom.model.AIModelOptions
+import com.kproject.chatgpt.domain.model.RecentChatModel
 import java.util.*
 
 @Entity(tableName = "recent_chats")
@@ -25,4 +26,26 @@ data class RecentChatEntity(
     val chatMode: Boolean,
     @ColumnInfo(name = "model_options")
     val aiModelOptions: AIModelOptions
+)
+
+fun RecentChatModel.fromModel() = RecentChatEntity(
+    chatId = chatId,
+    chatName = chatName,
+    usedTokens = usedTokens,
+    lastMessage = lastMessage,
+    lastMessageDate = lastMessageDate,
+    lastMessageSentByUser = lastMessageSentByUser,
+    chatMode = chatMode,
+    aiModelOptions = aiModelOptions
+)
+
+fun RecentChatEntity.toModel() = RecentChatModel(
+    chatId = chatId,
+    chatName = chatName,
+    usedTokens = usedTokens,
+    lastMessage = lastMessage,
+    lastMessageDate = lastMessageDate,
+    lastMessageSentByUser = lastMessageSentByUser,
+    chatMode = chatMode,
+    aiModelOptions = aiModelOptions
 )

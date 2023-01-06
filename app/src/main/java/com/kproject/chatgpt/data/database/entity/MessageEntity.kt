@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
+import com.kproject.chatgpt.domain.model.MessageModel
 import java.util.*
 
 @Entity(
@@ -27,4 +28,18 @@ data class MessageEntity(
     val sentByUser: Boolean,
     @ColumnInfo(name = "send_date")
     val sendDate: Date
+)
+
+fun MessageModel.fromModel() = MessageEntity(
+    chatId = chatId,
+    message = message,
+    sentByUser = sentByUser,
+    sendDate = sendDate
+)
+
+fun MessageEntity.toModel() = MessageModel(
+    chatId = chatId,
+    message = message,
+    sentByUser = sentByUser,
+    sendDate = sendDate
 )

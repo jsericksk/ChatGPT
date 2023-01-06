@@ -1,8 +1,8 @@
 package com.kproject.chatgpt.data.repository
 
 import com.kproject.chatgpt.data.database.dao.RecentChatDao
-import com.kproject.chatgpt.data.mapper.fromModel
-import com.kproject.chatgpt.data.mapper.toModel
+import com.kproject.chatgpt.data.database.entity.fromModel
+import com.kproject.chatgpt.data.database.entity.toModel
 import com.kproject.chatgpt.domain.model.RecentChatModel
 import com.kproject.chatgpt.domain.repository.RecentChatRepository
 import kotlinx.coroutines.flow.Flow

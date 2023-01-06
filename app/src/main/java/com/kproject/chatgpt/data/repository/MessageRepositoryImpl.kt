@@ -9,8 +9,8 @@ import com.kproject.chatgpt.data.api.ApiService
 import com.kproject.chatgpt.data.api.entity.ErrorResponse
 import com.kproject.chatgpt.data.api.entity.MessageBody
 import com.kproject.chatgpt.data.database.dao.MessageDao
-import com.kproject.chatgpt.data.mapper.fromModel
-import com.kproject.chatgpt.data.mapper.toModel
+import com.kproject.chatgpt.data.database.entity.fromModel
+import com.kproject.chatgpt.data.database.entity.toModel
 import com.kproject.chatgpt.domain.model.MessageModel
 import com.kproject.chatgpt.domain.model.RecentChatModel
 import com.kproject.chatgpt.domain.repository.MessageRepository
