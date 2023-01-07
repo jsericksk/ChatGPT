@@ -84,12 +84,20 @@ class MessageRepositoryImpl(
             val errorResponse: ErrorResponse? = Gson().fromJson(errorBody.charStream(), type)
             errorResponse?.let {
                 val errorMessage = errorResponse.error.message
+                /**
+                 * The API doesn't have very good information about error codes. So the simplest
+                 * solution is to check the contents of the error message, although this may fail
+                 * in the future if the api inserts different error messages.
+                 */
                 return when {
                     errorMessage.contains("incorrect API key", ignoreCase = true) -> {
                         DataState.Error(ApiResponseError.InvalidApiKey)
                     }
                     errorMessage.contains("maximum context length", ignoreCase = true) -> {
                         DataState.Error(ApiResponseError.MaxTokensReached)
+                    }
+                    errorMessage.contains("server is currently overloaded", ignoreCase = true) -> {
+                        DataState.Error(ApiResponseError.OverloadedServer)
                     }
                     else -> {
                         DataState.Error(ApiResponseError.UnknownError)

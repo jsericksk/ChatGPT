@@ -63,6 +63,9 @@
         recomendável iniciar uma nova conversa. Isso pode acontecer quando a conversa atinge um
         número alto de tokens usados ou se você estiver inserindo uma quantidade muito grande
         de caracteres na mensagem.</string>
+    <string name="overloaded_server_error">Servidor Sobrecarregado</string>
+    <string name="overloaded_server_error_message">O servidor está atualmente sobrecarregado com
+        outras solicitações. Tente novamente ou aguarde um pouco até o servidor se estabilizar.</string>
     <string name="unknown_api_response_error">Erro Desconhecido</string>
     <string name="unknown_api_response_error_message">Ops! Parece que houve um erro desconhecido
         ao tentar obter uma resposta da IA. Tente novamente ou verifique se sua conexão com a

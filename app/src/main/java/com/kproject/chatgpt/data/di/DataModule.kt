@@ -20,8 +20,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -83,8 +85,12 @@ object DataModule {
     @Provides
     @Singleton
     fun provideApiService(): ApiService {
+        val okHttpClient = OkHttpClient.Builder()
+            .readTimeout(60, TimeUnit.SECONDS)
+            .build()
         val retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
             .baseUrl(ApiService.API_BASE_URL)
             .build()
         return retrofit.create(ApiService::class.java)

@@ -97,27 +97,9 @@ class ChatViewModel @Inject constructor(
                     }
                     is DataState.Error -> {
                         chatUiState = chatUiState.copy(isWaitingApiResponse = false)
-                        val apiResponseErrorInfo =
-                                when (apiResponse.exception as ApiResponseError) {
-                                    ApiResponseError.InvalidApiKey -> {
-                                        ApiResponseErrorInfo(
-                                            titleResId = R.string.invalid_api_key,
-                                            descriptionResId = R.string.invalid_api_key_message
-                                        )
-                                    }
-                                    ApiResponseError.MaxTokensReached -> {
-                                        ApiResponseErrorInfo(
-                                            titleResId = R.string.max_tokens_reached,
-                                            descriptionResId = R.string.max_tokens_reached_message
-                                        )
-                                    }
-                                    else -> {
-                                        ApiResponseErrorInfo(
-                                            titleResId = R.string.unknown_api_response_error,
-                                            descriptionResId = R.string.unknown_api_response_error_message
-                                        )
-                                    }
-                                }
+                        val apiResponseErrorInfo = mapErrorToInfo(
+                            apiResponseError = apiResponse.exception as ApiResponseError
+                        )
                         onApiResponseErrorInfoChange(apiResponseErrorInfo = apiResponseErrorInfo)
                     }
                 }
@@ -136,6 +118,35 @@ class ChatViewModel @Inject constructor(
             text.append(message.message + "\n\n")
         }
         return text.toString() + messageText
+    }
+
+    private fun mapErrorToInfo(apiResponseError: ApiResponseError): ApiResponseErrorInfo {
+        return when (apiResponseError) {
+            ApiResponseError.InvalidApiKey -> {
+                ApiResponseErrorInfo(
+                    titleResId = R.string.invalid_api_key,
+                    descriptionResId = R.string.invalid_api_key_message
+                )
+            }
+            ApiResponseError.MaxTokensReached -> {
+                ApiResponseErrorInfo(
+                    titleResId = R.string.max_tokens_reached,
+                    descriptionResId = R.string.max_tokens_reached_message
+                )
+            }
+            ApiResponseError.OverloadedServer -> {
+                ApiResponseErrorInfo(
+                    titleResId = R.string.overloaded_server_error,
+                    descriptionResId = R.string.overloaded_server_error_message
+                )
+            }
+            else -> {
+                ApiResponseErrorInfo(
+                    titleResId = R.string.unknown_api_response_error,
+                    descriptionResId = R.string.unknown_api_response_error_message
+                )
+            }
+        }
     }
 
     private fun addMessageToDatabase(textMessage: String) {
