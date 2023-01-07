@@ -1,44 +1,33 @@
 <resources>
-    <string name="app_name">ChatGPT</string>
 
+    <string name="app_name" translatable="false">ChatGPT</string>
     <string name="button_ok">OK</string>
     <string name="button_save">Salvar</string>
     <string name="button_cancel">Cancelar</string>
     <string name="button_continue">Continuar</string>
-
     <string name="app_theme">Tema do Aplicativo</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="api_consumption">Consumo da Conta</string>
-
-
-
     <string name="info_title_empty_recent_chats_list">Nenhuma conversa ainda</string>
     <string name="info_description_empty_recent_chats_list">Você ainda não iniciou nenhuma conversa.
         Novas conversas aparecerão aqui.</string>
     <string name="info_title_empty_chat_list">Nenhuma mensagem</string>
     <string name="info_description_empty_chat_list">Você ainda não enviou nenhuma mensagem.
         Inicie uma conversa!</string>
-
     <string name="api_key">Chave da API</string>
     <string name="insert_api_key">Insira sua chave da API</string>
-
     <string name="info_title_empty_api_key">Chave da API Vazia</string>
     <string name="info_description_empty_api_key">Você ainda não inseriu a sua chave da API. Para
         obter sua chave, acesse o site da OpenAI no seu navegador, entre em sua conta ou se registre.</string>
     <string name="access_url">Acessar Site</string>
-
     <string name="chat_name">Título da Conversa</string>
     <string name="insert_chat_name">Insira um título</string>
-
-
     <string name="rename_chat">Renomear Conversa</string>
     <string name="clear_chat">Limpar Conversa</string>
     <string name="clear_chat_confirmation">Tem certeza que deseja limpar essa conversa? Todas as
         mensagens serão excluídas. Isso não afetará as configurações atuais do modelo de IA dessa conversa.</string>
     <string name="delete_chat">Excluir Conversa</string>
     <string name="delete_chat_confirmation">Tem certeza que deseja excluir essa conversa?</string>
-
-
     <string name="chat_mode">Modo Chat</string>
     <string name="search_mode">Modo Pesquisa</string>
     <string name="chat_mode_description">
@@ -46,9 +35,8 @@
         sempre serão enviados na requisição ao enviar uma nova mensagem. Dessa forma, a IA conseguirá
         obter o contexto da conversa e responder como se fosse um chat, assim como o ChatGPT.
         \n• Mais tokens serão usados, consequentemente aumentando o consumo na sua conta.
-        \n• Ao chegar em uma certa quantidade de uso de tokens, é recomendável limpar a conversa ou
-        iniciar outra, pois os modelos da IA têm um limite de 2048/4000 tokens. Você terá um erro se
-        a conversa exceder o limite de tokens.
+        \n• Os modelos de IA têm um limite de 2048/4000 tokens. Ao receber erros de limite máximo
+        de tokens atigindos, é recomendável limpar a conversa ou iniciar outra.
     </string>
     <string name="search_mode_description">
         • Recomendável se você quiser usar a IA para fazer perguntas isoladas. Com isso você
@@ -64,6 +52,7 @@
     <!-- ChatScreen -->
     <string name="message">Digite sua mensagem</string>
     <string name="used_tokens">Tokens Usados: %s</string>
+    <string name="copy_text">Copiar Texto</string>
 
     <!-- Api Error Response -->
     <string name="invalid_api_key">Chave de API Inválida</string>
@@ -79,13 +68,11 @@
         ao tentar obter uma resposta da IA. Tente novamente ou verifique se sua conexão com a
         internet está funcionando corretamente.</string>
 
-    <string name="copy_text">Copiar Texto</string>
-
-    <!-- IA Model Options -->
-    <string name="ia_model_options">Opções do Modelo da IA</string>
-    <string name="ia_model_option_model">Modelo</string>
-    <string name="ia_model_option_text_davinci_003_title">text_davinci_003</string>
-    <string name="ia_model_option_text_davinci_003_description">
+    <!-- AI Model Options -->
+    <string name="ai_model_options">Opções do Modelo da IA</string>
+    <string name="ai_model_option_model">Modelo</string>
+    <string name="ai_model_option_text_davinci_003_title">text_davinci_003</string>
+    <string name="ai_model_option_text_davinci_003_description">
         • Modelo GPT-3 mais capaz. Pode fazer qualquer tarefa que os outros modelos podem fazer,
         muitas vezes com maior qualidade, saída mais longa e melhor seguimento de instruções.
         \n• Recomendado se quiser ter respostas mais precisas e atualizadas.
@@ -93,8 +80,8 @@
         \n• Suporte máximo de 4000 tokens.
         \n• Custo de $0.0200 / 1K tokens
     </string>
-    <string name="ia_model_option_text_curie_001_title">text_curie_001</string>
-    <string name="ia_model_option_text_curie_001_description">
+    <string name="ai_model_option_text_curie_001_title">text_curie_001</string>
+    <string name="ai_model_option_text_curie_001_description">
         • Muito capaz, mais rápido e com custo menor que o text_davinci_003. No entando, ele pode
         apresentar respostas menos farováveis do que o modelo text_davinci_003, principalmente
         se tratando de códigos de programação.
@@ -104,23 +91,23 @@
         \n• Custo de $0.0020 / 1K tokens.
     </string>
 
-    <string name="ia_model_option_max_tokens">Número Máximo de Tokens</string>
-    <string name="ia_model_option_max_tokens_description">
+    <string name="ai_model_option_max_tokens">Número Máximo de Tokens</string>
+    <string name="ai_model_option_max_tokens_description">
         • O número máximo de tokens que podem ser gerados na resposta da IA.
+        \n• Tokens são como pedaços de palavras, onde 1.000 tokens são cerca de 750 palavras. Essa
+        contagem pode variar dependendo do idioma da sua mensagem e funciona melhor no Inglês.
         \n• Um número alto diminui as chances de respostas cortadas, enquanto um número mais baixo
-        limita as respostas da IA a uma certa quantidade de caracteres (consequentemente, os tokens)
-        e gera mais respostas cortadas.
-        \n• A contagem de tokens da sua mensagem junto do número máximo de tokens não deve exceder
-        o limite de tokens do modelo da IA.
+        pode limitar as respostas da IA a uma certa quantidade de caracteres (tokens).
+        \n• Um número de 256 tokens não significa que a IA sempre irá usar 256 tokens, mas apenas
+        que ela pode usar essa quantidade.
     </string>
-
-    <string name="ia_model_option_temperature">Temperatura</string>
-    <string name="ia_model_option_temperature_description">
+    <string name="ai_model_option_temperature">Temperatura</string>
+    <string name="ai_model_option_temperature_description">
         • Qual temperatura de amostragem usar.
-        \n• Tente 1 para respostas mais criativas e 0 para obter respostas
-        mais bem definidas e precisas.
-        \n• Se definido em 1, mais chances há da IA responder diferente, caso esteja
-        querendo obter respostas diferentes para uma mesma questão.
+        \n• Valores mais altos significam que o modelo assumirá mais riscos. Tente 0,9 para obter
+        respostas mais criativos e 0 para respostas mais bem definidas.
+        \n• Quanto mais próximo de 1, mais chances há da IA responder de forma diferente uma mesma
+        questão.
     </string>
 
 

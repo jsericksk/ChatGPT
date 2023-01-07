@@ -40,7 +40,7 @@ fun AIModelOptionsAlertDialog(
                 onSaveAIModelOptions.invoke(aiModelOptions)
             },
             okButtonTitle = stringResource(id = R.string.button_save),
-            title = stringResource(id = R.string.ia_model_options)
+            title = stringResource(id = R.string.ai_model_options)
         ) {
             Column {
                 AIModelOption(
@@ -75,9 +75,9 @@ private fun AIModelOption(
 ) {
     var showOptionsMenu by remember { mutableStateOf(false) }
     val modelDescriptionResId = if (aiModel == AIModel.TextDavinci003) {
-        R.string.ia_model_option_text_davinci_003_description
+        R.string.ai_model_option_text_davinci_003_description
     } else {
-        R.string.ia_model_option_text_curie_001_description
+        R.string.ai_model_option_text_curie_001_description
     }
 
     val dropdownIcon = if (showOptionsMenu) {
@@ -88,7 +88,7 @@ private fun AIModelOption(
 
     CardOptionItem {
         OptionTitle(
-            textResId = R.string.ia_model_option_model,
+            textResId = R.string.ai_model_option_model,
             descriptionResId = modelDescriptionResId
         )
         Spacer(Modifier.height(6.dp))
@@ -183,8 +183,8 @@ private fun MaxTokensOption(
 ) {
     CardOptionItem {
         OptionTitle(
-            textResId = R.string.ia_model_option_max_tokens,
-            descriptionResId = R.string.ia_model_option_max_tokens_description
+            textResId = R.string.ai_model_option_max_tokens,
+            descriptionResId = R.string.ai_model_option_max_tokens_description
         )
 
         Slider(
@@ -216,8 +216,8 @@ private fun TemperatureOption(
 ) {
     CardOptionItem {
         OptionTitle(
-            textResId = R.string.ia_model_option_temperature,
-            descriptionResId = R.string.ia_model_option_temperature_description
+            textResId = R.string.ai_model_option_temperature,
+            descriptionResId = R.string.ai_model_option_temperature_description
         )
 
         Slider(
