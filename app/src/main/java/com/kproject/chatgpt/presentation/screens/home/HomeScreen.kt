@@ -1,5 +1,8 @@
 package com.kproject.chatgpt.presentation.screens.home
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -318,6 +321,7 @@ private fun Content(
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class, ExperimentalFoundationApi::class)
 @Composable
 private fun RecentChatsList(
     modifier: Modifier = Modifier,
@@ -325,40 +329,49 @@ private fun RecentChatsList(
     onClick: (recentChat: RecentChat) -> Unit,
     onLongClick: (recentChat: RecentChat) -> Unit
 ) {
-    if (recentChatsList.isNotEmpty()) {
-        LazyColumn(
-            modifier = modifier.fillMaxSize()
-        ) {
-            itemsIndexed(recentChatsList) { index, recentChat ->
-                RecentChatsListItem(
-                    recentChat = recentChat,
-                    onClick = {
-                        onClick(recentChat)
-                    },
-                    onLongClick = {
-                        onLongClick.invoke(recentChat)
-                    }
-                )
+    AnimatedContent(targetState = recentChatsList.isNotEmpty()) { recentChatsListIsNotEmpty ->
+        if (recentChatsListIsNotEmpty) {
+            LazyColumn(
+                modifier = modifier.fillMaxSize(),
+            ) {
+                itemsIndexed(
+                    items = recentChatsList,
+                    key = { index, recentChat -> recentChat.chatId }
+                ) { index, recentChat ->
+                    RecentChatsListItem(
+                        recentChat = recentChat,
+                        onClick = {
+                            onClick(recentChat)
+                        },
+                        onLongClick = {
+                            onLongClick.invoke(recentChat)
+                        },
+                        modifier = Modifier.animateItemPlacement(
+                            animationSpec = tween(durationMillis = 600)
+                        )
+                    )
+                }
             }
+        } else {
+            EmptyListInfo(
+                iconResId = R.drawable.ic_chat,
+                title = stringResource(id = R.string.info_title_empty_recent_chats_list),
+                description = stringResource(id = R.string.info_description_empty_recent_chats_list)
+            )
         }
-    } else {
-        EmptyListInfo(
-            iconResId = R.drawable.ic_chat,
-            title = stringResource(id = R.string.info_title_empty_recent_chats_list),
-            description = stringResource(id = R.string.info_description_empty_recent_chats_list)
-        )
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun RecentChatsListItem(
+    modifier: Modifier = Modifier,
     recentChat: RecentChat,
     onClick: () -> Unit,
     onLongClick: () -> Unit
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .combinedClickable(
                 onClick = onClick,
                 onLongClick = onLongClick
