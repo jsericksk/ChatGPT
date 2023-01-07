@@ -388,7 +388,6 @@ private fun WaitingApiResponseLoadingIndicator() {
             tint = MaterialTheme.colors.onSurface,
             modifier = Modifier
                 .size(30.dp)
-
         )
 
         ProgressIndicator(
