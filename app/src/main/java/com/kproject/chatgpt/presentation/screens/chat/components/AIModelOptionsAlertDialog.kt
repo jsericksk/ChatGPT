@@ -21,6 +21,7 @@ import com.kproject.chatgpt.commom.model.AIModelOptions
 import com.kproject.chatgpt.presentation.screens.components.CustomAlertDialog
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
 import com.kproject.chatgpt.presentation.theme.SimplePreview
+import java.math.RoundingMode
 
 @Composable
 fun AIModelOptionsAlertDialog(
@@ -222,7 +223,7 @@ private fun TemperatureOption(
         Slider(
             value = temperature,
             onValueChange = {
-                onTemperatureValueChange.invoke(it)
+                onTemperatureValueChange.invoke(it.roundTemperature())
             },
             colors = SliderDefaults.colors(
                 thumbColor = MaterialTheme.colors.onSecondary,
@@ -233,12 +234,16 @@ private fun TemperatureOption(
         )
 
         Text(
-            text = temperature.toInt().toString(),
+            text = temperature.toString(),
             color = MaterialTheme.colors.onSurface,
             fontSize = 14.sp,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
     }
+}
+
+private fun Float.roundTemperature(): Float {
+    return this.toBigDecimal().setScale(2, RoundingMode.UP).toFloat()
 }
 
 @Composable

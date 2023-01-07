@@ -9,7 +9,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -334,10 +334,10 @@ private fun RecentChatsList(
             LazyColumn(
                 modifier = modifier.fillMaxSize(),
             ) {
-                itemsIndexed(
+                items(
                     items = recentChatsList,
-                    key = { index, recentChat -> recentChat.chatId }
-                ) { index, recentChat ->
+                    key = { recentChat -> recentChat.chatId }
+                ) { recentChat ->
                     RecentChatsListItem(
                         recentChat = recentChat,
                         onClick = {
