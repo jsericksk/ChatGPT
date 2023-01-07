@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.kproject.chatgpt.presentation.navigation.NavigationGraph
 import com.kproject.chatgpt.presentation.screens.home.HomeViewModel
 import com.kproject.chatgpt.presentation.theme.ChatGPTTheme
@@ -18,6 +19,7 @@ class MainActivity : ComponentActivity() {
     private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
             val themeOption = homeViewModel.homeUiState.themeOption
