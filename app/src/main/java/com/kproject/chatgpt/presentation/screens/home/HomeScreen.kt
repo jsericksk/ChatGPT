@@ -410,18 +410,19 @@ private fun RecentChatsListItem(
                 Text(
                     text = recentChat.chatName,
                     color = MaterialTheme.colors.onPrimary,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 1,
                     fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1
                 )
 
                 if (recentChat.lastMessage.isNotBlank()) {
                     Spacer(Modifier.height(4.dp))
                     Text(
                         text = recentChat.lastMessage,
-                        color = MaterialTheme.colors.onPrimary,
-                        maxLines = 1,
-                        fontSize = 16.sp
+                        color = MaterialTheme.colors.onPrimary.copy(0.6f),
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Light,
+                        maxLines = 1
                     )
                 }
             }

@@ -43,7 +43,7 @@ val fakeRecentChatsList = (0..20).map { index ->
             if (index % 2 == 0) "What is Jetpack Compose?" else "How many kilograms does air weigh?"
     val lastMessageSentByUserAndChatMode = index % 2 == 0
     RecentChat(
-        chatId = 1234,
+        chatId = index.toLong(),
         chatName = chatName,
         usedTokens = 1234,
         lastMessage = lastMessage,
