@@ -176,7 +176,7 @@ private fun Preview() {
         ThemeOptionAlertDialog(
             showDialog = true,
             onDismiss = {},
-            currentSelectedTheme = ThemeOptions.Option1,
+            currentSelectedTheme = ThemeOptions.DefaultTheme,
             currentDarkMode = true,
             onThemeSelected = { _, _ -> },
         )

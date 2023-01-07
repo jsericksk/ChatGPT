@@ -46,7 +46,7 @@ class HomeViewModel @Inject constructor(
         )
         val themeOption = getPreferenceUseCase(
             key = PrefsConstants.ThemeOption,
-            defaultValue = ThemeOptions.Option1
+            defaultValue = ThemeOptions.DefaultTheme
         )
         val isDarkMode = getPreferenceUseCase(
             key = PrefsConstants.DarkMode,

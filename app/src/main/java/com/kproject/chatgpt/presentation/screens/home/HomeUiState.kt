@@ -7,6 +7,6 @@ data class HomeUiState(
     val isLoading: Boolean = false,
     val recentChatsList: List<RecentChat> = emptyList(),
     val apiKey: String = "",
-    val themeOption: Int = ThemeOptions.Option1,
+    val themeOption: Int = ThemeOptions.DefaultTheme,
     val isDarkMode: Boolean = true
 )

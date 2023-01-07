@@ -10,7 +10,7 @@ import com.kproject.chatgpt.presentation.theme.custom.ThemeOptions
 
 @Composable
 fun ChatGPTTheme(
-    themeOption: Int = ThemeOptions.Option3,
+    themeOption: Int = ThemeOptions.DefaultTheme,
     isDarkMode: Boolean,
     content: @Composable () -> Unit
 ) {
@@ -46,7 +46,7 @@ fun ChatGPTTheme(
 
 @Composable
 fun PreviewTheme(
-    themeOption: Int = ThemeOptions.Option1,
+    themeOption: Int = ThemeOptions.DefaultTheme,
     isDarkMode: Boolean = true,
     content: @Composable () -> Unit
 ) {

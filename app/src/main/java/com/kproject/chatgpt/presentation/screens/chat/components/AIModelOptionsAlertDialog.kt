@@ -222,8 +222,8 @@ private fun TemperatureOption(
 
         Slider(
             value = temperature,
-            onValueChange = {
-                onTemperatureValueChange.invoke(it.roundTemperature())
+            onValueChange = { newTemperature ->
+                onTemperatureValueChange.invoke(newTemperature.roundTemperature())
             },
             colors = SliderDefaults.colors(
                 thumbColor = MaterialTheme.colors.onSecondary,

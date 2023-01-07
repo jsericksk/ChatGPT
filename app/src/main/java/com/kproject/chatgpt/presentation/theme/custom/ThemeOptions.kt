@@ -10,9 +10,5 @@ object ThemeOptions {
         ThemeLightOption4(), ThemeLightOption5(), ThemeLightOption6()
     )
 
-    const val Option1 = 0
-    const val Option2 = 1
-    const val Option3 = 2
-    const val Option4 = 3
-    const val Option5 = 4
+    const val DefaultTheme = 0
 }
