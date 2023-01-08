@@ -59,7 +59,7 @@ fun ChatOptionsAlertDialog(
                         }
                     )
                     OptionItem(
-                        iconResId = R.drawable.ic_clear,
+                        iconResId = R.drawable.ic_delete_sweep,
                         title = stringResource(id = R.string.clear_chat),
                         onClick = {
                             onDismiss.invoke()
