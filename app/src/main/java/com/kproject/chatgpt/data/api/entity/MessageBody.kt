@@ -1,7 +1,9 @@
 package com.kproject.chatgpt.data.api.entity
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class MessageBody(
     @SerializedName("model")
     val model: String,
