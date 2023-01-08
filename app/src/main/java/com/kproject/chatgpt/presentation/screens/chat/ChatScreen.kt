@@ -93,7 +93,7 @@ private fun Content(
     onNavigateBack: () -> Unit,
     onOptionsClick: () -> Unit
 ) {
-    Column {
+    Column(modifier = modifier) {
         CustomTopBar(
             recentChat = uiState.recentChat,
             onNavigateBack = onNavigateBack,
@@ -238,9 +238,9 @@ private fun ChatListItem(
             if (message.sentByUser) MaterialTheme.colors.surface else MaterialTheme.colors.primary
     val alignment = if (message.sentByUser) Alignment.End else Alignment.Start
     val messageTextPadding = if (alignment == Alignment.End) {
-        PaddingValues(start = 46.dp)
+        PaddingValues(start = 48.dp)
     } else {
-        PaddingValues(end = 46.dp)
+        PaddingValues(end = 48.dp)
     }
     val shape = if (message.sentByUser) {
         RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp, bottomStart = 20.dp, bottomEnd = 10.dp)
@@ -312,7 +312,7 @@ fun ChatTextField(
             WaitingApiResponseLoadingIndicator()
         }
 
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(10.dp))
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
