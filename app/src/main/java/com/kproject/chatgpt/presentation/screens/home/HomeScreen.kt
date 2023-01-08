@@ -427,9 +427,10 @@ private fun RecentChatsListItem(
             }
 
             Text(
-                text = recentChat.lastMessageDate.getFormattedDate(),
+                text = recentChat.lastMessageDate.getFormattedDate(showOnlyDate = true),
                 color = MaterialTheme.colors.onPrimary,
-                fontSize = 12.sp
+                fontSize = 12.sp,
+                modifier = Modifier.padding(start = 6.dp)
             )
         }
     }
