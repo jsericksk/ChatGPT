@@ -362,11 +362,18 @@ private fun RecentChatsListItem(
     onClick: () -> Unit,
     onLongClick: () -> Unit
 ) {
+    // Prevents multiple calls to onClick, avoiding opening ChatScreen multiple times
+    var notClicked by remember { mutableStateOf(true) }
     Column(
         modifier = modifier
             .combinedClickable(
-                onClick = onClick,
-                onLongClick = onLongClick
+                onClick = {
+                    if (notClicked) {
+                        onClick.invoke()
+                        notClicked = false
+                    }
+                },
+                onLongClick = onLongClick,
             )
             .padding(8.dp)
     ) {

@@ -30,12 +30,6 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     NavigationGraph(homeViewModel = homeViewModel)
-                    // ChatScreen(chatId = 1234) {}
-                    /**AIModelOptionsAlertDialog(
-                    showDialog = true,
-                    aiModelOptions = AIModelOptions(),
-                    onDismiss = {}
-                    )*/
                 }
             }
         }
