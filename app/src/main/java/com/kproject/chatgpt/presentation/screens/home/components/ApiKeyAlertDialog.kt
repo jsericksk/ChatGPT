@@ -18,7 +18,10 @@ fun ApiKeyAlertDialog(
 
     TextFieldAlertDialog(
         showDialog = showDialog,
-        onDismiss = onDismiss,
+        onDismiss = {
+            onDismiss.invoke()
+            currentApiKey = ""
+        },
         title = stringResource(id = R.string.api_key),
         textFieldValue = currentApiKey,
         textFieldPlaceholder = stringResource(id = R.string.insert_api_key),
@@ -37,11 +40,11 @@ fun ApiKeyAlertDialog(
 @Composable
 private fun Preview() {
     PreviewTheme {
-       ApiKeyAlertDialog(
-           showDialog = true,
-           onDismiss = {},
-           apiKey = "sdjfjfewow",
-           onSaveApiKey = {}
-       )
+        ApiKeyAlertDialog(
+            showDialog = true,
+            onDismiss = {},
+            apiKey = "sdjfjfewow",
+            onSaveApiKey = {}
+        )
     }
 }

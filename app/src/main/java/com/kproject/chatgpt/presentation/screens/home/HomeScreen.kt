@@ -3,14 +3,12 @@ package com.kproject.chatgpt.presentation.screens.home
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
@@ -25,6 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kproject.chatgpt.R
@@ -51,8 +50,8 @@ fun HomeScreen(
 
     HomeScreenContent(
         homeUiState = uiState,
-        onApiKeyOptionClick = { showApiKeyDialog = true },
-        onAppThemeOptionClick = { showThemeOptionDialog = true },
+        onChangeApiKey = { showApiKeyDialog = true },
+        onChangeAppTheme = { showThemeOptionDialog = true },
         onStartNewChat = { chatName, conversationMode ->
             val chatArgs = ChatArgs(
                 chatId = UnspecifiedChatId,
@@ -103,8 +102,8 @@ fun HomeScreen(
 @Composable
 private fun HomeScreenContent(
     homeUiState: HomeUiState,
-    onApiKeyOptionClick: () -> Unit,
-    onAppThemeOptionClick: () -> Unit,
+    onChangeApiKey: () -> Unit,
+    onChangeAppTheme: () -> Unit,
     onStartNewChat: (chatName: String, conversationMode: ConversationMode) -> Unit,
     onChatSelected: (recentChat: RecentChat) -> Unit,
     onRenameChat: (newTitle: String, recentChat: RecentChat) -> Unit,
@@ -142,8 +141,8 @@ private fun HomeScreenContent(
                     OptionsDropdownMenu(
                         showOptionsMenu = showOptionsMenu,
                         onDismiss = { showOptionsMenu = false },
-                        onApiKeyOptionClick = onApiKeyOptionClick,
-                        onAppThemeOptionClick = onAppThemeOptionClick
+                        onApiKeyOptionClick = onChangeApiKey,
+                        onAppThemeOptionClick = onChangeAppTheme
                     )
                 }
             )
@@ -170,7 +169,8 @@ private fun HomeScreenContent(
                 selectedRecentChat = recentChat
                 chatName = recentChat.chatName
                 showChatOptionsDialog = true
-            }
+            },
+            onInsertApiKey = onChangeApiKey
         )
 
         ChatOptionsAlertDialog(
@@ -289,7 +289,8 @@ private fun Content(
     modifier: Modifier = Modifier,
     homeUiState: HomeUiState,
     onChatSelected: (recentChat: RecentChat) -> Unit,
-    onShowChatOptions: (recentChat: RecentChat) -> Unit
+    onShowChatOptions: (recentChat: RecentChat) -> Unit,
+    onInsertApiKey: () -> Unit
 ) {
     if (homeUiState.isLoading) {
         ProgressIndicator()
@@ -306,16 +307,8 @@ private fun Content(
                 modifier = modifier,
             )
         } else {
-            val context = LocalContext.current
-            EmptyInfo(
-                iconResId = R.drawable.ic_key_off,
-                title = stringResource(id = R.string.info_title_empty_api_key),
-                description = stringResource(id = R.string.info_description_empty_api_key),
-                buttonTitle = stringResource(id = R.string.access_url),
-                onClickButton = {
-                    val url = "https://beta.openai.com/account/api-keys"
-                    Utils.openUrl(context, url)
-                }
+            EmptyApiKeyInfo(
+                onInsertApiKey = onInsertApiKey
             )
         }
     }
@@ -473,6 +466,73 @@ private fun NewChatAlertDialog(
     )
 }
 
+@Composable
+private fun EmptyApiKeyInfo(
+    modifier: Modifier = Modifier,
+    onInsertApiKey: () -> Unit
+) {
+    val context = LocalContext.current
+    Column(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Icon(
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_key_off),
+            contentDescription = null,
+            tint = MaterialTheme.colors.primary,
+            modifier = Modifier.size(110.dp)
+        )
+        Text(
+            text = stringResource(id = R.string.info_title_empty_api_key),
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colors.onPrimary,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(all = 6.dp)
+        )
+        Text(
+            text = stringResource(id = R.string.info_description_empty_api_key),
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colors.onPrimary,
+            fontSize = 16.sp,
+            modifier = Modifier.padding(all = 6.dp)
+        )
+        Spacer(Modifier.height(8.dp))
+        Button(
+            onClick = {
+                val url = "https://beta.openai.com/account/api-keys"
+                Utils.openUrl(context, url)
+            },
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            Text(
+                text = stringResource(id = R.string.access_url),
+                fontSize = 16.sp,
+                color = MaterialTheme.colors.onSurface
+            )
+        }
+        Spacer(Modifier.height(8.dp))
+        OutlinedButton(
+            onClick = onInsertApiKey,
+            shape = RoundedCornerShape(12.dp),
+            colors = ButtonDefaults.outlinedButtonColors(
+                backgroundColor = MaterialTheme.colors.background,
+            ),
+            border = BorderStroke(
+                width = 1.dp,
+                color = MaterialTheme.colors.secondary.copy(0.5f)
+            )
+        ) {
+            Text(
+                text = stringResource(id = R.string.i_have_the_api_key),
+                fontSize = 16.sp,
+                color = MaterialTheme.colors.onPrimary
+            )
+        }
+    }
+}
+
 @CompletePreview
 @Composable
 private fun Preview() {
@@ -484,8 +544,8 @@ private fun Preview() {
         )
         HomeScreenContent(
             homeUiState = uiState,
-            onApiKeyOptionClick = {},
-            onAppThemeOptionClick = {},
+            onChangeApiKey = {},
+            onChangeAppTheme = {},
             onStartNewChat = { _, _ -> },
             onChatSelected = {},
             onRenameChat = { _, _ -> },
