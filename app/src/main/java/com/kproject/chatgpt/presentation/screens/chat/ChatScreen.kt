@@ -242,11 +242,7 @@ private fun ChatListItem(
     } else {
         PaddingValues(end = 48.dp)
     }
-    val shape = if (message.sentByUser) {
-        RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp, bottomStart = 20.dp, bottomEnd = 10.dp)
-    } else {
-        RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp, bottomStart = 8.dp, bottomEnd = 20.dp)
-    }
+    val shape = RoundedCornerShape(13.dp)
 
     var showCopyTextOption by remember { mutableStateOf(false) }
 
