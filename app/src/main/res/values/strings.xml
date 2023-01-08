@@ -19,7 +19,7 @@
     <string name="info_title_empty_api_key">Chave da API Vazia</string>
     <string name="info_description_empty_api_key">Você ainda não inseriu a sua chave da API. Para
         obter sua chave, acesse o site da OpenAI no seu navegador, entre em sua conta ou se registre.</string>
-    <string name="i_have_the_api_key">Já tenho a chave da API!</string>
+    <string name="i_have_the_api_key">Já tenho a chave da API</string>
     <string name="access_url">Acessar Site</string>
     <string name="chat_name">Título da Conversa</string>
     <string name="insert_chat_name">Insira um título</string>

@@ -38,7 +38,6 @@ import com.kproject.chatgpt.presentation.screens.utils.Utils
 import com.kproject.chatgpt.presentation.theme.CompletePreview
 import com.kproject.chatgpt.presentation.theme.PreviewTheme
 
-
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel,
@@ -527,7 +526,7 @@ private fun EmptyApiKeyInfo(
             Text(
                 text = stringResource(id = R.string.i_have_the_api_key),
                 fontSize = 16.sp,
-                color = MaterialTheme.colors.onPrimary
+                color = MaterialTheme.colors.primary
             )
         }
     }

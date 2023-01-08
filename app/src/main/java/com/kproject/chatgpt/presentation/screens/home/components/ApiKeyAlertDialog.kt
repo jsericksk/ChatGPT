@@ -14,26 +14,27 @@ fun ApiKeyAlertDialog(
     apiKey: String,
     onSaveApiKey: (String) -> Unit
 ) {
-    var currentApiKey by remember { mutableStateOf(apiKey) }
+    if (showDialog) {
+        var currentApiKey by remember { mutableStateOf(apiKey) }
 
-    TextFieldAlertDialog(
-        showDialog = showDialog,
-        onDismiss = {
-            onDismiss.invoke()
-            currentApiKey = ""
-        },
-        title = stringResource(id = R.string.api_key),
-        textFieldValue = currentApiKey,
-        textFieldPlaceholder = stringResource(id = R.string.insert_api_key),
-        okButtonEnabled = currentApiKey.isNotBlank(),
-        okButtonTitle = stringResource(id = R.string.button_save),
-        onTextValueChange = {
-            currentApiKey = it
-        },
-        onClickButtonOk = {
-            onSaveApiKey.invoke(currentApiKey)
-        }
-    )
+        TextFieldAlertDialog(
+            showDialog = showDialog,
+            onDismiss = {
+                onDismiss.invoke()
+            },
+            title = stringResource(id = R.string.api_key),
+            textFieldValue = currentApiKey,
+            textFieldPlaceholder = stringResource(id = R.string.insert_api_key),
+            okButtonEnabled = currentApiKey.isNotBlank(),
+            okButtonTitle = stringResource(id = R.string.button_save),
+            onTextValueChange = {
+                currentApiKey = it
+            },
+            onClickButtonOk = {
+                onSaveApiKey.invoke(currentApiKey)
+            }
+        )
+    }
 }
 
 @CompletePreview
