@@ -1,117 +1,119 @@
 <resources>
 
     <string name="app_name" translatable="false">ChatGPT</string>
+
     <string name="button_ok">OK</string>
-    <string name="button_save">Salvar</string>
-    <string name="button_cancel">Cancelar</string>
-    <string name="button_continue">Continuar</string>
-    <string name="app_theme">Tema do Aplicativo</string>
+    <string name="button_save">Save</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_continue">Continue</string>
+
+    <!--HomeScreen -->
+    <string name="app_theme">App Theme</string>
     <string name="dark_mode">Dark Mode</string>
-    <string name="api_consumption">Consumo da Conta</string>
-    <string name="info_title_empty_recent_chats_list">Nenhuma conversa ainda</string>
-    <string name="info_description_empty_recent_chats_list">Você ainda não iniciou nenhuma conversa.
-        Novas conversas aparecerão aqui.</string>
-    <string name="info_title_empty_chat_list">Nenhuma mensagem</string>
-    <string name="info_description_empty_chat_list">Você ainda não enviou nenhuma mensagem.
-        Inicie uma conversa!</string>
-    <string name="api_key">Chave da API</string>
-    <string name="insert_api_key">Insira sua chave da API</string>
-    <string name="info_title_empty_api_key">Chave da API Vazia</string>
-    <string name="info_description_empty_api_key">Você ainda não inseriu a sua chave da API. Para
-        obter sua chave, acesse o site da OpenAI no seu navegador, entre em sua conta ou se registre.</string>
-    <string name="i_have_the_api_key">Já tenho a chave da API</string>
-    <string name="access_url">Acessar Site</string>
-    <string name="chat_name">Título da Conversa</string>
-    <string name="insert_chat_name">Insira um título</string>
-    <string name="rename_chat">Renomear Conversa</string>
-    <string name="clear_chat">Limpar Conversa</string>
-    <string name="clear_chat_confirmation">Tem certeza que deseja limpar essa conversa? Todas as
-        mensagens serão excluídas. Isso não afetará as configurações atuais do modelo de IA dessa conversa.</string>
-    <string name="delete_chat">Excluir Conversa</string>
-    <string name="delete_chat_confirmation">Tem certeza que deseja excluir essa conversa?</string>
-    <string name="chat_mode">Modo Chat</string>
-    <string name="search_mode">Modo Pesquisa</string>
+    <string name="api_consumption">Account Consumption</string>
+    <string name="info_title_empty_recent_chats_list">No conversations yet</string>
+    <string name="info_description_empty_recent_chats_list">You have not started any conversations
+        yet. Your conversations will appear here.</string>
+    <string name="info_title_empty_chat_list">No messages</string>
+    <string name="info_description_empty_chat_list">You have not sent any messages yet.
+        Start a conversation!</string>
+    <string name="api_key">API Key</string>
+    <string name="insert_api_key">Insert your API key</string>
+    <string name="info_title_empty_api_key">Empty API Key</string>
+    <string name="info_description_empty_api_key">You have not entered your API key yet. To obtain
+        your key, visit the OpenAI website in your browser, log in or sign up.</string>
+    <string name="i_have_the_api_key">I already have the API key</string>
+    <string name="access_url">Access Site</string>
+    <string name="chat_name">Chat Title</string>
+    <string name="insert_chat_name">Insert a title</string>
+    <string name="rename_chat">Rename Chat</string>
+    <string name="clear_chat">Clear Chat</string>
+    <string name="clear_chat_confirmation">Are you sure you want to clear this chat? All messages
+        will be deleted. This will not affect the current AI model settings for this chat.</string>
+    <string name="delete_chat">Delete Chat</string>
+    <string name="delete_chat_confirmation">Are you sure you want to delete this chat?</string>
+    <string name="chat_mode">Chat Mode</string>
+    <string name="search_mode">Search Mode</string>
     <string name="chat_mode_description">
-        • Com esse modo, todas as mensagens anteriores da conversa, incluindo as respostas da IA,
-        sempre serão enviados na requisição ao enviar uma nova mensagem. Dessa forma, a IA conseguirá
-        obter o contexto da conversa e responder como se fosse um chat, assim como o ChatGPT.
-        \n• Mais tokens serão usados, consequentemente aumentando o consumo na sua conta.
-        \n• Os modelos de IA têm um limite de 2048/4000 tokens. Ao receber erros de limite máximo
-        de tokens atigindos, é recomendável limpar a conversa ou iniciar outra.
+        • In this mode, all messages in the conversation, including AI responses, will always be
+        sent to the API when sending a new message. This way, the AI will be able to get the
+        context of the conversation and respond as if it were a chat, like ChatGPT.
+        \n• More tokens will be used over time, consequently increasing consumption on your account.
+        \n• AI models have a token limit of 2048/4000. When receiving a maximum token limit reached
+        error, it is recommended to clear the chat or start a new one.
     </string>
     <string name="search_mode_description">
-        • Recomendável se você quiser usar a IA para fazer perguntas isoladas. Com isso você
-        não terá um \"chat de verdade\", mas ainda terá todo o poder da IA para pesquisas, correção
-        de texto, tradução ou coisas do tipo.
-        \n• Menos tokens serão usados do que o Modo Chat, pois a cada requisição, apenas a última
-        mensagem da conversa é enviada, causando menos consumo na sua conta.
-        \n• Se você enfrentar muito o problema da IA responder de forma incompleta, é recomendável
-        aumentar um pouco o número máximo de tokens da conversa, pois nesse modo não é possível pedir
-        para que a IA continue sua resposta, caso a resposta dela venha cortada.
+        • Recommended if you want to use the AI to make isolated questions. With this you will
+        not have a \"real chat\", but you will still have all the power of the AI for searches,
+        text correction, translation or things like that.
+        \n• Fewer tokens will be used than in Chat Mode, because with each request only the last
+        message in the conversation is sent, causing less consumption on your account.
+        \n• If you often face the problem of the AI responding incompletely, it is recommended
+        to increase the maximum number of tokens in the conversation a little, as in this mode it
+        is not possible to ask the AI to continue its response if the response is cut off.
     </string>
 
     <!-- ChatScreen -->
-    <string name="message">Digite sua mensagem</string>
-    <string name="used_tokens">Tokens Usados: %s</string>
-    <string name="copy_text">Copiar Texto</string>
+    <string name="message">Type your message</string>
+    <string name="used_tokens">Used Tokens: %s</string>
+    <string name="copy_text">Copy Text</string>
 
     <!-- Api Error Response -->
-    <string name="invalid_api_key">Chave de API Inválida</string>
-    <string name="invalid_api_key_message">Sua chave de API é inválida. Verifique se você inseriu
-        a chave de API corretamente ou acesse o site do OpenAI para obter uma nova chave.</string>
-    <string name="max_tokens_reached">Limite de Tokens Atingido</string>
-    <string name="max_tokens_reached_message">Você atingiu o limite de tokens nessa conversa. É
-        recomendável iniciar uma nova conversa. Isso pode acontecer quando a conversa atinge um
-        número alto de tokens usados ou se você estiver inserindo uma quantidade muito grande
-        de caracteres na mensagem.</string>
-    <string name="overloaded_server_error">Servidor Sobrecarregado</string>
-    <string name="overloaded_server_error_message">O servidor está atualmente sobrecarregado com
-        outras solicitações. Tente novamente ou aguarde um pouco até o servidor se estabilizar.</string>
-    <string name="unknown_api_response_error">Erro Desconhecido</string>
-    <string name="unknown_api_response_error_message">Ops! Parece que houve um erro desconhecido
-        ao tentar obter uma resposta da IA. Tente novamente ou verifique se sua conexão com a
-        internet está funcionando corretamente.</string>
+    <string name="invalid_api_key">Invalid API Key</string>
+    <string name="invalid_api_key_message">Your API key is invalid. Check if you inserted the API
+        key correctly or visit the OpenAI website to get a new key.</string>
+    <string name="max_tokens_reached">Maximum Token Limit Reached</string>
+    <string name="max_tokens_reached_message">You have reached the maximum token limit in this
+        conversation. It is recommended to start a new one or clear this chat. This can happen
+        when the conversation reaches a high number of used tokens or if you are inserting a very
+        large number of characters in the message.</string>
+    <string name="overloaded_server_error">Overloaded Server</string>
+    <string name="overloaded_server_error_message">The server is currently overloaded with other
+        requests. Try again or wait a while until the server stabilizes.</string>
+    <string name="unknown_api_response_error">Unknown Error</string>
+    <string name="unknown_api_response_error_message">Oops! It seems there was an unknown error
+        trying to get a response from the AI. Try again or check if your internet connection is
+        working properly.</string>
 
     <!-- AI Model Options -->
-    <string name="ai_model_options">Opções do Modelo da IA</string>
-    <string name="ai_model_option_model">Modelo</string>
+    <string name="ai_model_options">AI Model Options</string>
+    <string name="ai_model_option_model">Model</string>
     <string name="ai_model_option_text_davinci_003_title">text_davinci_003</string>
     <string name="ai_model_option_text_davinci_003_description">
-        • Modelo GPT-3 mais capaz. Pode fazer qualquer tarefa que os outros modelos podem fazer,
-        muitas vezes com maior qualidade, saída mais longa e melhor seguimento de instruções.
-        \n• Recomendado se quiser ter respostas mais precisas e atualizadas.
-        \n• Dados de treinamento: até junho de 2021.
-        \n• Suporte máximo de 4000 tokens.
-        \n• Custo de $0.0200 / 1K tokens
+        • Most capable GPT-3 model. Can do any task the other models can do, often with higher
+        quality, longer output and better instruction tracking.
+        \n• Recommended if you want more accurate and up-to-date responses.
+        \n• Training data: up to June 2021.
+        \n• Maximum support of 4000 tokens.
+        \n• Cost of $0.0200 / 1K tokens.
     </string>
     <string name="ai_model_option_text_curie_001_title">text_curie_001</string>
     <string name="ai_model_option_text_curie_001_description">
-        • Muito capaz, mais rápido e com custo menor que o text_davinci_003. No entando, ele pode
-        apresentar respostas menos farováveis do que o modelo text_davinci_003, principalmente
-        se tratando de códigos de programação.
-        \n• Recomendado se quiser ter menos custo na conta.
-        \n• Dados de treinamento: até outubro de 2019.
-        \n• Suporte máximo de 2048 tokens.
-        \n• Custo de $0.0020 / 1K tokens.
+        • Very capable, faster and cheaper than text_davinci_003. However, it may present less
+        accurate responses than the text_davinci_003 model, especially when it comes to
+        programming codes.
+        \n• Recommended if you want to have lower cost on your account.
+        \n• Training data: up to October 2019.
+        \n• Maximum support of 2048 tokens.
+        \n• Cost of $0.0020 / 1K tokens.
     </string>
-
-    <string name="ai_model_option_max_tokens">Número Máximo de Tokens</string>
+    <string name="ai_model_option_max_tokens">Maximum Number of Tokens</string>
     <string name="ai_model_option_max_tokens_description">
-        • O número máximo de tokens que podem ser gerados na resposta da IA.
-        \n• Tokens são como pedaços de palavras, onde 1.000 tokens são cerca de 750 palavras. Essa
-        contagem pode variar dependendo do idioma da sua mensagem e funciona melhor no Inglês.
-        \n• Um número alto diminui as chances de respostas cortadas, enquanto um número mais baixo
-        pode limitar as respostas da IA a uma certa quantidade de caracteres (tokens).
-        \n• Um número de 256 tokens não significa que a IA sempre irá usar 256 tokens, mas apenas
-        que ela pode usar essa quantidade.
+        • The maximum number of tokens that can be generated in the AI\'s response.
+        \n• Tokens are like pieces of words, where 1,000 tokens are about 750 words. This count can
+        vary depending on the language.
+        \n• A high number decreases the chances of cut responses, while a lower number may limit
+        the AI\'s responses to a certain number of characters (tokens).
+        \n• A number of 256 tokens does not mean that the AI will always use 256 tokens, but only
+        that it can use that amount.
     </string>
-    <string name="ai_model_option_temperature">Temperatura</string>
+    <string name="ai_model_option_temperature">Temperature</string>
     <string name="ai_model_option_temperature_description">
-        • Qual temperatura de amostragem usar.
-        \n• Valores mais altos significam que o modelo assumirá mais riscos. Tente 0,9 para obter
-        respostas mais criativos e 0 para respostas mais bem definidas.
-        \n• Quanto mais próximo de 1, mais chances há da IA responder de forma diferente uma mesma
-        questão.
+        • What sampling temperature to use.
+        \n• Higher values mean the model will take more risks. Try 0.9 to get more creative
+        responses and 0 for more well-defined responses.
+        \n• The closer to 1, the greater the chances of the AI responding differently to the same
+        question.
     </string>
 
 </resources>
