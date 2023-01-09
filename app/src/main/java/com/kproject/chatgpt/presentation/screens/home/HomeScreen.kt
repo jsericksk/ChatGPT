@@ -72,7 +72,7 @@ fun HomeScreen(
             homeViewModel.renameRecentChat(newChatName, recentChat)
         },
         onClearChat = { recentChat ->
-            homeViewModel.clearMessagesFromChat(recentChat)
+            homeViewModel.clearRecentChat(recentChat)
         },
         onDeleteChat = { recentChat ->
             homeViewModel.deleteRecentChat(recentChat)

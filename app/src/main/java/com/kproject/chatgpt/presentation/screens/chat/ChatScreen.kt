@@ -50,7 +50,7 @@ fun ChatScreen(
     var showAIModelOptionsDialog by remember { mutableStateOf(false) }
     val chatUiState = chatViewModel.chatUiState
 
-    Content(
+    ChatScreenContent(
         uiState = chatUiState,
         onMessageValueChange = { message ->
             chatViewModel.onMessageValueChange(message)
@@ -85,7 +85,7 @@ fun ChatScreen(
 }
 
 @Composable
-private fun Content(
+private fun ChatScreenContent(
     modifier: Modifier = Modifier,
     uiState: ChatUiState,
     onMessageValueChange: (String) -> Unit,
@@ -103,14 +103,13 @@ private fun Content(
         if (uiState.isLoading) {
             ProgressIndicator(modifier = Modifier.weight(1f))
         } else {
+            Spacer(Modifier.height(6.dp))
             ChatList(
                 chatList = uiState.messageList,
                 modifier = Modifier
                     .weight(1f)
             )
         }
-
-        Spacer(Modifier.height(8.dp))
 
         ChatTextField(
             message = uiState.message,
@@ -210,11 +209,12 @@ private fun ChatList(
 
         LazyColumn(
             state = lazyListState,
-            modifier = modifier.fillMaxSize()
+            modifier = modifier.fillMaxSize(),
         ) {
             itemsIndexed(chatList) { index, message ->
                 ChatListItem(
-                    message = message
+                    message = message,
+                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 14.dp)
                 )
             }
         }
@@ -247,10 +247,8 @@ private fun ChatListItem(
     var showCopyTextOption by remember { mutableStateOf(false) }
 
     Column(
-        modifier =
-        modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 12.dp)
     ) {
         Box(modifier = Modifier.align(alignment)) {
             Text(
@@ -443,7 +441,7 @@ private fun Preview() {
                 usedTokens = 450
             )
         )
-        Content(
+        ChatScreenContent(
             uiState = uiState,
             onMessageValueChange = {},
             onSendMessage = {},

@@ -77,7 +77,7 @@ class ChatViewModel @Inject constructor(
                 onMessageValueChange(message = "")
                 addMessageToDatabase(message)
 
-                val messageText = generateMessageToSend(message)
+                val messageText = generateMessageText(message)
                 val apiResponse = sendMessageUseCase(
                     message = messageText,
                     recentChat = chatUiState.recentChat.toModel()
@@ -107,7 +107,8 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    private fun generateMessageToSend(messageText: String): String {
+    // Gets all messages from current message list if in chat mode
+    private fun generateMessageText(messageText: String): String {
         val currentMessageList = chatUiState.messageList
         if (!isChatMode() || currentMessageList.isEmpty()) {
             return messageText

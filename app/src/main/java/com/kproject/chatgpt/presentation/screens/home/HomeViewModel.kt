@@ -86,7 +86,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun clearMessagesFromChat(recentChat: RecentChat) {
+    fun clearRecentChat(recentChat: RecentChat) {
         viewModelScope.launch {
             deleteMessagesFromChatIdUseCase(recentChat.chatId)
             val updatedRecentChat = recentChat.copy(

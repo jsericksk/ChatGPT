@@ -13,8 +13,8 @@ android {
         applicationId "com.kproject.chatgpt"
         minSdk 21
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        versionCode 220110
+        versionName "0.1"
 
         testInstrumentationRunner "com.kproject.chatgpt.CustomTestRunner"
         vectorDrawables {
