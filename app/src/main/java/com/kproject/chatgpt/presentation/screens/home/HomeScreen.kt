@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kproject.chatgpt.R
@@ -125,11 +126,7 @@ private fun HomeScreenContent(
             TopBar(
                 title = stringResource(id = R.string.app_name),
                 actions = {
-                    IconButton(
-                        onClick = {
-                            showOptionsMenu = true
-                        }
-                    ) {
+                    IconButton(onClick = { showOptionsMenu = true }) {
                         Icon(
                             imageVector = Icons.Default.MoreVert,
                             contentDescription = null,
@@ -191,9 +188,7 @@ private fun HomeScreenContent(
         // Rename Chat Dialog
         TextFieldAlertDialog(
             showDialog = showRenameChatDialog,
-            onDismiss = {
-                showRenameChatDialog = false
-            },
+            onDismiss = { showRenameChatDialog = false },
             title = stringResource(id = R.string.rename_chat),
             textFieldValue = chatName,
             textFieldPlaceholder = stringResource(id = R.string.insert_chat_name),
@@ -411,7 +406,8 @@ private fun RecentChatsListItem(
                     color = MaterialTheme.colors.onPrimary,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    maxLines = 1
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
 
                 if (recentChat.lastMessage.isNotBlank()) {
@@ -421,7 +417,8 @@ private fun RecentChatsListItem(
                         color = MaterialTheme.colors.onPrimary.copy(0.6f),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Light,
-                        maxLines = 1
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
             }
