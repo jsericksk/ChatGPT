@@ -28,7 +28,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kproject.chatgpt.R
-import com.kproject.chatgpt.presentation.extensions.getFormattedDate
 import com.kproject.chatgpt.presentation.model.*
 import com.kproject.chatgpt.presentation.screens.components.*
 import com.kproject.chatgpt.presentation.screens.home.components.ApiKeyAlertDialog
@@ -424,7 +423,7 @@ private fun RecentChatsListItem(
             }
 
             Text(
-                text = recentChat.lastMessageDate.getFormattedDate(showOnlyDate = true),
+                text = recentChat.formattedDate,
                 color = MaterialTheme.colors.onPrimary,
                 fontSize = 12.sp,
                 modifier = Modifier.padding(start = 6.dp)

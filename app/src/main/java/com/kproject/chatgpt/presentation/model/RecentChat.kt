@@ -2,6 +2,7 @@ package com.kproject.chatgpt.presentation.model
 
 import com.kproject.chatgpt.commom.model.AIModelOptions
 import com.kproject.chatgpt.domain.model.RecentChatModel
+import com.kproject.chatgpt.presentation.extensions.getFormattedDate
 import java.util.*
 
 data class RecentChat(
@@ -13,7 +14,9 @@ data class RecentChat(
     val lastMessageSentByUser: Boolean = true,
     val chatMode: Boolean = true,
     val aiModelOptions: AIModelOptions = AIModelOptions()
-)
+) {
+    val formattedDate = lastMessageDate.getFormattedDate(showOnlyDate = true)
+}
 
 fun RecentChatModel.fromModel() = RecentChat(
     chatId = chatId,

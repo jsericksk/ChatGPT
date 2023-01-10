@@ -1,6 +1,7 @@
 package com.kproject.chatgpt.presentation.model
 
 import com.kproject.chatgpt.domain.model.MessageModel
+import com.kproject.chatgpt.presentation.extensions.getFormattedDate
 import java.util.*
 
 data class Message(
@@ -9,7 +10,9 @@ data class Message(
     val sentByUser: Boolean = true,
     val sendDate: Date = Date(),
     val totalTokens: Int = 0
-)
+) {
+    val formattedSendDate = sendDate.getFormattedDate()
+}
 
 fun MessageModel.fromModel() = Message(
     chatId = chatId,
