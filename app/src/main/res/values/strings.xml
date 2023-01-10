@@ -97,7 +97,7 @@
         \n• Maximum support of 2048 tokens.
         \n• Cost of $0.0020 / 1K tokens.
     </string>
-    <string name="ai_model_option_max_tokens">Maximum Number of Tokens</string>
+    <string name="ai_model_option_max_tokens">Max. Number of Tokens</string>
     <string name="ai_model_option_max_tokens_description">
         • The maximum number of tokens that can be generated in the AI\'s response.
         \n• Tokens are like pieces of words, where 1,000 tokens are about 750 words. This count can

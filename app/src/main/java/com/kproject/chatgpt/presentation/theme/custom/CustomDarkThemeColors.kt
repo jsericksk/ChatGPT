@@ -5,10 +5,10 @@ import androidx.compose.ui.graphics.Color
 private val defaultOnPrimaryColor = Color(0xFFE4E4E4)
 private val defaultBackgroundColor = Color(0xFF1F1F1F)
 private val defaultSurfaceColor = Color(0xFF2C2B2B)
-private val defaultOnSurfaceColor = Color(0xFFF3F3F3)
+private val defaultOnSurfaceColor = Color(0xFFF0EEEE)
 
 data class ThemeDarkOption1(
-    override val primary: Color = Color(0xFF002F6C),
+    override val primary: Color = Color(0xFF012C64),
     override val primaryVariant: Color = Color(0xFF012655),
     override val onPrimary: Color = defaultOnPrimaryColor,
     override val secondary: Color = Color(0xFF003B88),
@@ -30,7 +30,7 @@ data class ThemeDarkOption2(
 ) : ThemeColors
 
 data class ThemeDarkOption3(
-    override val primary: Color = Color(0xFF044604),
+    override val primary: Color = Color(0xFF024402),
     override val primaryVariant: Color = Color(0xFF043A04),
     override val onPrimary: Color = defaultOnPrimaryColor,
     override val secondary: Color = Color(0xFF095209),
@@ -41,8 +41,8 @@ data class ThemeDarkOption3(
 ) : ThemeColors
 
 data class ThemeDarkOption4(
-    override val primary: Color = Color(0xFF431280),
-    override val primaryVariant: Color = Color(0xFF3D1370),
+    override val primary: Color = Color(0xFF390F6D),
+    override val primaryVariant: Color = Color(0xFF350E63),
     override val onPrimary: Color = defaultOnPrimaryColor,
     override val secondary: Color = Color(0xFF4F1A91),
     override val onSecondary: Color = Color(0xFF481388),
@@ -52,8 +52,8 @@ data class ThemeDarkOption4(
 ) : ThemeColors
 
 data class ThemeDarkOption5(
-    override val primary: Color = Color(0xFFCC7303),
-    override val primaryVariant: Color = Color(0xFFB36402),
+    override val primary: Color = Color(0xFFB66602),
+    override val primaryVariant: Color = Color(0xFFA55D03),
     override val onPrimary: Color = defaultOnPrimaryColor,
     override val secondary: Color = Color(0xFFE98A12),
     override val onSecondary: Color = Color(0xFFC47C21),
