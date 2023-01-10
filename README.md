@@ -19,7 +19,7 @@
 
 ## About
 
-Despite the name, this app does not use unofficial APIs from [ChatGPT](https://chat.openai.com/chat). The project uses the [OpenAI API](https://beta.openai.com/docs/guides/completion/introduction). To use the app, you need to enter your [apiKey](https://beta.openai.com/account/api-keys) to access the API.
+Despite the name, this app does not use [ChatGPT](https://chat.openai.com/chat) APIs. The project uses the [OpenAI API](https://beta.openai.com/docs/guides/completion/introduction). To use the app, you need to enter your [apiKey](https://beta.openai.com/account/api-keys) to access the API.
 
 Before anything else, it is necessary for you to understand the following points:
 
