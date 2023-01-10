@@ -531,7 +531,7 @@ private fun EmptyApiKeyInfo(
             Text(
                 text = stringResource(id = R.string.i_have_the_api_key),
                 fontSize = 16.sp,
-                color = MaterialTheme.colors.primary
+                color = MaterialTheme.colors.secondary
             )
         }
     }

@@ -160,11 +160,11 @@ private fun DarkModeOption(
                 checkmarkColor = MaterialTheme.colors.onPrimary
             )
         )
-        Spacer(Modifier.width(4.dp))
         Text(
             text = stringResource(id = R.string.dark_mode),
             color = MaterialTheme.colors.onPrimary,
-            fontSize = 16.sp
+            fontSize = 16.sp,
+            modifier = Modifier.padding(end = 8.dp)
         )
     }
 }
