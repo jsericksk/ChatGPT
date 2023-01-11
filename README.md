@@ -6,6 +6,12 @@
 </h2>
 
 <p align="center">
+	<a href="https://github.com/jsericksk/ChatGPT/blob/main/LICENCE.md"><img alt="License" src="https://img.shields.io/badge/license-MIT-%2304D361?color=blue"/></a>
+	<a href="https://github.com/jsericksk/ChatGPT/releases"><img alt="Version" src="https://img.shields.io/badge/version-0.1-green"/></a>
+	<a href="https://github.com/jsericksk"><img alt="Author" src="https://img.shields.io/badge/author-jsericksk-blueviolet"></a>
+</p>
+
+<p align="center">
   <img src="screenshots/screenshot-01.png" width="250" height="542" />
   <img src="screenshots/screenshot-03.png" width="250" height="542" />
   <img src="screenshots/screenshot-02.png" width="250" height="542" />
